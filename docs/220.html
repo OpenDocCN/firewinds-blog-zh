@@ -1,0 +1,17 @@
+<html>
+<head>
+<title>Kubernetes How to: Ensure imagePullPolicy set to Always</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kubernetes如何:确保imagePullPolicy设置为Always</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/kubernetes-how-to-ensure-imagepullpolicy-set-to-always#2023-01-10">https://www.fairwinds.com/blog/kubernetes-how-to-ensure-imagepullpolicy-set-to-always#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>依赖缓存版本的Docker映像可能会成为一个安全漏洞。默认情况下，如果图像尚未缓存在试图运行它的节点上，将会提取该图像。这可能会导致每个节点上运行的映像发生变化，或者可能提供一种无需直接访问ImagePullSecret即可访问映像的方法。</p>
+
+<p>例如，您可能会故意覆盖一个特定的标记，并希望您的工作负载引入这些更改。更具体地说，许多项目将发布带有图像标签1的版本<span> 1.2.3 </span>、<span> 1.2 </span>和<span> 1.2.3 </span>。在Kubernetes配置中，您可以只指定标签1.2，这样当<span> 1.2.4 </span>发布了一个安全补丁时，它会在下次重新安排或重启pod时自动流入。但如果不指定<span><span>imagepulpolicy:Always</span></span>，集群将继续使用缓存的<span> 1.2 </span>标签(仍然指向<span> 1.2.3 </span>)。</p>
+<p>为了克服这个问题，Kubernetes使用了<span> imagePullPolicy </span>。当设置为Always(<span>imagepulpolicy:Always</span><span>)，“每次ku elet启动一个容器时，ku elet都会查询容器映像注册中心，将名称解析为映像摘要。如果kubelet有一个容器图像，其中包含本地缓存的精确摘要，则kubelet使用其缓存的图像；否则，kubelet下载(拉取)带有已解析摘要的图像，并使用该图像启动容器。来源:</span> <a href="https://kubernetes.io/docs/concepts/configuration/overview/#container-images"> <span> Kubernetes文档</span> </a> <span>。</span></p>
+<h2>确保imagePullPolicy设置为“始终”</h2>
+<p>通过确保将<span> imagePullPolicy </span>设置为Always，避免图像出现问题。您的团队当然可以手动检查该策略，但这需要花费您的应用程序的时间和精力。相反，使用像<a href="/insights" rel="noopener"> Fairwinds Insights </a>这样的配置验证软件来自动检查你的<span> imagePullPolicy </span>。Fairwinds Insights会在未指定标签或未将<span> imagePullPolicy </span>设置为Always时触发警告。然后，您的团队可以轻松地修复清单，帮助避免应用程序出现问题(停机、错误等)。</p>
+<p>Fairwinds Insights还可以贯穿您的整个部署流程，因此从CI/CD到生产，<span> imagePullPolicy </span>始终是指定的。虽然这篇博客文章讨论了如何识别违规工作负载，但Fairwinds Insights也有助于通过扫描CI中的基础架构代码，并在Kuberenetes API前作为准入控制器运行，从一开始就防止这些工作负载进入您的集群。</p>
+<p>通过舵图<a href="/insights-pricing" rel="noopener"> <span>创建账号</span> </a>，创建集群<a href="https://www.youtube.com/watch?v=QYwNmtJc5no" rel="noopener" target="_blank"> <span>安装代理</span> </a>可以免费试用。一旦安装了Fairwinds Insights代理，您将在5-10分钟内获得结果。您可以轻松检查<a href="/blog/how-to-identify-over-permissioned-containers" rel="noopener">超过许可的容器</a>以及其他可靠性问题，如<a href="https://www.fairwinds.com/blog/how-to-identify-missing-readiness-probes-in-kubernetes"> <span>缺少就绪或活性探测器</span> </a>。</p></span></div>    
+</body>
+</html>

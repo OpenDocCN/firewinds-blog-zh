@@ -1,0 +1,50 @@
+<html>
+<head>
+<title>Help Improve Your Kubectl Command With Plugins</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>使用插件帮助改进您的Kubectl命令</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/help-improve-your-kubectl-command-with-plugins#2022-12-12">https://www.fairwinds.com/blog/help-improve-your-kubectl-command-with-plugins#2022-12-12</a></blockquote><div><div class="post__content">
+<p>您可以使用插件向<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/"> kubectl </a> Kubernetes命令行工具添加特性。创建<code>kubectl</code>子命令来添加定制功能，同时保持与Kubernetes的紧密交互。请继续阅读，了解更多关于kubectl插件的信息，在哪里与社区共享插件，以及您可能想在自己的kubectl中添加哪些新的有用插件。</p>
+<h2>这些插件是什么？</h2>
+<p>可以使用<a href="https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/"> kubectl插件</a>来扩展<code>kubectl</code>命令，这些插件是路径中以<em> kubectl- </em>开头的可执行文件(kubectl后跟一个破折号)。您可以使用任何编程或脚本语言，并且不需要库或预加载。</p>
+<p>插件文件的名称决定了kubectl命令。包含破折号(-)表示空格，下划线(_)表示破折号。例如，<code>kubectl hello world</code>子命令将在<code>kubectl-hello-world</code>文件中执行，而<code>kubectl hello world at-night</code>子命令将在<code>kubectl-hello-world-at_night</code>文件中执行。</p>
+<p>Kubectl使用可用时间最长的插件，并将剩余的命令行参数传递给插件。例如，如果您运行命令<code>kubectl gke create regional</code>，kubectl将首先查找可执行文件<code>kubectl-gke-create-regional</code>，然后是<code>kubectl-gke-create</code>，以此类推。如果第一个可用的插件是<code>kubectl-gke</code>，参数<code>create regional</code>将被传递给插件。</p>
+<p>您可以通过创建一个更具体的插件来将命令添加到现有的插件中。使用上面的<code>kube-gke</code>示例，您可以通过创建<code>kubectl-gke-create-zonal</code>来添加<code>kubectl gke create zonal</code>命令，而不是向<code>kubectl-gke</code>插件添加功能。</p>
+<p>您不能使用插件来覆盖或添加子命令到内置的kubectl命令中。您不能使用<code>kubectl create catastrophe</code>插件，因为<code>create</code>已经是一个kubectl命令。</p>
+<p>在您的路径中找到的第一个插件将由kubectl使用。命令显示所有可用的插件，包括路径中重复插件的警告，或者不可执行的插件。</p>
+<p>目前<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#enabling-shell-autocompletion"> kubectl shell自动补全</a>不包括选项卡补全建议中的插件，正如<a href="https://github.com/kubernetes/kubernetes/issues/74178">在这个特性请求</a>中提到的。</p>
+<h2>与他人共享插件</h2>
+<p>共享kubectl插件的两种常见方式是kubectl-plugin Github主题和Krew kubectl插件管理器。</p>
+<h3>Kubectl-plugin Github主题</h3>
+<p>你可以用主题对Github库进行分类，以帮助其他人发现它。<a href="https://github.com/topics/kubectl-plugins"> kubectl-plugins Github主题</a>包含48个库，其中一些包含多个kubectl插件。每个插件作者都有自己的安装和升级过程，从编译自己的二进制文件到下载一个shell脚本。</p>
+<p>将你的插件Github库添加到这个主题是一个好主意，即使你使用Krew(如下所述)来共享你的插件。</p>
+<h3>Krew插件管理器</h3>
+<p><a href="https://github.com/GoogleContainerTools/krew"> Krew </a>是一个针对kubectl插件的插件管理器，旨在简化多个操作系统上的插件发现、安装、升级和移除。您可以通过运行<code>kubectl krew search ...</code>来搜索可用的插件，或者通过运行<code>kubectl krew upgrade</code>来升级所有新安装的插件。</p>
+<p>目前不可能将一个插件固定到你的首选版本来防止它被升级。您可以通过从先前提交到<a href="https://github.com/GoogleContainerTools/krew-index"> krew-index </a>存储库中获取清单文件，并对<code>kubectl krew install</code>命令使用<code>--manifest=FileName.yaml</code>选项来安装旧版本的插件。</p>
+<p>Krew已被Kubernetes SIG-CLI接受，中央索引可能会演变为类似于<a href="https://hub.helm.sh/"> Helm Hub </a>的目录索引，正如在本<a href="https://groups.google.com/forum/#!topic/kubernetes-sig-cli/9fWm_aZ-AC8">提案中所提到的，将Krew作为SIG CLI子项目</a>。</p>
+<h4>血液样本呢</h4>
+<p>安装<code>git</code>，然后遵循<a href="https://github.com/GoogleContainerTools/krew"> Krew </a> Github页面上的安装说明。下面是一个使用Krew搜索安装kubectl插件的例子:</p>
+
+<p>我将使用<code>krew info</code>命令来读取关于资源容量插件的更多信息，然后使用<code>krew install</code>命令来安装它。</p>
+
+<p>这非常简单——我不需要下载、解压存档，或者验证任何校验和。我碰巧安装在Linux上，但这个插件也适用于Mac OS X。现在我可以在我相对较空且无聊的集群上使用资源容量插件:</p>
+
+<h4>向Krew贡献插件</h4>
+<p><a href="https://github.com/GoogleContainerTools/krew/blob/master/docs/NAMING_GUIDE.md"> Krew命名指南</a>给出了很好的建议，让插件更容易被<code>krew search</code>命令发现，并避免宽泛或过载的术语。例如，命名一个插件<code>kubectl-gke-login</code>或<code>kubectl-gke-ui</code>，而不是更一般的名字<code>kubectl-login</code>或<code>kubectl-ui</code>。</p>
+<p>Krew插件开发者指南描述了如何创建一个插件<em>。与Krew一起使用的zip </em>或<em> .tar.gz </em>文件，以及<em> plugin.yaml </em>清单文件，其中包含您所支持的操作系统的信息、校验和以及到您的插件的下载链接。最后一步是创建一个<a href="https://github.com/GoogleContainerTools/krew-index"> krew-index </a> pull请求，将您的<em> plugin.yaml </em> manifest文件添加到krew索引中——一旦您的pull请求被接受，任何使用Krew的人都可以使用您的插件。</p>
+<p>接受新插件到<a href="https://github.com/GoogleContainerTools/krew-index"> krew-index </a> repo有一些挑战，如这个<a href="https://github.com/GoogleContainerTools/krew-index/pull/87"> tiller-init pull请求</a>所示。前面提到的Krew对SIG-CLI的捐赠包括改进插件索引过程的计划。</p>
+<h2>让插件共享开始</h2>
+<p>是时候分享你的插件了，不管你是使用Git库，<a href="https://github.com/GoogleContainerTools/krew"> Krew </a>，还是在这样的博客中。说到分享。。。</p>
+<h3>发现有问题的Pod中断预算</h3>
+<p>显示允许少于一次中断的<a href="https://kubernetes.io/docs/tasks/run-application/configure-pdb/"> pod中断预算</a>-这些可以防止Kubernetes节点在维护期间被<a href="https://kubernetes.io/docs/tasks/administer-cluster/safely-drain-node/">耗尽</a>。这个插件需要<code>jq</code>命令。</p>
+
+<h3>列出带有池和版本的Google容器引擎节点</h3>
+<p>当Google Container Engine (GKE)集群正在升级时，用节点池的名称和Kubernetes Kubelet的版本列出节点会很有用。</p>
+
+<h2>感谢您的阅读</h2>
+<p>感谢您的阅读！如果你喜欢这篇文章，或者对上面的kubectl插件有建议，请联系Twitter上的<a href="http://www.twitter.com/ivanfetch" rel=" noopener"> @IvanFetch </a>。</p>
+</div></div>    
+</body>
+</html>

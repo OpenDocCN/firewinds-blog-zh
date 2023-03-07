@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>CI/CD Enablement: CircleCI vs Jenkins</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>CI/CD支持:CircleCI vs Jenkins</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/circleci-vs-jenkins#2020-06-30">https://www.fairwinds.com/blog/circleci-vs-jenkins#2020-06-30</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>在Fairwinds，每当我们开始与一家新公司合作时，我们都会推荐<a href="https://circleci.com/" rel="noopener" target="_blank"> CircleCI </a>作为其CI/CD渠道。有两个主要原因:</p>
+<ol>
+<li>
+<p>我们的客户选择与我们合作，以降低Kubernetes的复杂性并获得专业知识，从而专注于他们的核心业务技术。出于同样原因，我们推荐CircleCI。</p>
+</li>
+<li>
+<p>CircleCI是在其前辈(如Jenkins)多年反复试验的基础上构建的一个完善的工具。</p>
+</li>
+</ol>
+<p><span>打磨工具，进化出</span><br/><br/><strong>TL；詹金斯博士是强大的，但高维护。CircleCI的UX更好，没有保养</strong>。</p>
+<p>Jenkins是一个流行的CI/CD开源工具。实际上是一场甲骨文之争后哈德森的<a href="https://en.wikipedia.org/wiki/Jenkins_(software)" rel="noopener" target="_blank">分叉。Jenkins是围绕一个插件系统设计的，该系统允许第三方扩展来添加功能。然而，这是一把双刃剑。一方面，它允许用户创建非常独特的功能，甚至尝试一些想法。另一方面，这种额外的功能使得配置和维护变得更加困难，并且产生了不连贯的用户体验(UX)。这可以从彻底改造Jenkins用户体验的项目</a><a href="https://www.jenkins.io/doc/book/blueocean/#blue-ocean-overview" rel="noopener" target="_blank">蓝海</a>中看出。使用Jenkins，公司花费大量时间维护工具本身和插件，占用了核心业务技术的时间和资源。</p>
+<p>进入CircleCI。它创建于2011年，因此建立在观察最初CI/CD使用案例中哪些可行、哪些不可行的经验之上。它不仅从Jenkins那里汲取了思想，还从它之前的其他CI/CD工具中汲取了思想。像Jenkins这样的工具委托给插件的所有核心CI/CD功能都内置在CircleCI中，支持更干净的配置和更好的UX。然而，它并没有止步于此，对于类似插件的功能，CircleCI提供了与许多服务的集成，如GitHub，AWS，GCP和Kubernetes。另外，CircleCI有orb，它们是“您在构建中使用的CircleCI配置的可共享包”。在Fairwinds，我们提供一个名为<a href="https://circleci.com/orbs/registry/orb/fairwinds/rok8s-scripts" rel="noopener" target="_blank"> rok8s-scripts </a>的球体😉有了CircleCI，用户花在维护上的时间更少了，更多的时间用于他们的业务。</p>
+<h2>维护复杂性降低</h2>
+<p><strong>TL；詹金斯博士需要安装和维护。这意味着运营团队将有额外的工作。CircleCI可以在云中运行，几乎不需要维护。</strong> <br/> <br/>要使用Jenkins首先你需要把它安装在某个地方。这意味着您需要在您的Kubernetes集群中提供或安装一个服务器。无论哪种方式，这都意味着您需要采取额外的步骤来确保安装是生产就绪的，然后维护它。然而，它并没有停止在这里，安装后您需要配置詹金斯，以满足您的需求。插件将需要安装，配置和维护。最后，做完这一切后，Jenkins准备好创建管道了。使用CircleCI，只需注册即可开始创建管道。CircleCI负责安装和管理。此外，如果用例要求CircleCI托管在公司自己的基础设施上，这是可以做到的。运行托管的CircleCI当然需要维护，但是设置仍然更简单，您仍然可以从更好的UX中受益。</p>
+<h2>CI/CD支持</h2>
+<p>我们的Fairwinds团队专注于Kubernetes支持。这就是用户需要的帮助，以减少复杂性并实现Kubernetes的最佳实践。它有助于用户避免反复试验以节省时间，提供生产级Kubernetes基础设施，使用户可以专注于他们的应用，并提供对高技能sre的即时访问。<br/> <br/>作为我们对Kubernetes支持承诺的一部分，我们也致力于推荐最佳的工具。这意味着CircleCI支持CI/CD。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-4f92c7e1-1646-4985-9a0a-b1091903dddb"><span class="hs-cta-node hs-cta-4f92c7e1-1646-4985-9a0a-b1091903dddb" id="hs-cta-4f92c7e1-1646-4985-9a0a-b1091903dddb"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/4f92c7e1-1646-4985-9a0a-b1091903dddb"><img class="hs-cta-img" id="hs-cta-img-4f92c7e1-1646-4985-9a0a-b1091903dddb" src="../Images/b53e4ee22b6ef19bc06a035649ea1dc6.png" alt="Free Download: Kubernetes Best Practices Whitepaper" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/4f92c7e1-1646-4985-9a0a-b1091903dddb.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

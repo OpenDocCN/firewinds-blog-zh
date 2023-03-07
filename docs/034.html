@@ -1,0 +1,59 @@
+<html>
+<head>
+<title>Fairwinds Insights Release Notes 11.2-11.6: Improved Cluster Overview</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Fairwinds Insights发行说明11.2-11.6:改进的集群概述</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/fairwinds-insights-release-notes-11.2-11.6-improved-cluster-overview#2023-02-22">https://www.fairwinds.com/blog/fairwinds-insights-release-notes-11.2-11.6-improved-cluster-overview#2023-02-22</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>这个月，<a href="https://www.fairwinds.com/insights"><span>fair winds Insights</span></a>的发行说明包括几个错误修复和改进。我们已经更新了“集群概述”页面，以改变行动项目图表的工作方式。还提供了新的集群数据，因此您可以通过访问此页面快速了解集群的整体状态。</p>
+
+<p><img src="../Images/89e60e17767ef0e54b5c3e34fa1a3c52.png" loading="lazy" alt="Fairwinds Insights Cluster Vulnerabilities page" data-original-src="https://lh3.googleusercontent.com/XLIGLYwfyHiM_YwfkgWcH_uDgY7JXDXEqE8aGRSr-HHqQ6EWy2P0NBXD7WiYwg3bdbTnr8Vg6nuhl7Lp_EHaw9Q1fVqBs4ELQ4oVdR0mYxZOUsE4ZD4Sq2NJXHBKAwxZ2fVBl1qze1GsnEgaNF0muNo"/></p>
+<p>通常，在Kubernetes网络内部运行的工作负载容器使用基于HTTP的入口控制器向外界公开；为了确保安全，您需要向Kubernetes集群添加一个基于SSL/TLS加密的配置。为了验证您是否已为集群配置了TLS，Insights现在还包括针对入口的自动化合规性TLS。您可以使用Fairwinds Insights自动运行该合规性测试。集成到Insights中的<a href="https://www.fairwinds.com/polaris"> <span> Polaris </span> </a>检查Kubernetes集群中的所有入口是否都配置了TLS。</p>
+<p>Fairwinds Insights现在还使您能够在部署过程的早期发现安全问题。最新的更新包括一个新的Insights CI脚本，使您能够<a href="https://www.fairwinds.com/blog/new-fairwinds-insights-release-terraform-scanning"> <span>扫描Terraform文件</span> </a>，自动扫描功能允许您扫描私人图像。有关其工作原理的更多信息，请访问Insights文档中的<a href="https://insights.docs.fairwinds.com/configure/ci/autoscan"> <span>自动扫描</span> </a>页面。</p>
+<h2><span>错误修复和改进</span></h2>
+<p>我们将继续修复和解决缺陷，以确保您的洞察力经验能够让您更轻松地快速识别和解决可靠性、安全性和成本效益方面的问题。</p>
+<p><img src="../Images/df88cd4a2b0ee246269a6301ed6c7ff0.png" loading="lazy" alt="Fairwinds Insights user settings - time zone" data-original-src="https://lh6.googleusercontent.com/W6UTdlkEgKI4nAffcSeO7WKZB0DHkjzAu8bXBYk35AY_2trK7Sy10hwEoJ45XQBlAzBW-D_Sg3E7N_fSbNOXpTPHg0ZVuFswhIYmjRXItdjAYrqhBCrOSKoDAxv1vcQNB52JEAYRZ9ityETfDCC5gcs"/></p>
+<ul>
+<li aria-level="1">
+<p><span>用户现在可以通过访问用户设置&gt;地区页面</span>来选择他们的时区</p>
+</li>
+<li aria-level="1">
+<p><span>用户现在可以导航到漏洞页面中受影响的图像</span></p>
+</li>
+<li aria-level="1">
+<p><span>修复了效率页面中未显示的节点容量图表</span></p>
+</li>
+<li aria-level="1">
+<p><span>修正了行动项目列表的表格视图功能的问题</span></p>
+</li>
+</ul>
+<ul>
+<li aria-level="1">
+<p><span>对集群概览页面的小改进</span></p>
+</li>
+<li aria-level="1">
+<p><span>修复创建第三方票流</span></p>
+</li>
+<li aria-level="1">
+<p><span>修复漏洞-某些组织的所有图片页面无法加载</span></p>
+</li>
+</ul>
+
+<ul>
+<li aria-level="1">
+<p><span>费用页面的改进</span></p>
+</li>
+<li aria-level="1">
+<p><span>修复了自由层升级按钮的重定向</span></p>
+</li>
+<li aria-level="1">
+<p><span>修正了合规报告的编辑</span></p>
+</li>
+<li aria-level="1">
+<p><span>删除了集群概览页面中的设置细节</span></p>
+</li>
+</ul>
+<p>如果您还没有使用Fairwinds Insights，请尝试新的层！它可免费用于多达20个节点、两个群集和一个存储库的环境。<a href="/blog/get-started-with-fairwinds-insights-free-tier" rel="noopener"> <span>点击</span> </a>了解更多关于洞察自由层的信息。要了解更多有关如何使用最新功能并与<a href="https://insights.docs.fairwinds.com/release-notes/?utm_campaign=Fairwinds%20Insights%3A%20Release%20notes&amp;utm_source=hs_email&amp;utm_medium=email&amp;_hsenc=p2ANqtz-8kxXaoeWDuI2rFl0smhfCIWuBTr1uJ4zHBWT9dQ_yroNz7qTppogIYlKu75JGBavIEA0PM"> <span> Fairwinds Insights更新保持同步的详细信息，请查看此处</span> </a>的发行说明。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

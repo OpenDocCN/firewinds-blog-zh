@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>Fairwinds Insights Release Notes 8.6-10: Spotlight on Policies and NSA Hardening Guidance</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Fairwinds Insights发行说明8.6-10:聚焦政策和NSA强化指南</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/fairwinds-insights-release-notes-8.6-10#2023-01-10">https://www.fairwinds.com/blog/fairwinds-insights-release-notes-8.6-10#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>Fairwinds Insights在过去的一个月中得到了增强，增加了许多新功能和错误修复。Kubernetes治理平台确保用户可以配置设置，以确保安全风险最小化和成本优化，同时为开发人员提供护栏，以更快地交付应用程序。</p>
+
+<h2>聚焦:NSA Kubernetes强化指南</h2>
+<p>作为我们的NSA Kubernetes强化指南的一部分，我们提供了有关如何使用Insights帮助改善<a href="https://www.fairwinds.com/blog/three-ways-fairwinds-insights-can-root-out-poor-pod-security"> pod安全性</a>、<a href="https://www.fairwinds.com/blog/nsa-hardening-guide-locking-down-network-access-with-fairwinds-insights">网络访问</a>、<a href="https://www.fairwinds.com/blog/nsa-hardening-guide-how-can-fairwinds-insights-strengthen-your-authentication-authorization-practices">认证和授权</a>、<a href="https://www.fairwinds.com/blog/nsa-kubernetes-hardening-guide-audit-logging-and-threat-detection-overview">审计日志记录和威胁检测</a>和<a href="https://www.fairwinds.com/blog/nsa-kubernetes-hardening-guide-upgrade-and-application-security">升级和应用安全实践的信息。</a>现在，Fairwinds Insights提供了为用户导出报告的功能，以指导集群实现NSA强化。该报告将显示NSA政策、相关洞察检查以及需要解决的行动项目数量。</p>
+<h2>聚焦:增强的策略配置</h2>
+<p>我们重新设计了策略页面，现在显示Insights内置的所有策略以及用户添加的任何OPA策略的列表。用户现在能够看到每个策略的严重性，以及他们当前是否会阻止准入请求或CI/CD管道。在使用Insights UI创建新策略时，我们也开始使用OPA v2。</p>
+<h2>Insights发行说明</h2>
+<h2>8.10.0</h2>
+<h3>策略配置器</h3>
+<p>我们重新设计了Insights中的政策页面。策略页面现在将显示作为Insights一部分的所有策略以及用户添加的任何OPA策略的列表。用户现在能够看到每个策略的严重性，以及他们当前是否会阻止准入请求或CI/CD管道。此外，用户现在能够使用Insights CLI设置这些值<a href="https://insights.docs.fairwinds.com/configure/cli/settings">，以根据他们的需求定制策略</a>。</p>
+<p><img src="../Images/e08c440104ea50a55314b5863e7d8a6a.png" loading="lazy" alt="Screenshot of Fairwinds Insights policy configurator" data-original-src="https://lh3.googleusercontent.com/uDZt6_mA293Pce5qPUEi0uXSMGHmMUGRBUaQ7jeaWvYrGEBGOstX7NM-SjU4atjeKGIdSg8f7c9yazc8zuC_dh-rX-qM05KixhEO1oVS79Qvp1DFbk60LZ75QxaydeJ1jHWVTzCS1es_CGEdBg"/></p>
+<h3>洞察CI脚本2.0</h3>
+<p>我们的用户可以在CI/CD渠道中使用新的Insights CI脚本。新的2.0 Insights CI脚本现在将根据准入和CI策略中设置的值阻止准入请求和CI/CD管道。使用自动扫描功能的用户<a href="https://insights.docs.fairwinds.com/installation/ci/autoscan/">将自动使用这个新的脚本版本。2.0脚本还默认只阻止严重性为高或严重的操作项目。</a></p>
+<h2>8.9.0</h2>
+<h3>使用OPA v2在Insights中创建新策略</h3>
+<p>使用Insights UI创建新策略时，我们将使用OPA v2。这里最大的变化是不再需要YAML实例。所有v1策略将继续工作，并且仍然能够在Insights web UI中进行编辑。OPA v2仅适用于<a href="https://github.com/FairwindsOps/charts/tree/master/stable/insights-agent#version-20"> Insights Agent 2.x </a>。要了解更多关于OPA v1和v2之间的差异，请查看<a href="https://insights.docs.fairwinds.com/configure/policy/policy/#v1-and-v2-insights-opa-policies"> V1和V2洞察OPA政策。</a></p>
+<h2>8.7.0</h2>
+<h3>NSA强化指南的CSV导出</h3>
+<p>用户现在可以导出一份报告，指导他们的集群进行NSA加固。该报告将显示NSA政策、相关洞察检查以及需要解决的行动项目数量。要获取报告，请转到Action Items页面，从左上角的下拉列表中选择一个集群，然后单击Export &gt; Export NSA Report按钮。</p>
+<h2>8.6.0-8.10.0</h2>
+<h3>错误修复和改进综述</h3>
+<ul>
+<li aria-level="1">工作负载现在即使经过过滤也可以导出</li>
+<li aria-level="1">修正了显示百分比时准入控制器图表的显示</li>
+<li aria-level="1">现在，删除集群需要在确认之前键入集群名称</li>
+<li aria-level="1">修复了导出行动项目时缺少的名称字段和重复的名称空间字段</li>
+<li aria-level="1">改进了冥王星行动项目的描述和标题</li>
+<li aria-level="1">添加了为不同平台设置CI集成的说明</li>
+<li aria-level="1">删除了节点容量图表中显示为空白的节点</li>
+<li aria-level="1">修正了联系表格的问题</li>
+<li aria-level="1">更新的Insights CI脚本</li>
+<li aria-level="1">修复了存储库中主要问题图表的排序</li>
+<li aria-level="1">改进了群集概览页面的加载速度</li>
+<li aria-level="1">登录页面的新背景</li>
+<li aria-level="1">修正了当鼠标停留在首页的热门话题图表上时弹出窗口被切断的问题</li>
+<li aria-level="1">一些工作负载指标显示不适用</li>
+</ul>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

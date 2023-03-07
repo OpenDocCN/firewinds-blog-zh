@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>New Fairwinds Insights Release: Terraform Scanning</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>新的Fairwinds Insights发布:地形扫描</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/new-fairwinds-insights-release-terraform-scanning#2023-02-14">https://www.fairwinds.com/blog/new-fairwinds-insights-release-terraform-scanning#2023-02-14</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>说到安全问题，时间是至关重要的。平台工程团队需要能够在部署过程中尽早发现问题，同时能够立即采取行动。</p>
+<h2><span>通过Terraform扫描更快地检测安全问题</span></h2>
+<p>最近的一个版本扩展了Fairwinds Insights  的“基础设施即代码(IaC)”功能和通过地形扫描向左移动的安全思维。Insights用户现在可以使用IaC扫描来检查Terraform文件中的配置问题，这些问题可能会使您的工作负载和云基础架构面临风险。</p>
+<p>Terraform扫描会根据一系列最佳实践检查您的文件，然后生成操作项目，例如:</p>
+<ul>
+<li aria-level="1">
+<p><span>配置您的亚马逊网络服务(AWS) EKS集群来加密Kubernetes静态秘密数据。这可以防止访问Kubernetes </span> <a href="https://etcd.io/" rel="noopener" target="_blank"> <span> etcd数据库</span> </a> <span>的人访问Kubernetes的秘密数据。</span></p>
+</li>
+<li aria-level="1">
+<p><span>将您的谷歌云平台(GCP) GKE集群配置为自动修复节点。这将自动替换停止响应或磁盘空间不足的Kubernetes节点。</span></p>
+</li>
+<li aria-level="1">
+<p><span>确保您的AWS或GCP存储桶不允许公众访问对象。这验证了S3或GCS存储桶不允许对其文件的自由访问。</span></p>
+</li>
+</ul>
+<p>通过在拉动请求阶段进行整合——无论是通过Fairwinds的<a href="https://insights.docs.fairwinds.com/installation/ci/github/"><span>GitHub integration</span></a>还是在您最喜欢的<a href="https://insights.docs.fairwinds.com/installation/ci/insights-ci-script/"> <span> CI平台</span></a>——交付团队都会受益于即时反馈循环，因此他们可以更快地解决问题。此外，领导者可以使用<a href="https://www.fairwinds.com/enforce-kubernetes-policy"> <span>策略执行</span> </a>来根据扫描结果控制管道或合并请求。</p>
+<p>对于已经使用了<a href="https://www.fairwinds.com/blog/why-infrastructure-as-code-scanning-matters-for-kubernetes-configuration"> <span> IaC扫描</span> </a>的Insights用户来说，利用Terraform扫描很容易！要启用与CI集成的Terraform扫描，只需将CI脚本升级到最新版本。那些使用自动扫描不需要采取任何进一步的行动；此功能已经启用。</p>
+<p>还没有使用Fairwinds Insights？<a href="https://www.fairwinds.com/blog/get-started-with-fairwinds-insights-free-tier">试用我们的免费层</a>,适用于多达20个节点、两个集群和一个存储库的环境。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

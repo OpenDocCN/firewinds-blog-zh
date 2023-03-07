@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>How to Identify if Kubernetes Pods are Running as Root</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>如何识别Kubernetes Pods是否以Root用户身份运行</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/how-to-identify-kubernetes-pods-running-root#2020-04-30">https://www.fairwinds.com/blog/how-to-identify-kubernetes-pods-running-root#2020-04-30</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>用root访问权限过度授权Kubernetes部署通常更容易使某些东西正常工作，但不推荐这样做。它会导致安全问题和过度特权用户。虽然这在开发中可能没问题，但在生产中却是个大问题。随着越来越多的pod被创建，您可能会不知不觉地以root身份运行许多pod。</p>
+
+<h2><strong>如何识别Kubernetes pods是否以root用户身份运行</strong></h2>
+<p>让个人贡献者设计他们自己的Kubernetes安全配置几乎可以确保不一致和错误。这通常不是有意发生的，通常是因为工程师专注于让容器在Kubernetes中运行。不幸的是，许多人在过程中忽略了重新审视配置，导致了<a href="https://www.fairwinds.com/blog/kubernetes-best-practices-for-security">安全性</a>和<a href="https://www.fairwinds.com/blog/kubernetes-best-practice-efficient-resource-utilization">效率</a>的差距。</p>
+<p>负责安全的平台团队可以尝试手动检查每个pod，以检查错误配置的部署。但是许多DevOps团队人员不足，没有足够的带宽来手动检查由各种工程团队引入的每个变更。</p>
+<p>这就是为什么我们创建了<a href="https://insights.docs.fairwinds.com/"> Fairwinds Insights </a>，这是一个配置验证平台，它集成了可信的开源工具，以便团队可以自动扫描集群来检查错误配置。它节省了时间，降低了安全风险。</p>
+<blockquote>
+<p>“我们使用Fairwinds Insights作为集群的整体监控工具。它将我们所有的警报和安全性整合在一个地方，有助于减少发现问题所需的资源。”Boxed公司首席开发工程师Brent Jaworski</p>
+<p>阅读<a href="https://www.fairwinds.com/case-studies/Boxed">案例研究</a></p>
+</blockquote>
+<h2><span> <strong> Fairwinds Insights为您提供配置验证</strong> </span></h2>
+<p>Fairwinds Insights是一个工具，它向您显示您的团队在Kubernetes的哪些地方配置错误。然后，它会提出改进建议，并帮助跟踪和确定修复的优先级。</p>
+<p>你可以通过<a href="https://insights.fairwinds.com/auth/register">创建账号</a>，创建集群<a href="https://www.youtube.com/watch?v=QYwNmtJc5no">安装代理</a>来免费试用。我们提供了两个代理选项:一个Helm chart(这允许您定制您的安装)或一个kubectl命令。</p>
+<h2><strong>检查集群的安全状况</strong></h2>
+<p>一旦安装了Fairwinds Insights代理，您将在5-10分钟内获得结果。现在，您可以轻松检查集群的安全状况。这里有一个关于它如何工作的快速视频。</p>
+<p> </p>
+
+<p> </p>
+<p>使用Fairwinds Insights将显著降低生产中的安全事故风险。配置验证平台确保在整个组织范围内遵循安全最佳实践。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-166939eb-9ebe-4094-a151-45bce5bd4f2f"><span class="hs-cta-node hs-cta-166939eb-9ebe-4094-a151-45bce5bd4f2f" id="hs-cta-166939eb-9ebe-4094-a151-45bce5bd4f2f"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/166939eb-9ebe-4094-a151-45bce5bd4f2f"><img class="hs-cta-img" id="hs-cta-img-166939eb-9ebe-4094-a151-45bce5bd4f2f" src="../Images/b1ac50ea4fc469770b0daa1ea986820e.png" alt="Fairwinds Insights | Managing Kubernetes Configuration for Security, Efficiency and Reliability " data-original-src="https://no-cache.hubspot.com/cta/default/2184645/166939eb-9ebe-4094-a151-45bce5bd4f2f.png"/></a></span>T6】</span></p>
+<p> </p></span></div>    
+</body>
+</html>

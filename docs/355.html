@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Eliminate The Registry As A Single Point of Kubernetes Failure Using Saffire</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>使用Saffire消除作为Kubernetes单点故障的注册表</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/eliminate-the-registry-as-a-single-point-of-kubernetes-failure-using-saffire#2021-03-10">https://www.fairwinds.com/blog/eliminate-the-registry-as-a-single-point-of-kubernetes-failure-using-saffire#2021-03-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>你遇到过这种情况吗？你正在经营一个由<a href="https://github.com/flannel-io/flannel" rel="noopener" target="_blank">法兰绒</a>作为<a href="https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/" rel="noopener" target="_blank"> CNI </a>的<a href="https://kops.sigs.k8s.io/" rel="noopener" target="_blank"> kops </a>集群，而<a href="https://quay.io" rel="noopener" target="_blank"> Quay </a>经历了一整天的停电。突然，你的自动伸缩Kubernetes集群这台运转良好的机器嘎然而止。新节点从不加入集群，其他随机服务无法启动。<br/> <br/>您已经成为Kubernetes集群中为数不多的单点故障的牺牲品:容器注册。这看起来似乎是一件奇怪的事情，要编写一个完整的工具来解决，但在<a href="https://fairwinds.com" rel="noopener"> Fairwinds </a>这个问题让我们非常头疼，并在我们为客户运行的几十个集群中浪费了时间。如果今天它不是码头和法兰绒，明天它将是另一个集群关键服务。</p>
+<h2>Saffire简介</h2>
+<p>Saffire 是一个在集群中运行的控制器，它会监视在提取底层映像时遇到问题的pod。当它找到这些窗格时，它将尝试修补拥有该窗格的对象，并用您指定的替换对象替换图像规范。因此，在映像拉取失败后的几秒钟内，您的工作负载就可以在从不同的注册表拉取的映像上愉快地运行了。</p>
+<h3>它是如何工作的？</h3>
+<p>Saffire创建了一个您可以部署的自定义资源定义，它指定了被认为与该名称空间中的映像等效的注册表列表。再加上我的一个朋友兼同事写的一个名为<a href="https://github.com/FairwindsOps/controller-utils" rel="noopener" target="_blank"> controller-utils </a>的包，Saffire可以找到发生故障的pod的顶层控制器，并用新的图像源修补它们。</p>
+<h3>这难道不需要我做些计划吗？</h3>
+<p>是的！你将不得不同时把你所有的图像推送到两个存储库。你可能想知道为什么<a href="https://fairwinds.com" rel="noopener" target="_blank"> Fairwinds </a>选择这种方法，而不是像拉通缓存或镜像我们所有图像的集群内注册表这样的东西。这里有几个原因: <br/> <span/></p>
+<p><span> 1。我们希望避免运行我们自己的基础架构来解决这个问题。</span></p>
+<p><span>我们一直在寻找一种Kubernetes本地方法，不需要我们运行长寿命、高维护的基础设施。</span></p>
+<p><br/> <span> 2。我们希望尽可能利用现有的服务。</span></p>
+<p>Google Container Registry (GCR)、Amazon Elastic Container Registry(ECR)、Quay和Docker Hub都是很棒的服务，它们相对来说很少出现宕机。有了Saffire，你仍然可以使用这些服务，只是你不再依赖单一的服务。</p>
+<h2><br/> <span>名字怎么回事？</span></h2>
+<h2>在Fairwinds，我们喜欢上了以太空为主题的名字。当我们最初将<a href="https://github.com/FairwindsOps/polaris" rel="noopener" target="_blank">命名为北极星</a>时，我们陷入了不断困扰库伯内特社区的航海主题。但是北极星让我们在海洋和太空之间架起了一座桥梁。从那以后，我们创造的所有工具都是以太空为主题的。</h2>
+<h2>Saffire指的是美国宇航局为了测试火在宇宙飞船和空间站上的表现而进行的一系列任务。这似乎是一个合适的名字，一个在我们的Kubernetes环境中减轻火灾的工具。</h2>
+<h2><br/> <span>希望你喜欢</span></h2>
+<h2><span>前往<a href="https://github.com/FairwindsOps/saffire" rel="noopener">Saffire</a>的Github仓库，如果您有任何问题，请告诉我们！</span></h2>
+<p><span><span class="hs-cta-wrapper" id="hs-cta-wrapper-a23b9631-ae62-4d66-b1e9-55078f2a0481"><span class="hs-cta-node hs-cta-a23b9631-ae62-4d66-b1e9-55078f2a0481" id="hs-cta-a23b9631-ae62-4d66-b1e9-55078f2a0481"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/a23b9631-ae62-4d66-b1e9-55078f2a0481"><img class="hs-cta-img" id="hs-cta-img-a23b9631-ae62-4d66-b1e9-55078f2a0481" src="../Images/7d97f9831d48f7363d5ce22f38471699.png" alt="Fairwinds Open Source Contributions" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/a23b9631-ae62-4d66-b1e9-55078f2a0481.png"/></a></span></span></span></p></span></div>    
+</body>
+</html>

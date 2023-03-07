@@ -1,0 +1,27 @@
+<html>
+<head>
+<title>Check Out the Specifics of Our New Goldilocks Upgrade</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>查看我们新的金发女孩升级的细节</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/check-out-the-specifics-of-our-new-goldilocks-upgrade#2023-01-10">https://www.fairwinds.com/blog/check-out-the-specifics-of-our-new-goldilocks-upgrade#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>我们开源项目Goldilocks的最初目标是提供一个仪表板工具，用于识别Kubernetes资源请求和限制的基线。为了提供建议，我们使用<a href="https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler" rel="noopener" target="_blank">垂直Pod自动缩放器</a> (VPA)，这是一个控制器堆栈，包含一个评估您的Pod当前资源使用情况的建议引擎，以便提供指导。</p>
+
+<p>Goldilocks dashboard提供了VPA建议的可视化，因此您可以访问集群中的服务并查看两种类型的建议，具体取决于您部署所需的服务质量等级。QoS类别是Kubernetes的一个概念，它决定了pods被调度和驱逐的顺序，Kubernetes本身将QoS类别分配给pods。</p>
+<p>因为对大多数组织来说，获得正确的资源请求和限制是一个持续的挑战，所以我们继续定期改进Goldilocks，提供我们的变化的定期更新。我们最近对Goldilocks进行了一些重大升级，并很高兴与我们的开源社区分享这些改进。</p>
+<p><span data-hs-icon-hubl="true"><span id="hs_cos_wrapper_" class="hs_cos_wrapper hs_cos_wrapper_widget hs_cos_wrapper_type_icon" data-hs-cos-general-type="widget" data-hs-cos-type="icon"><svg version="1.0" viewbox="0 0 512 512" aria-hidden="true"><g id="Check Circle1_layer"><path d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"/></g></svg></span></span>了解更多关于Fairwinds的开源项目<a href="https://www.fairwinds.com/open-source-software">这里</a>。</p>
+<h2>金发姑娘有什么新鲜事？</h2>
+<p>拉请求<a href="https://github.com/FairwindsOps/goldilocks/pull/373" rel="noopener" target="_blank"> #373 </a>和<a href="https://github.com/FairwindsOps/goldilocks/pull/376" rel="noopener" target="_blank"> #376 </a>为金发女孩带来了多控制器支持。在此更新之前，Goldilocks只能为部署创建VPA对象。但是，有了这些新的“拉”请求，Goldilocks现在可以支持为使用标准pod模板规范(spec.template.spec.containers)的任何更高级别的工作负载控制器创建VPA对象。这一变化大大扩展了Goldilocks可以报告的工作负载数量，从而为您的集群中的工作负载资源提供了更多建议。</p>
+<p>Kubernetes集群很少会只有通过部署创建的pod。DaemonSets(以及在较小程度上的StatefulSets)构成了工作负载的重要组成部分。直到现在，金凤花都不会对这些类型的工作负载创建的容器提出建议。</p>
+<p><img src="../Images/8b05b0d2cae516be83ff3014894a85b8.png" loading="lazy" alt="image of namespace details - Goldilocks" data-original-src="https://lh6.googleusercontent.com/mkK5AJ0nfh7_3Zzy6OTaDdQzhm0D5nH-5vEqQkrzrRieOWvdeRWLSrMyktfdSDvVu38uaNBWXYUUoO-IDcpyVrGckW0VOYdXL8JfmphaF2h2QTWBeZDFUjm26wotD64DxbEGgIwueqCe4tPziWZ_EtjlxB3MJtThOTziE2K0D8VjOr8aNKeYHO1g"/></p>
+<h2>拉取请求的细节是什么？</h2>
+<p>第一个拉请求(#373)是后端更改，它更新控制器以监视pod创建，并确定该pod的父工作负载。然后，如果该父对象具有适当的注释(或者在goldilocks寻找的具有适当标签的名称空间中)，将创建VPA。</p>
+<p>这个功能彻底颠覆了以前的方法，因为以前我们只关注已创建的部署。通过观察pod，然后推断父控制器，我们可以涵盖更多的控制器类型，包括那些还没有人想到的控制器。也就是说，假设它们遵循上面提到的pod模板规范。</p>
+<p>提到的两个PR中的第二个(#376)确保Goldilocks的仪表板部分实际显示建议，因为一些代码只查找部署。</p>
+<h2>你如何为金发女孩做贡献？</h2>
+<p><a href="https://github.com/FairwindsOps/goldilocks" rel="noopener" target="_blank"> Goldilocks是开源的，可以在GitHub上获得</a>。我们致力于提高其处理具有数百个名称空间和VPA对象的大型集群的能力。在2021年夏天，我们还改变了Goldilocks的部署方式，增加了一个<a href="https://github.com/FairwindsOps/charts/tree/master/stable/vpa" rel="noopener" target="_blank"> VPA子图</a>，你可以用它来安装VPA控制器和资源。在这方面，我们计划继续改进我们所有的开源项目，并欢迎您的贡献！</p>
+<p>Goldilocks也是我们的<a href="https://www.fairwinds.com/insights"> Fairwinds Insights平台</a>的一部分，该平台提供对您的Kubernetes集群的多集群可见性，因此您可以针对规模、可靠性、资源效率和<a href="https://www.fairwinds.com/kubernetes-security">容器安全性</a>配置您的应用。对使用Fairwinds Insights感兴趣吗？免费提供！<a href="/coming-soon" rel="noopener">在此了解更多信息。</a></p>
+<p><a href="https://www.fairwinds.com/open-source-software-user-group">加入我们的开源社区</a>并在2021年12月14日参加下一次聚会。加入我们，赢取费尔温德的奖励！</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

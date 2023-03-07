@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>NSA Hardening Guide: Locking Down Network Access with Fairwinds Insights</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>NSA强化指南:利用Fairwinds Insights锁定网络访问</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/nsa-hardening-guide-locking-down-network-access-with-fairwinds-insights#2023-01-10">https://www.fairwinds.com/blog/nsa-hardening-guide-locking-down-network-access-with-fairwinds-insights#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>在我们的第二篇博客中，涵盖了<a href="https://media.defense.gov/2021/Aug/03/2002820425/-1/-1/0/CTR_Kubernetes_Hardening_Guidance_1.1_20220315.PDF" rel="noopener" target="_blank"> <span> NSA Kubernetes强化指南</span> </a>，我们将讨论无数种方式<a href="https://www.fairwinds.com/insights"><span>fair winds Insights</span></a>——以及<a href="https://www.fairwinds.com/open-source-software"> <span>开源</span> </a>和云原生技术——可以帮助您的组织遵守这些重要的建议。虽然我们的第一篇文章介绍了Insights增强和支持pod安全性的功能，这是云环境中所有企业都应该关注的问题，但我们的第二篇文章将重点关注网络分离和强化。</p>
+
+<p>想要立刻得到所有美国国家安全局的建议？下载我们最新的白皮书</p>
+<p><a href="https://www.fairwinds.com/kubernetes-nsa-hardening-insights"> <strong> <span>满足NSA Kubernetes硬化准则的步骤。</span> </strong> </a></p>
+<h2><span>寻址网络</span></h2>
+<p>集群网络是Kubernetes概念的核心。必须考虑吊舱、容器和外部服务之间的通信。默认情况下，Kubernetes资源不是孤立的，如果集群受到威胁，就无法防止横向移动或升级。资源分离和加密是限制数字攻击者在Kubernetes集群内活动和升级的有效方法。</p>
+<p>总体而言，美国国家安全局建议使用网络政策和防火墙来分离和隔离资源，保护控制平面，以及加密流量和静态敏感数据。让我们看看我们的Kubernetes治理软件解决这些关键领域的不同方法，包括遵守所有措施的最佳方法。</p>
+<p><strong>围绕网络分离，NSA有哪些建议？</strong></p>
+<blockquote>
+<p>NSA:使用防火墙锁定对控制平面节点的访问。控制平面是Kubernetes的核心，允许用户在集群中查看容器、安排新的pod、读取机密和执行命令。由于这些敏感功能，控制平面应该受到高度保护。Kubernetes API服务器不应该暴露给互联网或不可信的网络。</p>
+</blockquote>
+<p>保护控制平面访问的最简单方法是使用托管的Kubernetes服务，如GKE或EKS。这些解决方案抽象出控制平面，防止其配置错误。</p>
+<p>如果您必须管理自己的控制平面节点，请使用VPC和网络访问控制列表(NACL)来控制对节点的访问。我们建议通过与您的控制平面节点位于同一VPC中的SSH堡垒来控制对控制平面的访问。</p>
+<blockquote>
+<p>NSA:使用RBAC锁定对控制平面节点的访问。  <span>默认情况下启用，RBAC是一种用于根据组织内个人的角色来控制对集群资源的访问的方法。RBAC可用于限制对用户和服务帐户的访问。</span></p>
+</blockquote>
+<p>在库伯内特，RBAC是一个棘手的概念。Fairwinds提供了两个开源项目来帮助管理RBAC: </p>
+<ul>
+<li aria-level="1"><a href="https://github.com/FairwindsOps/rbac-manager" rel="noopener" target="_blank"><span>【RBAC】管理器</span> </a> <span>提供了一个更简单的权限调配接口。</span></li>
+<li aria-level="1"><a href="https://github.com/FairwindsOps/rbac-lookup" rel="noopener" target="_blank"><span/></a><span>RBAC查找允许用户精确地确定谁有权访问什么。</span></li>
+</ul>
+<p>虽然每个组织都有不同的需求，并对如何配置RBAC做出不同的设计决策，但利用角色和集群角色为不同的角色提供不同的访问级别是势在必行的。这有助于遵守最小特权原则，还有防止诚实错误的额外好处。</p>
+<p>Fairwinds Insights提供了一个界面，用于审核每个集群中的RBAC，显示特别危险的角色和集群角色。</p>
+<blockquote>
+<p><strong> <span> NSA:对控制平面组件和节点使用单独的网络。</span> </strong> <span>管理员应主动限制攻击面，将工作节点与不需要与工作节点或Kubernetes服务通信的其他网段分开。</span></p>
+</blockquote>
+<p>网络分段是限制攻击爆炸半径的一个很好的方法。特别是，将面向用户的应用程序与控制平面分开非常重要，这样可以防止攻击者逃离应用程序环境并获得对整个集群的访问权限。</p>
+<p>我们建议在您的VPC中为不同类型的工作节点使用不同的子网，特别是将需要控制平面访问的nginx-ingress或cert- manager等工具从面向用户的应用程序中分离出来。像AWS的安全组这样的概念可以用来限制节点组之间的通信。</p>
+<p>借助Fairwinds Insights，您可以在Kubernetes集群中运行kube-hunter，以更好地了解哪些节点可以访问控制平面。为了了解这些节点对控制平面的访问权限，我们建议将kube-hunter配置为在应用程序节点上运行。</p>
+<blockquote>
+<p><strong> <span> NSA:配置控制平面组件，以使用TLS进行经过认证的加密通信。</span></strong><span>etcd后端数据库存储状态信息和集群机密。它是一个关键的控制面板组件，获得etcd的写访问权限可以让cyber actor获得整个集群的root访问权限。</span></p>
+</blockquote>
+<p>默认情况下，大多数Kubernetes部署都会加密网络流量。无论您是使用EKS或GKE这样的托管Kubernetes服务，还是使用kOps这样的工具来管理自己的控制平面，默认配置都将使用TLS来加密与控制平面的通信。</p>
+<p>与往常一样，确保你使用的是最新版本的Kubernetes和kOps之类的工具。</p>
+<blockquote>
+<p><strong> NSA:静态加密etcd，使用单独的TLS证书。</strong>etcd后端数据库是一个关键的控制平面组件，也是控制平面中最重要的安全部分。</p>
+</blockquote>
+<p>同样，通过使用GKE或EKS这样的托管Kubernetes服务，您可以避免担心您的控制平面配置。但是，如果您确实需要管理控制平面节点，请确保加密底层卷，并设置唯一的TLS证书，以便与etcd进行通信。</p>
+<p>Fairwinds Insights可以在您的每个集群中运行kube-bench，它会根据CIS基准运行许多自动检查。其中一个检查(检查2.1)将确保您已经用适当的证书文件和密钥文件配置了etcd。如果没有，Fairwinds Insights将创建一个行动项目来解决问题。</p>
+<blockquote>
+<p><strong> <span> NSA:设置网络策略隔离资源。</span> </strong> <span>网络策略控制pod、名称空间和外部IP地址之间的流量。默认情况下，没有网络策略应用于pod或命名空间，导致pod网络中的进出流量不受限制。</span></p>
+</blockquote>
+<p>虽然Kubernetes提供了内置的网络策略资源，但它的范围相当有限。它只能在L3/L4限制流量，例如基于IP地址，这使得它在实践中很难使用。</p>
+<p>我们建议使用像Linkerd这样的开源服务网格。该服务可以捕获L7语义，允许更具可读性、可维护性和细粒度的网络策略。Linkerd还在Pod级别而不是CNI级别执行其策略，这更接近于“零信任”的理想状态。</p>
+<h2><span>网络加固的后续步骤</span></h2>
+<p><span>如果您有兴趣了解更多有关见解如何帮助您的组织实现新的NSA准则的其他基准，包括如何创建明确的拒绝网络策略并将所有敏感信息加密到Kubernetes Secrets中，请阅读我们的新白皮书，</span> <a href="https://www.fairwinds.com/kubernetes-nsa-hardening-insights"> <span>满足NSA Kubernetes强化准则的步骤</span> </a> <span>。此外，这些信息将告诉您如何在部署期间避免错误配置并实施推荐的措施和缓解措施。</span></p>
+<p>我们的NSA白皮书还提供了关于满足所有NSA建议的信息，而不仅仅是pod安全性和网络加固。它包括对其他领域的详细讨论，如身份验证和授权、审计日志、威胁检测和其他应用程序安全实践。随着集装箱化世界的不断发展，越来越明显的是，强大的纵深防御方法是最小化风险、最大化效率和创新的最佳方式。 <span/></p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

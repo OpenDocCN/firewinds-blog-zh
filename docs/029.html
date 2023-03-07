@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>Intro to Kube ingress: Set up nginx Ingress in Kubernetes Bare Metal</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kube ingress简介:在Kubernetes裸机中设置nginx Ingress</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/intro-to-kubernetes-ingress-set-up-nginx-ingress-in-kubernetes-bare-metal#2023-01-10">https://www.fairwinds.com/blog/intro-to-kubernetes-ingress-set-up-nginx-ingress-in-kubernetes-bare-metal#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>入口是使流量从外部进入Kubernetes集群的资源。这通常是对HTTP或HTTPS服务。有一些方法可以将非HTTP服务映射到入口，但是这种方法不太常见。这个博客将只关注HTTP和HTTPS流量。</p>
+
+<p>入口资源的一个更有趣的方面是，尽管它是Kubernetes附带的基本原语，如pod、部署、副本集等。实际上，它需要在群集上安装一个称为入口控制器的东西，以便入口资源发挥作用。在没有安装任何一个控制器的情况下创建入口资源将不起作用。</p>
+<p>由于入口资源要求控制器运行，因此入口的配置可能有点开放。任何特定于您选择的控制器类型的配置通常都是通过注释入口资源来完成的。</p>
+<p>您可以将入口控制器视为Kubernetes集群中所有服务的一种web服务器。它被配置为将请求路由到适当的服务；这与在裸机服务器上安装Apache以将网站暴露给互联网的时代没有什么不同。</p>
+<p>您可以看到入口控制器和入口资源是如何构建的:</p>
+<p><img src="../Images/2af0b8ea5c3db68ac87dbc0db34edd7f.png" alt="Nginx Ingress on GCP - Fig 01" srcset="https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png?width=897&amp;name=Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png 897w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png?width=1794&amp;name=Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png 1794w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png?width=2691&amp;name=Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png 2691w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png?width=3588&amp;name=Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png 3588w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png?width=4485&amp;name=Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png 4485w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png?width=5382&amp;name=Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png 5382w" sizes="(max-width: 1794px) 100vw, 1794px" data-original-src="https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png?width=1794&amp;name=Nginx%20Ingress%20on%20GCP%20-%20Fig%2001.png"/></p>
+<p>来源:<a href="https://cloud.google.com/community/tutorials/nginx-ingress-gke"> <span>谷歌社区教程</span> </a></p>
+<p>大多数入口控制器都允许你进行基于主机的路由，因此foo.com应该路由到foo名称空间中的foo服务，以及基于路径的路由-foo.com/dashboard应该路由到foo-dashboard服务。</p>
+<p>为了简单起见，我将演示一个入口控制器nginx入口控制器。这是Kubernetes社区中的一个流行选择，但我也希望鼓励您研究现有的各种入口控制器，并决定哪一种最适合您的应用。</p>
+<p>让我们看一个例子。</p>
+<p>你首先需要安装nginx入口控制器，文件在<a href="https://kubernetes.github.io/ingress-nginx/deploy/"> <span> GitHub库</span> </a>中。这将启动pod和相关资源，为您处理和提供入口资源。<a href="https://kubernetes.github.io/ingress-nginx/deploy/"> <span> Nginx Ingress入门</span> </a>页面提供了Kubernetes清单，用于在自己的机器、AWS、GCP或Azure clouds上安装Kubernetes。例如，要在您的机器上运行的Kubernetes中安装Nginx Ingress:</p>
+<pre><code>kubectl apply -f <br/>https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.34.1/deploy/static/provider/baremetal/deploy.yaml</code></pre>
+<pre><code>…..
+NodePort:                 http  32316/TCP
+</code></pre>
+<p>接下来测试Kubernetes服务，它提供对Nginx入口控制器pods的访问，进而提供对入口对象的访问。在您的机器上运行的Kubernetes将配置有NodePort服务，云安装配置有LoadBalancer服务。要连接到节点端口服务，在您的机器上运行Kubernetes的情况下:</p>
+<p><code>$ kubectl describe service -n ingress-nginx ingress-nginx-controller</code></p>
+<p>在这种情况下，连接到您机器上的localhost:32316。您应该会收到一个显示“404未找到”的页面，这是入口控制器的默认响应。如果您使用的是云托管的Kubernetes，请使用上面的“kubectl describe”命令，并连接到负载平衡器的主机名。</p>
+<p><span> <span>现在您将向Kubernetes部署一个测试应用程序。</span>T3】</span></p>
+<p>这个应用程序是httpbin，一个用于从API请求和接收回复的简单工具。它提供了API和前端，因此非常适合测试。该服务属于ClusterIP类型，入口将向该服务的端点(pods)发送流量。现在看一下上面的命令所应用的入口清单。</p>
+<pre><code>apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: httpbin
+  namespace: httpbin
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          serviceName: httpbin
+          servicePort: 80
+        path: /
+</code></pre>
+<p>nginx是我们正在使用的类。控制器查找这个注释，并知道它拥有这个入口。您会注意到，在rules部分，我们将主机设置为localhost。如果您正在启动一个生产部署，这显然会有所不同——它可能是您公司的网站，或者您用于应用程序的任何url。对于后端，我们指向刚刚启动的httpbin服务。现在确保httpbin pods正在运行。</p>
+<code>$ kubectl get po -n httpbin -w</code>
+<pre><code>
+NAME                       READY   STATUS    RESTARTS   AGE   IP               NODE       NOMINATED NODE   READINESS GATES
+httpbin-675dcdbdbd-w64f7   1/1     Running   0          9s    10.244.120.104   NodeName         none		none     
+
+</code></pre>
+<p>这个应用程序还提供了一个restful API，JSON。你可以在<span> <code>localhost:</code> </span>浏览器里看一下</p>
+<p><img src="../Images/0f730ddd88fe40caa9fff956ce65a2ea.png" alt="httpbin screenshot" srcset="https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/httpbin%20screenshot.png?width=348&amp;name=httpbin%20screenshot.png 348w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/httpbin%20screenshot.png?width=695&amp;name=httpbin%20screenshot.png 695w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/httpbin%20screenshot.png?width=1043&amp;name=httpbin%20screenshot.png 1043w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/httpbin%20screenshot.png?width=1390&amp;name=httpbin%20screenshot.png 1390w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/httpbin%20screenshot.png?width=1738&amp;name=httpbin%20screenshot.png 1738w, https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/httpbin%20screenshot.png?width=2085&amp;name=httpbin%20screenshot.png 2085w" sizes="(max-width: 695px) 100vw, 695px" data-original-src="https://www.fairwinds.com/hs-fs/hubfs/Blog%20Feature%20Images/httpbin%20screenshot.png?width=695&amp;name=httpbin%20screenshot.png"/></p>
+<p><span>我们还可以通过访问Nginx Ingress Controller服务来查看浏览器中的API，确保将“localhost”指定为HTTP主机头。主机头必须与入口中指定的主机名匹配。例如，将“ServiceHostName”替换为localhost(如果在您的机器上运行Kubernetes)或您的云负载平衡器的主机名:</span> <span> <code>curl --header "HOST: localhost" http://ServiceHostName</code> </span></p>
+<p>有更多的入口。我们鼓励您阅读更多文档或试用其他入口控制器。如果你需要帮助，请联系。Fairwinds提供Kubernetes服务，可在您的云原生之旅的任何阶段提供帮助。</p>
+<h2><strong>附加资源</strong></h2>
+
+</span></div>    
+</body>
+</html>

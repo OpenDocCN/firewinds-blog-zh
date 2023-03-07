@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>The Tenth Rule of Cloud-based Infrastructure</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>基于云的基础设施的第十条规则</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/the-tenth-rule-of-cloud-based-infrastructure#2020-01-06">https://www.fairwinds.com/blog/the-tenth-rule-of-cloud-based-infrastructure#2020-01-06</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>我想我想分享一些关于Fairwinds(又名反应性操作)起源的想法——关于我们做什么以及为什么要做。我先讲一点历史。</p>
+
+<p>回到大学，我创办了一家两人科技创业公司，我身兼数职——程序员、系统管理员、数据库管理员。早期，我学会了欣赏伟大的基础设施的商业价值。</p>
+<p>毕业后，我做了一名程序员，获得了MBA学位，随后成为了许多使用Heroku的初创公司的首席技术官，Heroku是一种无需人工干预的云平台即服务基础设施。像许多已经迁移到云的公司一样，这些初创公司使用Heroku，因为它有一个很好的web界面，无需管理服务器，以及良好的DUX(开发者用户体验)。基础设施是具有挑战性的东西，Heroku提供了许多人力难以替代的服务。然而，最终Heroku的成本超过了收益，我们将遇到该平台一刀切的限制。</p>
+<p>公司往往希望在自己的平台上运行类似Heroku的环境，我创办的创业公司也不例外。在每种情况下，我们都会用内部的DevOps工程师替换Heroku。它总是变成一个昂贵的烂摊子。</p>
+<p>也许你熟悉互联网先驱<span> </span> <a href="https://twitter.com/PhilipGreenspun" target="_blank" rel="noopener">菲利普·格林斯潘的</a> <span> </span>第十条编程规则:“任何足够复杂的C或Fortran程序都包含一个临时的、非正式指定的、错误百出的、缓慢的普通Lisp的一半的实现。”换句话说，Common Lisp的灵活性和可扩展性使它成为衡量其他编程语言的标准。</p>
+<p>我有我自己的第十条规则(我没有其他规则)——任何足够复杂的基于云的基础设施都包含一个特别的、非正式指定的、充满bug的、缓慢的(并且更昂贵的)Heroku实现。</p>
+<h2 id="the-8020-sweet-spot">80/20甜蜜点</h2>
+<p>在像<span> </span> Ruby on Rails这样的开源框架出现之前，公司构建了大量与业务运营无关的代码。这与选择模板语言或数据库库没有什么不同——虽然重要，但这些活动通常与核心业务挑战无关。</p>
+<p>Ruby on Rails采用了许多它的创造者<span> </span>大卫·海涅迈尔·汉森(DHH)没有自己创造的惯例和技术(MVC，ActiveRecord)。他的战略性集成方法得到了回报，今天，不使用Ruby on Rails这样的成熟框架从头开始开发web或SaaS应用程序是不可想象的——尤其是因为Ruby on Rails有一个80/20的最佳点，这意味着它对大多数应用程序都很有效。既然Ruby on Rails已经存在，为什么还要构建自己的Ruby on Rails呢？</p>
+<h2 id="in-2015-reactiveops-was-born">2015年，ReactiveOps诞生了</h2>
+<p>良好的基础设施是优秀应用程序和优秀DUX的先决条件，但是，像Ruby on Rails一样，大多数公司不需要拥有自己的基础设施架构和代码。</p>
+<p>当我大约两年前开始ReactiveOps时，我们着手为云上的<span> </span> <a href="https://aws.amazon.com/" target="_blank" rel="noopener"> AWS </a> <span> </span>创建一个类似Ruby on Rails的框架——将最好的开源组件缝合在一起，并尽可能少地编写我们自己的代码，从而提供比其各部分之和更大的东西。我们的目标是为中小型公司提供该基础架构，使他们能够利用该平台，而不是雇佣内部开发团队并构建自己的团队。</p>
+<p>因此，我们构建了Omnia，一种不可变的基于基础设施的方法，它使用不同的技术，如<span> </span> <a href="https://www.ansible.com/" target="_blank" rel="noopener"> Ansible </a>、<span> </span> <a href="https://www.terraform.io/" target="_blank" rel="noopener"> Terraform </a>和<span/><a href="https://www.packer.io/" target="_blank" rel="noopener">Packer</a><span/>来创建按钮式环境。我们的客户获得了他们需要的基础设施，没有Heroku的限制，也没有雇佣内部DevOps员工的麻烦和成本。</p>
+<p>虽然我们的客户使用Omnia取得了成功，但它不可伸缩，也没有很好的DUX。例如，如果我们客户的工程师想要升级Ruby，他们必须学习所有的工具或者让我们来处理。没有我们的帮助，这些开发人员无法部署应用程序。</p>
+<p>就在那时，我们了解到一个改变一切的工具…</p>
+<h2 id="enter-kubernetes">进入Kubernetes</h2>
+<p>在我们开始ReactiveOps大约一年后，我们重新评估了一个名为<span> </span> <a href="https://github.com/kubernetes" target="_blank" rel="noopener"> Kubernetes </a>的工具，这是一个开源平台，用于跨主机集群自动部署、扩展和管理应用容器。Kubernetes的基础设施承诺让公司能够大规模快速部署应用程序，轻松推出新功能，同时只使用所需的资源。</p>
+<p>起初我们持怀疑态度。虽然我们的团队在实现基于Amazon机器映像(AMI)的可靠<span> </span>方法方面有几十年的经验，但我们缺乏对容器的概念性理解。让事情更加复杂的是，容器的工作和行为方式在很大程度上没有定义。码头化和集装箱化真的对大多数公司有利吗？</p>
+<p>2016年4月发布的Kubernetes  <span> </span> 1.2包含了更多面向通用用途的功能。它被吹捧为下一个大事件，我们决定对它进行测试。我们很快发现Kubernetes是一个优雅的、结构化的、现实世界的大规模集装箱化解决方案，它解决了其他技术没有解决的关键挑战。它有1000多名贡献者的160多万行代码——它的功能比我们能构建的要多得多。我们没有切实可行的方法与之竞争。</p>
+<p>就在那时，我们做出了艰难但具有战略意义的决定，用Kubernetes取代Omnia。</p>
+<h2 id="kubernetes-is-the-future">Kubernetes是未来</h2>
+<p>Kubernetes是一个非凡的下一代框架，可以运行任何工作负载。它提供了很好的DUX，创新的速度正在加快，它背后有谷歌的承诺，所以它不会去任何地方。借助Kubernetes，我们的客户可以在自己的<span> </span> Google cloud、AWS或本地环境中运行自己的Heroku。他们甚至可以在没有我们帮助的情况下将自己的应用程序部署到it中。</p>
+<p>像Ruby on Rails一样，Kubernetes包含了许多智能的架构决策，有助于在容器化中构建应用程序。许多事情仍在你的掌控之中。例如，您可以决定如何设置、维护和监控不同的Kubernetes集群，以及如何将这些集群集成到其余的基于云的基础设施中。</p>
+<h2 id="what-we-do-best">我们最擅长什么</h2>
+<p>我们的一些竞争对手已经建立了自己的基础设施来与Kubernetes竞争，就像我们过去做的那样。其他人构建了他们自己的Kubernetes专有发行版，然后出售企业支持许可证。还有一些是定制的试错式操作商店，它们努力以艰难的方式解决单个客户端的挑战，而不是首先从一组旨在协同工作的工具和库开始。</p>
+<p>我们用Kubernetes。虽然放弃Omnia的决定并不容易，但我们并没有坚持自己的实现。因为我们不对外部投资者负责，我们有在正确的时间做出正确的商业决策的自由。</p>
+<h2 id="how-we-work">我们如何工作</h2>
+<p>我们从为期1-2周的深度基础设施审计开始，我们查看客户的系统和应用程序，以确定他们的应用程序是否能在Kubernetes中工作。如果是这样，我们将推出可扩展的、基于结果的实施方案。传统上，我们会在2-4个月内让我们的客户在Kubernetes上运行起来。</p>
+<p>我们专注的方法是构建一个以Kubernetes为核心的平台即服务解决方案。我们的解决方案基于标准技术，因此您可以获得经过深思熟虑的商业现成工具。我们提供的商业价值是我们卓越的DevOps服务和专业知识。</p>
+<p>我们的工作是为客户提供优秀的基础设施。Kubernetes使我们能够做我们最擅长的事情，这使我们的客户能够专注于他们最擅长的事情。<span> </span></p></span></div>    
+</body>
+</html>

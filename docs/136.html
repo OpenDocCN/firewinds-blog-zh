@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>What Problems Does Kubernetes Solve?</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kubernetes解决什么问题？</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/what-problems-does-kubernetes-solve#2021-06-24">https://www.fairwinds.com/blog/what-problems-does-kubernetes-solve#2021-06-24</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>本系列面向刚接触库伯内特和GKE的工程师。它提供了Kubernetes的基本概述、<a href="/blog/getting-started-with-kubernetes-architecture-basics-definitions" rel=" noopener">定义</a>和<a href="/blog/how-to-build-a-kubernetes-cluster-in-gke" rel=" noopener">在GKE </a>构建Kubernetes集群的快速入门，以及构建您的第一个多层webapp的研讨会。如果您正在寻找更深入的Kubernetes最佳实践和帮助，<a href="/contact-us" rel=" noopener">请联系</a>。</p>
+
+<p>在我们开始构建您的第一个GKE集群之前，了解一些关于Kubernetes的事情很重要。</p>
+<h2><strong>什么是Kubernetes？</strong></h2>
+<p>Kubernetes(K8s)是一个开源系统，用于自动化部署、扩展和管理容器化的应用程序。来源:<a href="https://kubernetes.io/" rel="noopener" target="_blank"> Kubernetes.io </a></p>
+<h2>Kubernetes是如何产生的？</h2>
+<p>2005年，谷歌推出了博格系统。它开始是一个两三个人一起工作的小项目。这是一个大规模集群管理和资源调度系统，它引入了:</p>
+<ul>
+<li>准入控制——允许在集群中调度什么工作</li>
+<li>过度承诺的装箱——我们如何让多个系统和流程在单个节点上运行，而没有干扰</li>
+<li>流程级资源隔离——如果在单个节点上调度一个容器，如何确保流程需求不会干扰另一个节点的流程需求</li>
+</ul>
+<p>Kubernetes把所有这些都变成了宣言。这意味着您可以获取需要调度的工作负载，在YAML文件中定义它们，将它们提交给API，API会告诉您它是否能够调度工作。</p>
+<h2><strong>我们今天所知道的库伯内特人</strong></h2>
+<p>2014年，谷歌推出了Kubernetes作为Borg系统的开源版本。2015年，谷歌与Linux基金会联合成立了<a href="https://www.cncf.io/" rel="noopener" target="_blank">云原生计算基金会</a> (CNCF)。同年举行了第一届KubeCon活动，CNCF开始了Kubernetes的季度发布周期。</p>
+<h2>【Kubernetes解决什么问题？</h2>
+<h3><strong> <span>用户期望应用和服务全天候可用</span> <br/> </strong></h3>
+<p>当您使用像Kubernetes这样的容器orchestrator时，您可以跨多台机器在不同时间调度节点或流程。这允许您丢失一个节点或进程，而不会中断服务的正常运行时间。</p>
+<h3><strong> <span>开发人员希望在一天内多次部署代码而不停机</span> <br/> </strong></h3>
+<p>如果您是系统操作员，开发人员希望您给他们一天多次部署代码的机会。Kubernetes允许您在不停机的情况下实现滚动更新的智能流程和方案。</p>
+<h3><strong> <span>企业渴望更高效地利用云资源</span> <br/> </strong></h3>
+<p>您可以在一个节点上调度多个进程，而不是在一个全天候付费的云节点上运行一个进程。您的云节点还可以识别何时无法调度新流程并因此需要新资源，或者何时资源空闲并需要关闭。Kubernetes提供了切换这种弹性的简单方法。</p>
+<h3><strong> <span>容错和自愈基础设施提高可靠性</span> <br/> </strong></h3>
+<p>Kubernetes提供可靠性。如果一个容器或整个节点出现故障，Kubernetes将在一个健康的节点上重新调度资源或单个进程。</p>
+<h3><strong> <span>在节点和容器(pod)范围内自动水平缩放</span> <br/> </strong></h3>
+<p>Kubernetes允许您创建新的节点，并自动将它们添加到集群中。如果单个服务受到资源限制，Kubernetes会检测到这一点，并调用新的实例来处理额外的负载。</p>
+
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-e68d92d3-c876-4525-b775-6123e46c7212"><span class="hs-cta-node hs-cta-e68d92d3-c876-4525-b775-6123e46c7212" id="hs-cta-e68d92d3-c876-4525-b775-6123e46c7212"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/e68d92d3-c876-4525-b775-6123e46c7212"><img class="hs-cta-img" id="hs-cta-img-e68d92d3-c876-4525-b775-6123e46c7212" src="../Images/ff6b63b515c18edd13b80bc25f17c2de.png" alt="Download the Kubernetes Best Practices Whitepaper" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/e68d92d3-c876-4525-b775-6123e46c7212.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

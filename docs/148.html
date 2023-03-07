@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>Automated SSL certs for Kubernetes with letsencrypt and cert-manager</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>使用letsencrypt和cert-manager为Kubernetes提供自动SSL证书</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/automated-ssl-certs-for-kubernetes-with-letsencrypt-and-cert-manager#2019-12-16">https://www.fairwinds.com/blog/automated-ssl-certs-for-kubernetes-with-letsencrypt-and-cert-manager#2019-12-16</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p name="4d88" id="4d88" class="graf graf--p graf-after--h3">你是否梦想过有一天，当一项新服务出现时，会自动创建并更新免费的TLS证书？那一天已经到来。如果你已经跳上了酷车，正在生产Kubernetes，那么<span> </span> <code class="markup--code markup--p-code"><a href="https://github.com/jetstack/cert-manager" data-href="https://github.com/jetstack/cert-manager" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">cert-manager</a></code> <span> </span>是必须拥有的。<span> </span> <code class="markup--code markup--p-code">cert-manager</code> <span> </span>是一个在Kubernetes中自动创建和管理TLS证书的服务，它就像它的声音一样酷。</p>
+
+<p name="4d88" class="graf graf--p graf-after--h3">这里有一个kubernetes证书管理器教程，可以帮助您启动和运行。</p>
+<p name="3e3b" class="graf graf--p graf-after--p"><span> <strong class="markup--strong markup--p-strong">设置证书管理器概述</strong> </span></p>
+<p name="b71b" id="b71b" class="graf graf--p graf-after--p">要在kubernetes集群中实现这一设置，有3个主要环节:</p>
+<ol class="postList">
+<li id="a75f" class="graf graf--li graf-after--p">cert-manager服务确保TLS证书有效、最新，并在需要时更新。</li>
+<li id="f6b7" class="graf graf--li graf-after--li">定义要使用的证书颁发机构的clusterIssuer资源</li>
+<li id="c599" class="graf graf--li graf-after--li">定义应该创建的证书的证书资源</li>
+</ol>
+<p name="948c" id="948c" class="graf graf--p graf-after--li">以下步骤假设<span> </span> <a href="https://github.com/kubernetes/charts/tree/master/stable/nginx-ingress" data-href="https://github.com/kubernetes/charts/tree/master/stable/nginx-ingress" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"> nginx-ingress控制器</a> <span> </span>正在kubernetes集群中运行，并且有一种创建DNS记录的方法。另外，假设<span> </span> <a href="https://helm.sh/" data-href="https://helm.sh/" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">舵</a> <span> </span>已安装。</p>
+<p name="948c" class="graf graf--p graf-after--li"><span> <strong class="markup--strong markup--p-strong">这里是一个Kubernetes </strong> <code class="markup--code markup--p-code"><strong class="markup--strong markup--p-strong">cert-manger</strong></code> <strong class="markup--strong markup--p-strong">教程，帮助您在Kubernetes集群中启动和运行。</strong> </span></p>
+<ol class="postList">
+<li id="3214" class="graf graf--li graf-after--p">从<span> </span> <a href="https://github.com/kubernetes/charts/tree/master/stable/cert-manager" data-href="https://github.com/kubernetes/charts/tree/master/stable/cert-manager" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">官方掌舵图</a>启动证书管理器</li>
+<li id="4a85" class="graf graf--li graf-after--li">创建一个lets encrypt CA<span/><a href="https://cert-manager.readthedocs.io/en/latest/reference/clusterissuers.html" data-href="https://cert-manager.readthedocs.io/en/latest/reference/clusterissuers.html" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">cluster issuer</a><span>T5】k8s资源</span></li>
+<li id="d785" class="graf graf--li graf-after--li">在kubernetes集群中启动一个应用程序(带有入口),以便在TLS端点进行访问。</li>
+<li id="0c33" class="graf graf--li graf-after--li">创建一个<span> </span> <a href="https://cert-manager.readthedocs.io/en/latest/reference/certificates.html" data-href="https://cert-manager.readthedocs.io/en/latest/reference/certificates.html" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">证书</a> <span> </span>对象，描述如何为测试应用程序创建TLS证书</li>
+</ol>
+<h2 id="0763" class="graf graf--p graf-after--li"><strong class="markup--strong markup--p-strong">设置证书管理器的详细信息</strong></h2>
+<p name="3f67" id="3f67" class="graf graf--p graf-after--p">以下是更详细的步骤:</p>
+<ol class="postList">
+<li id="4a18" class="graf graf--li graf-after--p">部署<span> </span> <code class="markup--code markup--li-code"><a href="https://github.com/kubernetes/charts/tree/master/stable/cert-manager" data-href="https://github.com/kubernetes/charts/tree/master/stable/cert-manager" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">cert-manager</a></code> <a href="https://github.com/kubernetes/charts/tree/master/stable/cert-manager" data-href="https://github.com/kubernetes/charts/tree/master/stable/cert-manager" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank"> <span> </span>舵图</a>。创建<span/><a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/cert-manager-values.yaml" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/cert-manager-values.yaml" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">values . YAML</a><span/>文件然后运行:<span> </span> <code class="markup--code markup--li-code">helm-install --name my-release -f cert-manager-values.yaml cert-manager</code>。cert-manager可以配置为通过Ingresss上的批注自动为Ingres资源提供TLS证书。这就是我如何设置cert-manager的，因此，我在values.yaml文件中添加了两个设置<code class="markup--code markup--li-code">ingressShim.defaultIssuerName</code> <span> </span>和<span> </span> <code class="markup--code markup--li-code">ingressShim.defaultIssuerKind</code>。点击阅读更多关于<span/><a href="https://cert-manager.readthedocs.io/en/latest/reference/ingress-shim.html" data-href="https://cert-manager.readthedocs.io/en/latest/reference/ingress-shim.html" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">Ingres shim的内容。参见我的价值观文件<span> </span> </a><a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/cert-manager-values.yaml" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/cert-manager-values.yaml" class="markup--anchor markup--li-anchor" rel="noopener" target="_blank">此处</a>。</li>
+<li class="graf graf--li graf-after--p">创建<span> </span> <a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/letsencrypt-clusterissuer-staging.yaml" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/letsencrypt-clusterissuer-staging.yaml" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"> letsencrypt CA集群发布者</a> <span>。在这里，我使用letsencrypt staging ACME服务器只是为了测试，一旦成功，我将切换到letsencrypt生产服务器。我通过运行创建了以下文件:</span> <span> </span> <code class="markup--code markup--p-code">kubectl create -f letsencryp-clusterissuer-staging.yaml</code> <span>。</span></li>
+</ol>
+<pre><code>apiVersion: certmanager.k8s.io/v1alpha1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    # The ACME server URL
+    server: <a href="https://acme-staging.api.letsencrypt.org/directory" data-href="https://acme-staging.api.letsencrypt.org/directory" class="markup--anchor markup--pre-anchor" rel="nofollow noopener" target="_blank">https://acme-staging.api.letsencrypt.org/directory</a><br/>    # Email address used for ACME registration<br/>    email: <a href="mailto:myemail@gmail.com" data-href="mailto:myemail@gmail.com" class="markup--anchor markup--pre-anchor" rel="nofollow noopener" target="_blank">myemail@gmail.com</a><br/>    # Name of a secret used to store the ACME account private key
+    privateKeySecretRef:
+    name: letsencrypt-staging
+    # Enable the HTTP-01 challenge provider
+    http01: {}
+</code></pre>
+<p name="89b7" class="graf graf--p graf-after--pre"><span> 3。创建一个配置了TLS的测试应用程序。创建kubernetes清单文件(我在这里创建了一个掌舵图</span><span/><a href="https://github.com/JessicaGreben/example-nodejs/tree/master/deploy/charts/example-nodejs" data-href="https://github.com/JessicaGreben/example-nodejs/tree/master/deploy/charts/example-nodejs" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"/><span>)包括一个</span> <span> </span> <a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/deployment.yaml" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/deployment.yaml" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">部署</a><span/><span/><a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/service.yaml" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/service.yaml" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">服务</a> <span>，以及</span> <span> </span> <a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/ingress.yaml" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/ingress.yaml" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">入口</a> <span>。入口需要</span> <span> </span> <a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/ingress.yaml#L8" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/ingress.yaml#L8" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">注释</a> <span> </span> <span>来告诉cert-manager使用什么CA来创建TLS证书。域</span> <code class="markup--code markup--p-code">example-nodejs.mydomain.com</code> <span> </span> <span>必须有一个DNS记录，该记录被配置为向nginx入口控制器负载平衡器发送流量。</span></p>
+<pre><code>apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-staging
+spec:
+  tls:
+  - hosts:
+    - example-nodejs.mydomain.com
+    secretName: example-nodejs-crt
+rules:
+- host: example-nodejs.mydomain.com
+  http:
+    paths:
+    - path: /
+      backend:
+        serviceName: example-nodejs
+        servicePort: 8080
+</code></pre>
+<p name="8f99" id="8f99" class="graf graf--p graf-after--pre">4.创建<span> </span> <code class="markup--code markup--p-code"><a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/certificate.yaml" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/charts/example-nodejs/templates/certificate.yaml" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">certificate</a></code> <span> </span>资源，并配置<span> </span> <a href="https://ietf-wg-acme.github.io/acme/draft-ietf-acme-acme.html#rfc.section.8.3" data-href="https://ietf-wg-acme.github.io/acme/draft-ietf-acme-acme.html#rfc.section.8.3" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">极致http挑战</a> <span> </span>。</p>
+<pre><code>apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: example-nodejs-crt
+spec:
+  secretName: example-nodejs-crt
+  dnsNames:
+  - example-nodejs.mydomain.com
+  acme:
+    config:
+    - http01:
+        ingressClass: nginx
+      domains:
+      - example-nodejs.mydomain.com
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer</code></pre>
+<p name="9fce" id="9fce" class="graf graf--p graf-after--pre">创建此资源后，应该会创建一个tls证书。如果没有，请检查cert-manger服务的日志中是否有错误。</p>
+<p name="425e" id="425e" class="graf graf--p graf-after--p">一旦所有这些部分都设置好了，当您试图在浏览器中访问应用程序时，仍然会得到一个错误，因为证书是使用<span> </span> <a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/letsencrypt-clusterissuer-staging.yaml#L8" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/letsencrypt-clusterissuer-staging.yaml#L8" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">临时letsencrypt服务器</a> <span> </span>创建的，但是这仍然显示证书<span> </span> <em class="markup--em markup--p-em">已成功创建</em> <span> </span>。</p>
+<figure id="c9f0" class="graf graf--figure graf-after--p">
+
+</figure>
+<p name="6f8e" id="6f8e" class="graf graf--p graf-after--figure">一旦设置成功，则创建一个<span> </span> <a href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/letsencrypt-clusterissuer-prod.yaml" data-href="https://github.com/JessicaGreben/example-nodejs/blob/master/deploy/cert-manager-setup/letsencrypt-clusterissuer-prod.yaml" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank">生产集群发布者</a> <span> </span>，并用<span/><span/>集群发布者替换对<span> </span> <code class="markup--code markup--p-code">letsencrypt-staging</code> <span> </span>集群发布者的所有引用。</p>
+<p name="6f8e" class="graf graf--p graf-after--figure"><span> <strong class="markup--strong markup--p-strong">有趣的额外背景信息:</strong> </span></p>
+<p name="edfe" id="edfe" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">什么是letsencrypt？<span> </span> </strong> Letsencrypt是一个颁发免费TLS证书的认证机构。它于2016年推出，其目的是通过使使用TLS变得更容易和更便宜，来尝试建立一个更安全的互联网。</p>
+<p name="0e18" id="0e18" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">什么是</strong> <a href="https://en.wikipedia.org/wiki/Automated_Certificate_Management_Environment" data-href="https://en.wikipedia.org/wiki/Automated_Certificate_Management_Environment" class="markup--anchor markup--p-anchor" rel="noopener" target="_blank"> <strong class="markup--strong markup--p-strong"> <span> </span>极致协议</strong> </a> <strong class="markup--strong markup--p-strong">？</strong> <span> </span> ACME代表自动化证书管理环境。它是一种用于自动化<span> </span> <a href="https://en.wikipedia.org/wiki/Certificate_authority" data-href="https://en.wikipedia.org/wiki/Certificate_authority" class="markup--anchor markup--p-anchor" title="Certificate authority" rel="noopener" target="_blank">认证机构</a> <span> </span>及其用户的web服务器之间的交互的协议，允许以非常低的成本自动化部署<span> </span> <a href="https://en.wikipedia.org/wiki/Public_key_infrastructure" data-href="https://en.wikipedia.org/wiki/Public_key_infrastructure" class="markup--anchor markup--p-anchor" title="Public key infrastructure" rel="noopener" target="_blank">公钥基础设施</a> <span> </span>。它是由<span> </span> <a href="https://en.wikipedia.org/wiki/Internet_Security_Research_Group" data-href="https://en.wikipedia.org/wiki/Internet_Security_Research_Group" class="markup--anchor markup--p-anchor" title="Internet Security Research Group" rel="noopener" target="_blank">互联网安全研究小组</a> (ISRG)为他们的<span> </span> <a href="https://en.wikipedia.org/wiki/Let%27s_Encrypt" data-href="https://en.wikipedia.org/wiki/Let%27s_Encrypt" class="markup--anchor markup--p-anchor" title="Let's Encrypt" rel="noopener" target="_blank">让我们加密</a> <span> </span>服务而设计的。</p>
+<p name="5b02" id="5b02" class="graf graf--p graf-after--p"><strong class="markup--strong markup--p-strong">资源:</strong></p>
+</span></div>    
+</body>
+</html>

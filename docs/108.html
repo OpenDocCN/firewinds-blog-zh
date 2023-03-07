@@ -1,0 +1,40 @@
+<html>
+<head>
+<title>Meeting the Challenges of Kubernetes Multi-cluster Management</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>迎接Kubernetes多集群管理的挑战</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/challenges-kubernetes-multi-cluster-management#2022-12-05">https://www.fairwinds.com/blog/challenges-kubernetes-multi-cluster-management#2022-12-05</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>无论您是希望分离安全边界、隔离可怕的配置更改的影响、扩展更接近客户的应用程序、实现数据主权，还是追求多云梦想，您的生活中都可能有多个<a href="https://kubernetes.io/" rel="nofollow noopener" target="_blank"> Kubernetes集群</a>。在这篇文章中，我将描述一些有助于成功管理多个集群的特征和工具。</p>
+
+<h2>对标准和流程的依赖</h2>
+<p>随着Kubernetes集群的增加，遵循标准和拥有可重复的流程对于产生一致的行为和维护秩序变得更加重要。</p>
+<p>这种标准的一个例子是安装了相同版本的入口或DNS控制器的所有集群。附带的流程记录或编纂了休息良好的工程师关于如何安全升级这些控制器的多种观点。</p>
+<p>标准和流程将随着您的基础架构的扩展而调整，您需要支持云、并非在所有地区都可用的服务或新架构之间的差异。有时会觉得维护标准和流程的额外负担阻碍了进步，但是一旦您达到逃逸速度，这些习惯会帮助您的基础架构发展得更快更远。保持标准的一部分包括适应变化。</p>
+<ul>
+<li>Fairwinds开源工具<a href="https://github.com/FairwindsOps/Pluto" rel="noopener" target="_blank"> Pluto </a>帮助您检测Kubernetes API版本何时被<a href="/blog/running-kubernetes-v1-15-upgrade" rel="noopener" target="_blank">否决</a>或不再可用。例如，升级到Kubernetes 1.16可能会破坏您升级应用程序的能力，如果那些应用程序的清单没有提前升级的话— Pluto帮助您了解您的Kubernetes清单或舵图需要如何与Kubernetes API一起发展。</li>
+<li>类似地，Fairwinds <a href="https://github.com/FairwindsOps/Nova" rel="noopener" target="_blank"> Nova </a>是一个开源工具，它将舵版本与已知的舵库进行比较，并在您安装了过时的图表或过期版本时通知您。</li>
+</ul>
+<h2>政策</h2>
+<p>策略有助于防止对您的Kubernetes集群和工作负载进行非标准的更改。在开发或工程工作流的早期，策略的实施应该在必要的地方提供防护栏。例如，如果由于不安全的配置而不允许Kubernetes部署，理想情况下，它应该在持续集成期间失败，而不是在应用程序被部署到Kubernetes时失败。</p>
+<ul>
+<li>Fairwinds <a href="https://github.com/FairwindsOps/polaris" rel="noopener" target="_blank"> Polaris </a>是一款开源工具，通过CI/CD集成和Kubernetes准入控制器将您的Kubernetes工作负载与最佳实践进行比较。准入控制器在API级别阻止资源部署到Kubernetes集群。Polaris允许使用JSON Schema定义自己的标准，这与Kubernetes API规范相匹配。自定义Polaris检查的示例包括不允许从非标准注册表中提取图像，或者要求Kubernetes部署还伴随有Pod中断预算。</li>
+</ul>
+<p>使用<a href="https://www.openpolicyagent.org/" rel="nofollow noopener" target="_blank">开放策略代理</a>或类似工具可以实现更具体的策略。例如，Kubernetes资源的标签标准可以帮助您跟踪您的平台是如何被消费的，并简化功能分支的部署和清理。标签可用于指示CI/CD应在何处部署应用程序、开发人员访问开发环境所需的RBACBindings、网络访问或何时清理短暂的开发环境。标签只有到处存在才可靠。通过用减压阀语言(开放策略代理使用的语言)编写更具表达性的策略，策略可以强制将特定标签设置为一定范围的值。</p>
+<h2>能见度</h2>
+<p>被动或短期调整可能会迷失在集群的海洋中。这里有一些工具可以帮助您发现车队中的意外偏差。</p>
+<ul>
+<li>Fairwinds <a href="https://polaris.docs.fairwinds.com/" rel="noopener" target="_blank"> Polaris </a>提供集群内工作负载的仪表板视图，以及它们与最佳实践的关系。</li>
+<li>Fairwinds <a href="https://github.com/FairwindsOps/Goldilocks" rel="noopener" target="_blank"> Goldilocks </a>通过在建议模式下使用vertical-pod-autoscaler，帮助您获得“恰到好处”的Pod资源请求和限制，在仪表板中可视化。</li>
+<li>Fairwinds <a href="https://github.com/FairwindsOps/rbac-lookup" rel="noopener" target="_blank"> RBAC Lookup </a>是一个命令行工具，它可以方便地找到向Kubernetes认证的用户、组或服务帐户的角色。</li>
+</ul>
+<p>帮助管理多个仪表板，并提供一个统一的地方来管理来自这些优秀工具的结果...有一个应用程序可以解决这个问题。:)</p>
+<h2>费尔温德见解</h2>
+<p><a href="/insights" rel="noopener" target="_blank"> Insights </a>将包括上述工具在内的优秀开源工具的结果聚集到一个视图中，这允许您跨多个集群评估和实施您的标准。Insights使用Polaris和开放策略代理为您的部分或全部集群提供集中策略管理。无论您是希望针对Insights提出的问题发出松弛警报还是创建故障单，您的工程师都可以跟踪他们的修复情况，而无需经常返回Insights仪表盘。</p>
+<blockquote>
+<p>Fairwinds Insights可供免费使用。你可以在 这里<a href="https://www.fairwinds.com/coming-soon"> <span>报名。</span></a></p>
+</blockquote>
+<p>跨团队和云管理多个Kubernetes集群不可避免地会引入不一致性，这会导致错误并耗费时间和生产力。我们的开源工具解决了其中的许多挑战，但是为了更大的规模和更好的管理，请查看Fairwinds Insights。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-b163554e-b5ef-4f40-a053-03afe6ecbee6"><span class="hs-cta-node hs-cta-b163554e-b5ef-4f40-a053-03afe6ecbee6" id="hs-cta-b163554e-b5ef-4f40-a053-03afe6ecbee6"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/b163554e-b5ef-4f40-a053-03afe6ecbee6" target="_blank" rel="noopener"><img class="hs-cta-img" id="hs-cta-img-b163554e-b5ef-4f40-a053-03afe6ecbee6" src="../Images/8ab607311768483f3bb5136a75381d4b.png" alt="Join the Fairwinds Open Source User Group today" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/b163554e-b5ef-4f40-a053-03afe6ecbee6.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>How Kubernetes helps e-commerce companies stay profitable on Black Friday and Cyber Monday</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kubernetes如何帮助电子商务公司在黑色星期五和网络星期一保持盈利</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/how-kubernetes-helps-e-commerce-companies-stay-profitable-on-black-friday-and-cyber-monday#2019-12-16">https://www.fairwinds.com/blog/how-kubernetes-helps-e-commerce-companies-stay-profitable-on-black-friday-and-cyber-monday#2019-12-16</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>对零售和电子商务公司来说，成功运营黑色星期五和网络星期一是一个重大胜利。对于一些企业来说，这一天产生的交易数量相当于一个月或更长时间的销售额。然而恐怖故事比比皆是。去年，由于网站崩溃，<a href="https://www.businessinsider.com/jcrew-website-crashes-on-black-friday-2018-11" rel=" noopener"> <u> J. Crew在黑色星期五的销售额中损失了大约70万美元</u> </a>。</p>
+
+<p>幸运的是，云计算使电子商务企业能够通过弹性计算和按需供应基础设施资源来满足需求。在本帖中，我们讨论一些不同的架构和技术考虑，电子商务公司可以追求运行一个有效和可靠的黑色星期五/网络星期一活动。</p>
+<p><strong>微服务架构</strong></p>
+<p>微服务架构为电子商务平台提供了许多好处。通过将应用程序分成更小的部分，开发团队可以逻辑地分割功能——这有助于使开发和测试过程更加高效。从开发的角度来看，团队可以在代码库的不同部分工作，而不会互相影响。例如，产品搜索、产品详情和购物车功能都可以构建为自己的微服务。</p>
+<p>从测试的角度来看，微服务强调定义输入和输出。服务通过API调用相互交互，为数据和事务如何通过整个系统建立契约。</p>
+<p><strong>集装箱</strong></p>
+<p>容器是打包微服务并使它们准备好部署在任何计算平台或云上的好方法。这种可移植性很重要，尤其是对于可能需要更换云提供商的电子商务公司。这种避免“供应商锁定”的能力非常重要，尤其是当云提供商可能拥有与电子商务公司直接竞争的子公司或相邻企业时。</p>
+<p>容器还提供了运行应用程序的一致方式。通过抽象出底层操作系统，开发人员可以避免故障排除，并调试特定于环境或特定于运行时的问题。</p>
+<p>最后，容器是不可变的。容器在运行时不会改变；相反，如果它遇到错误或需要更新，就必须删除它，并部署新的容器来替换它。</p>
+<p>您可以想象一个场景，在黑色星期五期间，在产品搜索页面上发现了一个bug。如果功能在自己的微服务和容器中，工程师可以简单地推出一个新的容器版本，修复错误，而不必关闭整个网站，也不必中断数百或数千个有价值的用户会话。</p>
+<p><strong> Kubernetes </strong></p>
+<p>Kubernetes不仅是事实上的容器编排，也是根据需要扩展和缩减计算资源的有效解决方案。Kubernetes提供了一些不同的自动扩展功能，允许智能复制容器组(称为pod)，以及增加和减少运行站点所需的计算实例的数量。</p>
+<p>虽然Kubernetes自动处理许多后台缩放活动，但掌握这些配置需要一个学习过程。有时，工程团队忽略了提供这些配置，当出现不可预测的流量时，会带来停机风险。</p>
+<p>Fairwinds最近推出了一款新的开源工具，名为<a href="https://github.com/FairwindsOps/goldilocks" rel=" noopener"><u>fair winds Goldilocks</u></a>，帮助工程师设置正确的资源请求和限制。这些设置通知Kubernetes所需的CPU和内存范围，帮助Kubernetes知道何时向外扩展。</p>
+<p><strong> Framebridge，Kubernetes前后</strong></p>
+<p>为了深入了解，我们采访了世界领先的定制镜架零售商和Fairwinds的客户,<a href="https://www.framebridge.com/lp/take15?utm_source=bing&amp;utm_medium=cpc&amp;utm_campaign=Bing_Search_Alpha_Brand&amp;utm_term=Framebridge&amp;matchtype=e&amp;msclkid=db950b7030791434664856ad930827c3&amp;utm_content=Framebridge" rel=" noopener"> <u> Framebridge </u> </a>的工程副总裁Brock Wilcox。</p>
+<p>布洛克估计，在黑色星期五和网络星期一期间，网络流量有时会增加两倍。在实施Kubernetes之前，团队会通过先发制人的过度供应来解决这个问题，这会使生产成本翻倍。</p>
+<p>Brock注意到的一个关键改进是，他的工程师们能够对应用程序进行改进，为黑色星期五做准备。Framebridge能够在试运行环境中隔离和测试新功能。不仅部署时间缩短，而且部署完全自动化。如果在部署新功能后出现问题，回滚只需要60秒，这样团队就不那么厌恶风险了。</p>
+<p><strong>完全托管的Kubernetes </strong></p>
+<p>Kubernetes提供了可靠和高效生产操作的双重优势。对于像黑色星期五这样的活动，电子商务公司保持“盈利”是很重要的。可靠也很重要。两者兼顾需要团队中有合适的专家。</p>
+<p>全面管理的Kubernetes产品有助于在一个完整的订阅包中提供专业知识、监控、升级和安全补丁。像黑色星期五和网络星期一这样的事件通常意味着“所有人都在甲板上”，这可能会使开发人员远离有价值的路线图功能和创新。同类最佳的完全受管Kubernetes解决方案，如<a href="/clusterops" rel=" noopener"><u>fair winds cluster ops</u></a>，集成了24x7自动分页，因此您的开发人员无需在凌晨3点起床查看基础架构警报。</p>
+<p>在选择Kubernetes时，您还需要考虑让您的工程师使用正确的开源工具。Fairwinds提供了一套用于管理Kubernetes的开源软件<a href="/open-source-software" rel=" noopener"><u>——帮助您部署、运营和优化您的基础设施，以实现安全性、可靠性和效率。让我们知道你的想法和<a href="/how-we-can-help" rel=" noopener"><u>fair winds如何帮助你</u> </a>！</u></a></p></span></div>    
+</body>
+</html>

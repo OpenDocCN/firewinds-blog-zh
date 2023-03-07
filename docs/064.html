@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Kubernetes Configuration Validation: Learn Why It's not One and Done</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kubernetes配置验证:了解为什么它不是一个和完成</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/kubernetes-configuration-validation#2023-01-10">https://www.fairwinds.com/blog/kubernetes-configuration-validation#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>如果您在生产中使用Kubernetes，那么验证每个工作负载的配置是至关重要的。最小的变化或遗漏都可能导致停机、成本超支，甚至更糟的是安全漏洞。那么，对于Kubernetes配置验证，您需要寻找什么呢？</p>
+
+<p>具体来说，您至少应该检查<em>:</em></p>
+<ul>
+<li>针对<a href="/kubernetes-security" rel="noopener" target="_blank"> <strong>安全</strong> </a>问题，包括超权限容器和常见漏洞与暴露(CVEs)</li>
+<li>对于<a href="/blog/3-kubernetes-efficiency-mistakes" rel="noopener" target="_blank"> <strong>效率</strong> </a>问题，如未设置CPU限制或请求过多内存</li>
+<li>对于<a href="/blog/6-kubernetes-reliability-mistakes" rel="noopener" target="_blank"><strong/></a>可靠性问题，例如，不设置活跃度和就绪度探针</li>
+</ul>
+<p>但是在进行代码审查时仅仅寻找这些东西是不够的——您应该在部署生命周期的每一步自动检查它们。如果没有一个完整的程序来验证Kubernetes的配置，错误肯定会被遗漏。</p>
+<p>要保持集群健康，您需要确保检查配置:</p>
+<ul>
+<li>在针对每个拉取请求和合并运行的CI流程中</li>
+<li>在接纳时，随着新资源进入集群</li>
+<li>作为对集群内资源的连续扫描</li>
+</ul>
+<h2>步骤1 -通过CI保持健康</h2>
+<p>如果您的公司已经实施了一个成熟的DevOps计划，那么您将把所有的配置存储为代码形式的基础架构(IaC)。所以对你的基础设施的每一个改变都(理想地)在Git中被跟踪，并且通过一个代码审查过程。</p>
+<p>代码审查是捕捉高层次问题的好方法，比如实际上不会实现业务目标的变更，或者会引入微妙的安全问题的变更。但是有很多常见的问题，查找起来很繁琐，而且很容易被忽略，比如错误配置的安全设置或缺少健康探测。</p>
+<p>在CI中拥有自动化验证是补充代码审查并确保新的变更坚持一致的质量水平的一个很好的方式。通过自动完成代码审查人员的大部分死记硬背的任务，您给了他们挖掘逻辑和深入思考其影响的空间。</p>
+<h2>步骤2 -集群的保镖</h2>
+<p>一旦拉请求(PR)被批准并且测试通过，您就可以安全地部署了。但是，如果部署做的事情与CI中测试的略有不同，该怎么办呢？或者更糟糕的是，如果有人通过强制推送到Git，或者通过直接与您的Kubernetes集群交互，从而绕过了审查过程，该怎么办？</p>
+<p>添加一个<a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/" rel="noopener" target="_blank">准入控制器</a>是保持集群健康的重要保障。它就像是集群前门的保镖，任何不遵守策略的东西都进不去。</p>
+<p>通常，组织会将其准入控制器配置为没有CI严格，以便在审查过程中可以对非关键规则进行例外处理。相反，它们只会在准入控制器中实施最严格的策略。</p>
+<p>在完美的世界中，问题总是在开发周期的早期被发现，在它们被发送到Kubernetes API之前。但是即使是最严密的DevOps程序也有漏洞，准入控制器可以堵住。</p>
+<h2>步骤3 -当好的工作负载变坏时</h2>
+<p>所以您的工作负载通过了CI流程，准入控制器也让它通过了。您的应用正在生产中运行，每个人都很高兴。你应该完成了，对吗？</p>
+<p>不完全是。在一些情况下，以前健康的部署可能会开始恶化:</p>
+<ul>
+<li><strong>随着时间的推移，工作负载可能会发生微妙的变化</strong>。例如，如果您正在使用一个可变的image标记，那么您的工作负载所使用的docker映像可能会得到更新，而不会对您的IaC存储库或准入控制器进行任何更改。或者像<a href="https://www.civo.com/learn/fairwinds-goldilocks-kubernetes-resource-recommendation-tool" rel="noopener nofollow" target="_blank"> VerticalPodAutoscaler </a>这样的Kubernetes控制器可能会改变它的配置。</li>
+<li><strong>每天都有新的漏洞(CVE)公布</strong>。在进入群集之前被认为是健康的映像现在可能存在已知的可利用漏洞。</li>
+<li>随着你的成长和成熟，你的团队将采用新的政策。这些策略需要应用于<a href="/enforce-kubernetes-policy" rel="noopener" target="_blank">现有的工作负载以及新的工作负载</a>。</li>
+</ul>
+<p>扫描Kubernetes环境中已经存在的资源是确保集群长期健康的重要一步。这是您最真实地了解群集的运行状况、安全状况和策略合规性的方式。</p>
+<h2>Kubernetes充满信心</h2>
+<p>安装这种护栏可能看起来像是一件苦差事，或者是对生产力的一种风险。我们都知道我们的工作被过分热心的CI系统或安全政策拒绝的痛苦。</p>
+<p>但是当你知道你不会弄坏东西的时候，快速移动会容易得多。改变Kubernetes集群中的资源是很可怕的，简单的错误会导致用户愤怒、收入损失和声誉受损。合适的护栏将帮助您自信地运输，平静地睡觉。</p>
+<h2>费尔温德见解</h2>
+<p>如果您正在寻求在整个Kubernetes生命周期中实现策略和最佳实践的帮助，请联系我们！<a href="/insights" rel="noopener" target="_blank"> Fairwinds Insights </a>可以帮助您在CI、准入控制和实时扫描方面运行Kubernetes的最佳开源验证工具。</p>
+<p>Fairwinds Insights可供免费使用。你可以在这里报名。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

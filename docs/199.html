@@ -1,0 +1,28 @@
+<html>
+<head>
+<title>Kubernetes Security vs. Security Theater</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kubernetes安全与安全剧场</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/kubernetes-security-vs.-security-theater#2022-12-06">https://www.fairwinds.com/blog/kubernetes-security-vs.-security-theater#2022-12-06</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><h2>物理安全检查</h2>
+<p>当我还是个孩子的时候，我父亲为政府工作，这让我们去了世界各地一些有趣的地方。我们住的地方之一有一个巨大的美国大使馆大院。在这个大院里有大使的房子，人们用来完成工作的办公楼，以及住在大使馆场地上的海军陆战队生活、锻炼和进行一些演习的地方。有一个俱乐部供美国公民来吃美国食物和在游泳池游泳。我们甚至有地方租VHS录像带(这让我咯咯地笑了一会儿才想起)。</p>
+
+<p>你可以想象大使馆是一个非常安全的地方。要在大使馆附近开车，你必须停下来让人检查你的证件。在路上，即使你是一名外交官，你也必须检查你的车底，以确保没有人在车上放置炸弹。一旦你停好车，在通过金属探测器之前，你仍然需要检查行李并清空口袋，有点像通过机场。</p>
+<p>当时，呆在里面让我感觉很好。由于这些措施，我的人身安全得到了保护。</p>
+<h2>当安全可能真的只是安全剧场</h2>
+<p>但后来我听说大使馆的一名海军陆战队队员在系统中发现了漏洞。他设法把一个装置藏在一辆没人发现的汽车下面，他还设法在一个没有监视的地方爬墙。</p>
+<p>虽然我实际上不知道一名海军陆战队队员是否真的这样做过，但我听到了这个故事，它让这个地方的“安全”感觉更像“安全剧院”。也就是说，我不确定现有的措施是否真的在保护什么，或者只是让我们觉得自己受到了保护。我的一部分想把这个故事抛在脑后，忽略它——大多数人可能做不到他做得对？</p>
+<p>不幸的是，“忽略这个问题，希望它真的不是一个问题，”是一个...很糟糕的安全姿势。</p>
+<h2>Kubernetes安全与安全剧场</h2>
+<p>如果您的公司以任何有意义的规模运行，那么您很可能已经有了一些安全工具。通常感觉这些安全措施更像是安全表演，而不是真正的安全。有人要求你在你的计算机上运行一个杀毒软件，但是你讨厌这个主意，所以你运行尽可能少的检查，并且假设病毒在你的Linux桌面上不会是一个问题(你可能是对的，但是你仍然只是抱着希望运行！).</p>
+<p>对于一个组织来说，拥有一个或多个云、Kubernetes和容器安全工具也是很常见的，但是如果没有以正确的方式使用，“运行”该工具只是一个安全剧场。说“我们有办法扫描问题”，有点像说“我开车进去的时候，他们用镜子检查了我的车底。”当然，“使用”了安全措施，但是真的有人注意到了吗？</p>
+<h2>在工程师的工作流程中与他们会面，了解实际执行情况</h2>
+<p>这就是为什么使用与现有工作流集成的工具如此重要。工程师们在他们的部署过程中已经习惯了QA工作流，所以Kubernetes security作为QA的一部分在那里与他们见面。工程师们习惯于在生产停止时收到传呼，所以在那里遇到高风险安全问题的警报。</p>
+<p>工程师习惯于检查吉拉或其他问题跟踪工具，以了解下一步要做什么。设置自动化来集成人们已经工作的地方，这样Kubernetes设置中的安全问题就可以在人们已经理解的工作流程中得到解决。</p>
+<p>如果您有“另一个仪表板”没有集成到任何地方，那么您可能已经在您的公司中实现了一些优秀的Kubernetes安全剧场。在真正的威胁到来之前，你会感觉良好。如果你有工具以人们理解的方式集成到他们已经使用的工作流中，你可能会获得一种真正的安全感。你可以在外界的人破坏墙之前阻止问题，向你展示威胁有多真实。</p>
+<p><a href="//www.fairwinds.com/insights"><span>fair winds Insights</span></a>集成到您的CI/CD工作流中，它集成到您的警报系统中(见鬼，Pagerduty是一个客户，所以您知道集成是有效的)，它集成到您的问题跟踪系统中。Sane默认为开箱即用，具有不可思议的自动化和可扩展性机会，使其成为您实际使用的Kubernetes安全平台——而不是一种更昂贵的安全手段。</p>
+<p>对使用Fairwinds Insights感兴趣吗？免费提供！点击此处了解更多信息。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-eae00e98-7ed3-42f8-8ea9-885755ea79ac"><span class="hs-cta-node hs-cta-eae00e98-7ed3-42f8-8ea9-885755ea79ac" id="hs-cta-eae00e98-7ed3-42f8-8ea9-885755ea79ac"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/eae00e98-7ed3-42f8-8ea9-885755ea79ac" target="_blank" rel="noopener"><img class="hs-cta-img" id="hs-cta-img-eae00e98-7ed3-42f8-8ea9-885755ea79ac" src="../Images/9133465fd4e699bbd4f6fdac84ce8018.png" alt="The Top 5 Kubernetes Security Mistakes You Are Probably making" align="middle" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/eae00e98-7ed3-42f8-8ea9-885755ea79ac.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

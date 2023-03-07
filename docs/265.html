@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>CVE-2022-3602 and CVE-2022-3786 OpenSSL Vulnerabilities: Scanning Container Images</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>CVE-2022-3602和CVE-2022-3786 OpenSSL漏洞:扫描容器图像</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/cve-2022-3602-and-cve-2022-3786-openssl-vulnerabilities-scanning-container-images#2022-11-30">https://www.fairwinds.com/blog/cve-2022-3602-and-cve-2022-3786-openssl-vulnerabilities-scanning-container-images#2022-11-30</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>2022年11月1日，OpenSSL <a href="https://www.openssl.org/news/secadv/20221101.txt" rel="noopener" target="_blank"> <span>公布了OpenSSL 3 . 0 . 0-3 . 0 . 6版本中的</span> </a>一对高严重性漏洞。该漏洞是一种缓冲区溢出，需要一组非常特殊的环境才能被利用。在某些情况下，有可能远程执行代码。但是，需要注意的是:</p>
+
+<p>这发生在证书链签名验证之后，并且要求CA已经对恶意证书进行了签名，或者要求应用程序继续进行证书验证，尽管未能构建到可信颁发者的路径。</p>
+<p>由于这需要OpenSSL服务器的错误配置或滥用CA颁发的证书，因此大多数系统不太可能容易受到这种攻击。此外，许多操作系统中的缓冲区溢出保护将缓解该漏洞。</p>
+<p>引用Rapid7的博客 中的<a href="https://www.rapid7.com/blog/post/2022/11/01/cve-2022-3786-and-cve-2022-3602-two-high-severity-buffer-overflows-in-openssl-fixed/" rel="noopener" target="_blank"> <span>:</span></a></p>
+<p>对于这两种情况，这些类型的攻击都不太容易被广泛利用。</p>
+<h2>我如何发现哪些容器是易受攻击的？</h2>
+<p>尽管被利用的可能性很低，但建议用户更新到包含该修补程序的容器的最新版本。<a href="//www.fairwinds.com/insights"><span>fair winds Insights</span></a>，一个Kubernetes治理平台可以帮助识别任何容器映像中的漏洞。</p>
+<p>确定您在Fairwinds Insights中的薄弱环节非常简单:</p>
+<ol>
+<li aria-level="1">
+<p>导航到漏洞页面</p>
+</li>
+<li aria-level="1">
+<p>单击所有图像选项卡</p>
+</li>
+<li aria-level="1">
+<p>在搜索框中输入CVE-2022-3602，然后按回车键</p>
+</li>
+<li aria-level="1">
+<p>受影响的图像列表将出现在表格中</p>
+</li>
+</ol>
+<p><img src="../Images/09e4b26a70f2e8eb69e568ed1af58e0c.png" loading="lazy" alt="Fairwinds Insights Vulnerabilities page" data-original-src="https://lh6.googleusercontent.com/Hyl-xxq14INtdSI6F30FYc5JPWV7aUJNi-DaiKRyExcj9ZylMwJRnitqyrzn4sLflSI-aTMV8iB61d0V3smwN8PNPeC9oBxmMizJBocxI-QEWcPo5RG6i7UTKndqmFaLzENJTkOM8x8iwJXKHHTZyPG5fGMSYm49SfRUKyRBZfBuPfFiPXdnvdxD91eA"/></p>
+<p>如果你有兴趣了解Fairwinds Insights如何自动扫描容器漏洞，<a href="https://www.fairwinds.com/fairwinds-insights-demo"> <span>联系</span> </a>。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

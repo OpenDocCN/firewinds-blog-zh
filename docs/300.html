@@ -1,0 +1,57 @@
+<html>
+<head>
+<title>Considering a Move to Kubernetes? Here’s What You Need to Know</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>考虑搬到库伯内特吗？以下是你需要知道的</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/considering-a-move-to-kubernetes-heres-what-you-need-to-know#2020-10-29">https://www.fairwinds.com/blog/considering-a-move-to-kubernetes-heres-what-you-need-to-know#2020-10-29</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>因此，您的团队建议您重新开发Kubernetes平台，您想知道这样做是否正确？</p>
+
+<p>Kubernetes是一项令人印象深刻的技术，它将允许您解决<a href="https://www.fairwinds.com/blog/what-problems-does-kubernetes-solve" target="_blank" rel="noopener">许多问题</a>并为您的应用提供未来证明。但是在重新搭建平台之前，有些事情您应该知道。</p>
+<h3><strong> Kubernetes比你想象的要难</strong></h3>
+<p>在20世纪70年代早期发明了Pong的视频游戏先驱诺兰·布什内尔在谈到视频游戏时说，“所有最好的游戏都容易学习，但很难掌握。”布什内尔定律或诺兰定律非常适用于库伯内特。多亏了GKE、EKS或阿克什，你很容易就能组建自己的第一个Kubernetes集群。在您的raspberry pi上运行一个实例也相对简单。然而，开始容易，做好却很难。</p>
+<h3><strong>概念验证并不代表成功</strong></h3>
+<p>您可以“在Kubernetes上运行您的应用程序”的概念证明并不能真正反映您“在Kubernetes上安全、可扩展和可靠地运行您的应用程序”的能力</p>
+<p>如果你是一家精益、敏捷的公司，并且你已经让你的专家运行了Kubernetes POC，他们将能够向你展示该应用程序可以在Kubernetes上运行——它连接并且一切正常。挑战在于POC不能反映真实的环境。该应用程序没有在生产负载下运行，它没有必要进行压力测试以在正确的“事情”上扩展您和您的团队还不知道它如何与开发工作负载或CI/CD管道相联系，也不知道需要采取什么措施来就地替换或升级集群。这只是它的操作方面。</p>
+<p>另一方面，你知道你是否在运行正确的软件吗？您是否正确配置了Kubernetes？您是否知道您放入的工具(在POC中几乎不起作用)实际上是您将在生产中使用的工具？您是否具备知识和经验，知道使用某个特定的附加组件是您未来的正确选择？如果您继续使用该附加组件，随着您的基础架构的发展，将来会如何改变这种选择呢？您的团队如何知道他们的POC平台“经得起未来考验”？</p>
+<p>让Kubernetes <em> <strong>工作</strong> </em>和让它<em> <strong>生产就绪</strong> </em>之间确实有很大的区别。而且，由于如此多的移动部件造成的复杂性，与其他许多技术相比，存在更大的技能差距。</p>
+<h3><strong>你也需要改进你的应用程序</strong></h3>
+<p>我见过很多想要采用Kubernetes的团队。很多时候，这些团队认为他们可以在不对应用程序做任何事情的情况下完成迁移。这是完全错误的——除非你已经使用<a href="https://12factor.net/" target="_blank" rel="noopener"> 12因素方法</a>构建了你的应用程序，否则提升和改变是极不可能的。即使这样，虽然你可以把你的应用程序转移到Kubernetes，但它可能会与你作对。</p>
+<h3><strong> Kubernetes不会一开始就让你实现成本优化</strong></h3>
+<p>相反，当你搬到Kubernetes，你可能会运行并行系统。随着您运行两个系统并进行迁移，您的成本很可能会在一段时间内上升。</p>
+<p>关于Kubernetes和成本的另一件事是，它可能会节省你的钱，但它可能不取决于你如何部署它。当您考虑重新构建平台时，您需要权衡平台的诸多优势，包括成本。</p>
+<h3><strong> Kubernetes需要时间</strong></h3>
+<p>你不可能在一个月内推出Kubernetes。学习、推广、配置和优化Kubernetes需要时间。没有规定的时间表来说明你应该在什么时候看到收益。至少在第一年，当你发现新的特性和新的做事方式时，你将优化和调整你的集群以做出改进。所以当你认为你完成了，你没有！</p>
+<p>事实上，Kubernetes发展很快，每个季度都会添加新功能，您将永远有机会进行优化。然而，目标是让你能够用最小的努力做出小的改变，产生大的影响。</p>
+<h2>那为什么要重新平台到Kubernetes？</h2>
+<p>如果您有一个运行良好的旧式体系结构，您没有新的收入目标、可伸缩性目标或成本优化要求，那么就不要重新构建平台。毕竟，如果它没坏，就不要修理它。</p>
+<p>也就是说，如果它坏了，你知道你想修复它，那么看看Kubernetes能为你做什么。Kubernetes非常棒，对许多类型的应用程序和工作负载都有意义。Kubernetes可以帮助您:</p>
+<ul>
+<li>
+<p>避免锁定，完全开源:Kubernetes可以使用，而不必重新架构您的容器编排策略。该软件是完全开源的，可以重新部署，而不会产生传统的软件许可费用。</p>
+</li>
+<li>
+<p>高可用性和可伸缩性:Kubernetes包含内置的高可用性特性，有助于负载平衡和自我修复。自动扩展可确保您的工作负载始终有适量的计算可用。</p>
+</li>
+<li>
+<p>支持标准:Kubernetes是一个活跃的社区，具有广泛的模块化、开源扩展，得到了像CNCF这样的大公司和机构的支持。数千名开发人员和许多大公司为Kubernetes做出了贡献，使其成为现代软件基础设施的首选平台。</p>
+</li>
+<li>
+<p>部署长期解决方案:鉴于Kubernetes的崛起，许多云提供商正在将他们的R&amp;D重点转移到在传统选项上扩展他们的托管Kubernetes服务。在制定长期IT战略时，请考虑Kubernetes。</p>
+</li>
+</ul>
+<p>虽然Kubernetes中没有任何东西是免费的，因为进入的门槛很高，而且没有任何东西是现成的(您总是会添加新的工具和不同的配置)，但Kubernetes以一种需要配置更改而不是工程更改的方式提供功能。</p>
+<h3><strong>配置非工程</strong></h3>
+<p>你可以安装一个程序，写一个YAML文件，你的集群就会自动扩展。您不需要编写传感器和缩放循环——您不需要编写任何代码。Kubernetes有很多功能，你不需要为它们写任何新东西，因为你写的是配置而不是代码。</p>
+<p>为了重新访问您的旧平台，我们可以保证在它的基础上，有很多定制的代码。然而，它非常复杂，难以维护，并且需要大量的内部领域/部落知识。Kubernetes公开了部落知识，并将工程工作转化为团队的配置。</p>
+<p>Kubernetes改变了专业领域，围绕相同的可伸缩、声明性、API驱动的技术构建了更大的社区。好处是您的团队现在可以理解一个通用的配置。</p>
+<p>例如，如果您有一名新员工，此人可以查看您的配置，看到您正在使用cluster autoscaler，这是一个有许多合作者的公共开源项目。该团队成员可以使用google it将您公司的配置与文档进行比较，并在公共Slack频道上提出问题。</p>
+<h3><strong>减少定制工程</strong></h3>
+<p>Kubernetes有助于更好、更快地分享知识，并创建一个更好的整体解决方案，以便您减少围绕Kubernetes本身的内部定制解决方案。</p>
+<p>因为Kubernetes在如此大的社区中如此受欢迎，所以当您重新构建平台时，您是在为您的平台做未来准备。它帮助您避免只有一两个团队成员拥有领域知识的情况，如果该团队成员离开公司，您将处于危险的境地。</p>
+<h2><strong>帮助缩短Kubernetes的价值实现时间</strong></h2>
+<p>我是Kubernetes的超级粉丝，从一开始就使用它，并帮助许多公司重新使用它。当你评估是否要搬家时，我提到的每一件事都必须考虑进去。如果你不确定该做什么，Kubernetes托管服务可以帮你。Fairwinds的团队生活和呼吸着Kubernetes和使其工作所需的开源技术。如果你想要一些专家的建议，请联系。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-191a30cb-1dca-4251-bdcd-52f18e472bac"><span class="hs-cta-node hs-cta-191a30cb-1dca-4251-bdcd-52f18e472bac" id="hs-cta-191a30cb-1dca-4251-bdcd-52f18e472bac"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/191a30cb-1dca-4251-bdcd-52f18e472bac"><img class="hs-cta-img" id="hs-cta-img-191a30cb-1dca-4251-bdcd-52f18e472bac" src="../Images/788aca708f4063b40bd9648afffc280c.png" alt="New call-to-action" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/191a30cb-1dca-4251-bdcd-52f18e472bac.png"/></a></span>T6】</span></p>
+<p> </p></span></div>    
+</body>
+</html>

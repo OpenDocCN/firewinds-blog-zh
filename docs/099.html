@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>NSA Kubernetes Hardening Guide: Audit Logging and Threat Detection Overview</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>NSA Kubernetes强化指南:审计日志和威胁检测概述</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/nsa-kubernetes-hardening-guide-audit-logging-and-threat-detection-overview#2022-12-06">https://www.fairwinds.com/blog/nsa-kubernetes-hardening-guide-audit-logging-and-threat-detection-overview#2022-12-06</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>在我们的NSA Kubernetes强化指南系列中，我们已经了解了<a href="https://www.fairwinds.com/blog/three-ways-fairwinds-insights-can-root-out-poor-pod-security"> pod安全</a>、<a href="https://www.fairwinds.com/blog/nsa-hardening-guide-locking-down-network-access-with-fairwinds-insights">网络访问</a>和<a href="https://www.fairwinds.com/blog/nsa-hardening-guide-how-can-fairwinds-insights-strengthen-your-authentication-authorization-practices">认证和授权</a>。今天，我们来看看审计日志和威胁检测部分，并提供一些关于合规性的建议。</p>
+
+<p><a href="https://media.defense.gov/2021/Aug/03/2002820425/-1/-1/0/CTR_Kubernetes_Hardening_Guidance_1.1_20220315.PDF" rel="noopener" target="_blank"> NSA Kubernetes强化指南</a>概述了一种强大的深度防御方法，以最大限度地降低违规的可能性，并确保如果攻击者渗透到您的集群，爆炸半径将尽可能小。审计日志和威胁检测是Kubernetes安全性的重要组成部分。</p>
+<h2>Kubernetes审计日志记录和威胁检测</h2>
+<h3>启用审核日志记录</h3>
+<blockquote>
+<p>审计日志捕获集群中的归属活动。有效的日志解决方案和日志审查是必要的，这不仅是为了确保服务按预期运行和配置，也是为了确保系统的安全性。</p>
+</blockquote>
+<p>Kubernetes审计日志在完全启用时会生成大量信息。最起码，您应该启用审计日志，并确保它们存储在一个可以在紧急情况下查看的地方。当其他更容易理解的遥测技术出现故障时，审计日志可以帮助您找到安全漏洞或中断的根源。</p>
+<h3>保存日志以确保可用性，并聚合集群外部的日志</h3>
+<blockquote>
+<p>应该在环境的所有级别执行日志记录，包括主机、应用程序、容器、容器引擎、映像注册表、api服务器和云(如果适用)。捕获后，这些日志应全部聚合到一个服务中，以便为安全审计员、网络维护者和事件响应者提供整个环境中所采取措施的完整视图。</p>
+</blockquote>
+<p>我们建议将所有审计、节点和应用程序日志以及任何其他相关日志发送给第三方服务，如<a href="https://www.datadoghq.com/" rel="noopener" target="_blank"> Datadog </a>。这一举措有助于确保日志在发生攻击或中断时仍然存在。它还用于整理不同来源的日志，因此可以通过单一控制台调查事件。</p>
+<p>Kubernetes治理平台Fairwinds Insights 可以将事件和指标导出到Datadog，允许您用与Kubernetes环境变化相关的附加信息来注释图表和增强日志。</p>
+<h3>在整个环境中配置日志记录</h3>
+<blockquote>
+<p>在Kubernetes中运行应用程序的系统管理员应该为他们的环境建立一个有效的日志记录和监控系统。仅仅记录Kubernetes事件不足以提供系统上发生的动作的全貌。应在环境的所有级别执行日志记录，包括主机、应用程序、容器、容器引擎、映像注册表、api服务器和云(如果适用)。</p>
+</blockquote>
+<p>确保您完全了解堆栈的每个级别对于集群的安全性和可靠性至关重要。这可能很难手动配置。</p>
+<p>我们建议利用第三方软件(如Datadog)来聚合日志，并将它们保存到外部环境中。Datadog代理通过运行DaemonSet(在集群中的每个节点上放置一个Pod)自动从集群中的每个工作负载获取节点和应用程序日志。</p>
+<p>NSA还建议在审计模式下利用seccomp进行一些低级别的日志记录，以记录主机节点上的系统调用。我们推荐使用<a href="https://falco.org/" rel="noopener" target="_blank"> Falco </a>，这是一个云原生运行时安全开源项目，它增加了匹配特定系统调用集(包括网络流量模式)以标记可疑行为的额外好处。Falco提供了大量的内置模式，组织可以定义更多的模式。</p>
+<p>Fairwinds Insights可用于接收Falco调查结果，并在可疑事件发生时发送警报。</p>
+<h3>实施针对组织的日志监控和警报系统</h3>
+<blockquote>
+<p>Kubernetes本身不支持警报；但是，一些具有警报功能的监控工具与Kubernetes兼容。如果Kubernetes管理员选择配置一个警报工具在Kubernetes环境中工作，管理员可以使用几个指标来监控和配置警报。</p>
+</blockquote>
+<p>日志本身可以很好地用于审计目的，但是如果没有设置监控和警报，它的用处是有限的。</p>
+<p>一些组织依赖开源解决方案，通常是Prometheus和Grafana的组合。虽然这种解决方案在某些情况下已经足够好了，但是自托管您的监控和警报很困难，并且容易出现级联故障。</p>
+<p>我们建议结合使用Datadog和<a href="http://www.pagerduty.com/" rel="noopener" target="_blank">page duty</a>来配置监控和警报。Datadog可以基于原始指标和日志内容创建微调的警报，并可以向PagerDuty、Slack或您的工程师可能希望获得警报的任何其他地方发送警报。PagerDuty可以帮助您管理工程师之间的寻呼机轮换，因此您可以避免单点故障并防止精疲力竭。</p>
+<p>Fairwinds Insights还具有内置警报功能，并与Datadog和Pagerduty进行本机连接，因此您可以就环境中出现的任何安全性、可靠性或效率问题发出警报。</p>
+<hr/>
+<p>Kubernetes治理和安全平台Fairwinds Insights可以帮助完成NSA的许多最重要的指导方针。利用Fairwinds Insights，结合其他同类最佳的商业和开源软件，可以帮助组织遵守NSA的建议。Fairwinds Insights可供免费使用。你可以<a href="/coming-soon" rel="noopener">在这里</a>报名。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-abedc766-9d54-4068-8387-d11bb1fa97c7"><span class="hs-cta-node hs-cta-abedc766-9d54-4068-8387-d11bb1fa97c7" id="hs-cta-abedc766-9d54-4068-8387-d11bb1fa97c7"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/abedc766-9d54-4068-8387-d11bb1fa97c7"><img class="hs-cta-img" id="hs-cta-img-abedc766-9d54-4068-8387-d11bb1fa97c7" src="../Images/8972892aec3f4935ca3ce07b3077605b.png" alt="Steps to Meeting NSA Kubernetes Hardening Guidelines  How to comply with NSA’s recommendations using Fairwinds Insights, open source and cloud native technologies" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/abedc766-9d54-4068-8387-d11bb1fa97c7.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Welcome to Pluto, the Starting Place for Open Source Development</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>欢迎来到冥王星，开源开发的起点</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/welcome-to-pluto-the-starting-place-for-open-source-development#2022-12-06">https://www.fairwinds.com/blog/welcome-to-pluto-the-starting-place-for-open-source-development#2022-12-06</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>来自冥王星的你好，开源价值大的小行星。冥王星曾经被认为是宇宙中一个全尺寸的球体，当它不再符合现代标准时，在2006年被降级为矮行星。事实证明，Kubernetes APIs并没有太大的不同——它们也会随着旧代码在代码库中失去价值而变得过时，通常是因为它已经被新代码所取代。</p>
+
+<p><a href="/open-source-software" rel="noopener"> Pluto，Fairwinds开源项目</a>，以废弃的星球命名，因为它可以帮助用户轻松地在他们的代码库和Helm版本中找到破旧的Kubernetes API版本。</p>
+<h2>等等，Kubernetes的弃用政策是什么？</h2>
+<p>众所周知，Kubernetes的采用允许用户大规模受益于容器技术。让容器如此流行的是它们提供资源抽象和隔离的能力。这意味着一个独立的容器映像足以让您在系统上运行应用程序，而无需安装任何额外的包。</p>
+<p>不要与2013年推出的开源容器化平台docker混淆，Kubernetes有助于管理这样的工作负载和微服务。随着越来越多的集装箱被部署，对Kubernetes维护的要求也在增加。对于每个新版本，对服务或操作的任何升级都必须在生产环境中兼容和安全。这意味着最新版本发布后，必须进行测试和修补。</p>
+<p>作为一个拥有许多组件和贡献者的大型开源系统，Kubernetes自然会随着时间的推移而发展。因为Kubernetes是API驱动的，API逐渐演变以反映对问题空间的理解的变化。有时某些特性需要被删除，包括API、标志甚至整个特性。为了避免破坏现有用户，Kubernetes对计划删除的系统部分采用折旧政策。</p>
+<p>Kubernetes的给定版本可以支持任意数量的API组和版本。以下是管理API元素弃用的三个主要规则:</p>
+<ol>
+<li aria-level="1">API元素只能通过增加API组的版本来删除。</li>
+<li aria-level="1">API项目必须能够在给定版本的API版本之间往返而不丢失数据——除了某些版本中不存在的整个REST资源。</li>
+<li aria-level="1">给定轨道中的API版本可能不被弃用，直到类似稳定的新API版本被发布。</li>
+</ol>
+<h2>告诉我更多关于这些API版本的信息...</h2>
+<p>除非从业者明确地使用仅在较新版本中可用的特性，否则他们必须能够升级到Kubernetes的新版本，并回滚到以前的版本，而不会对新的API版本做任何改动或遭受破坏。因此，Kubernetes API版本控制方案对于开发人员来说是一个非常好的工具，因为它允许Kubernetes团队向alpha和beta API路径发布新特性，并在经过测试和验证后将它们升级到稳定路径。旧版本被弃用并最终被删除。</p>
+<p>这个过程引发了一些关于Kubernetes升级的讨论，最引人注目的是1.16版本，其中删除了部署资源的多个过时版本。为什么？因为找到所有已经部署了不推荐使用的API版本的地方是很痛苦的。这就是访问冥王星可以解决问题的地方。</p>
+<h2>冥王星解决什么问题？</h2>
+<p>作为一个通过Fairwinds建立的开源实用程序，<a href="https://github.com/FairwindsOps/Pluto"> Pluto </a>帮助用户轻松识别他们的代码库和Helm版本中不赞成使用的Kubernetes API版本。随着Kubernetes APIs的发展，它们会定期重组或升级。当这种情况发生时，旧的API被认为是过时的，并最终被删除。Kubernetes API服务器是灵活的，将提供关于给定资源类型的相同信息，而不管请求中指定的API版本。此功能使得无法区分实际部署到服务器的是哪个版本，从而导致升级过程中出现问题。</p>
+<p>当有大量应用程序部署到Kubernetes集群时，集群升级可能会中断部署过程——可能会影响数百个存储库。创建Pluto是为了提前提供这些信息，因此可以在升级发生之前解决部署过程。</p>
+<p>Pluto可以用来扫描各种来源的废弃API版本，包括平面清单文件，甚至可以在使用Helm进行部署时直接与集群进行交互。</p>
+<p>尽管Helm 2已被弃用，但下面是一个使用Helm 3部署应用程序的集群示例:</p>
+<p><img src="../Images/32ca08bc160a9ed37d2a5d9b8b648a23.png" loading="lazy" alt="image of a cluster using Helm 3" data-original-src="https://lh4.googleusercontent.com/4BU1OWj3GkvDfX-FkIQEhe7DbqzSrfkQedbEm4HtuE5k-ZkpyloEHslxX_GJPyNbJvQQXry4cPxJjvQjtWGxop28IWM9YNjTubUEvV7nAp9bUsFpjb9nlfmyj9xTfOFHpu6zjzalc_it3A224_ei-Q"/></p>
+<p>Pluto表示“audit-dashboard-prod-rabbit MQ-ha Stateful set”是通过Helm用一个不推荐的API部署的。现在，在部署之前定位和修复图表存储库变得容易多了。Pluto将被更新，以包括Kubernetes的未来版本和对资源API的任何弃用。我们正在努力增加功能，所以请公开问题，加入<a href="https://fairwindscommunity.slack.com/?redir=%2Fmessages%2Fpluto"> Fairwinds Slack频道</a>并投稿！</p>
+<h2>我如何获得Fairwinds的见解？</h2>
+<p>如果您有兴趣在多个集群中运行Pluto，随着时间的推移跟踪结果，与Slack、Datadog和吉拉集成，或者解锁其他功能，请查看<a href="https://www.fairwinds.com/insights"> Fairwinds Insights </a>，这是一个用于在Kubernetes集群中审计和执行策略的平台。免费提供！<a href="/coming-soon" rel="noopener">在此了解更多信息。</a></p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-b163554e-b5ef-4f40-a053-03afe6ecbee6"><span class="hs-cta-node hs-cta-b163554e-b5ef-4f40-a053-03afe6ecbee6" id="hs-cta-b163554e-b5ef-4f40-a053-03afe6ecbee6"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/b163554e-b5ef-4f40-a053-03afe6ecbee6" target="_blank" rel="noopener"><img class="hs-cta-img" id="hs-cta-img-b163554e-b5ef-4f40-a053-03afe6ecbee6" src="../Images/8ab607311768483f3bb5136a75381d4b.png" alt="Join the Fairwinds Open Source User Group today" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/b163554e-b5ef-4f40-a053-03afe6ecbee6.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

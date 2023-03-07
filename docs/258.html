@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>AWS Karpenter Readiness: 6 Ways to Make Sure You're Ready for the Move</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>AWS Karpenter就绪性:确保您为迁移做好准备的6种方法</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/aws-karpenter-readiness-6-ways-to-make-sure-youre-ready-for-the-move#2022-12-06">https://www.fairwinds.com/blog/aws-karpenter-readiness-6-ways-to-make-sure-youre-ready-for-the-move#2022-12-06</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>对于熟悉Kubernetes的人来说，您已经知道它有许多可用的配置，要么是可扩展的，要么是性能更好的。过去，大多数组织使用Kubernetes  的<a href="https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler" rel="noopener" target="_blank"> <span>集群自动缩放器来帮助他们根据工作负载需求自动扩展EKS集群节点池。根据您为节点池指定的最小和最大大小，群集自动缩放器会在需求高时添加节点，在需求低时将节点减少到最小大小。<span><a href="https://aws.amazon.com/blogs/aws/introducing-karpenter-an-open-source-high-performance-kubernetes-cluster-autoscaler/" rel="noopener" target="_blank"><span>AWS kar penter</span></a></span>是由亚马逊网络服务(AWS)打造的开源集群自动缩放器，旨在根据AWS环境中的应用工作负载，帮助提高应用可用性和集群效率。</span></a></p>
+
+<h2>AWS Karpenter比Cluster Autoscaler好吗？</h2>
+<p>Cluster autoscaler和Karpenter基于对更多容量的需求添加节点的方式类似。Cluster autoscaler依靠用户做出更多决策来动态调整其集群的计算能力。使用cluster autoscaler时，您需要评估不同集群和节点中所需的容量类型，并决定需要调配哪些类型的实例。最初做出这些决定并不容易，因为你不知道这些答案，你需要花费大量的时间和精力来做出这些决定并更新它们。</p>
+<h3>AWS Karpenter是AWS自带的cluster autoscaler的一个更智能的版本，它消除了使用Cluster Autoscaler时的一些猜测。<a href="https://karpenter.sh/" rel="noopener" target="_blank"><strong><span><span>kar penter网站</span> </span> </strong> </a> <strong>将其描述为“任何Kubernetes集群的即时节点”Karpenter的设计目的是根据集群的应用程序自动启动合适的计算机资源，而不是要求操作员预先做出大量决定。这有助于使用Kubernetes的组织做出更有效的决策。但是真的那么容易吗？您和您的应用程序准备好迁移到AWS Karpenter了吗？以下是你搬到Karpenter之前需要了解的六件事。</strong></h3>
+<h2>1.整合节点</h2>
+<p>作为一个自动缩放器，Karpenter通过注释、节点选择器和其他配置选项为您提供了灵活性，从而可以轻松地进行缩放。需要注意的一点是，如果Karpenter发现有机会根据价格、节点数量或其他考虑因素创建更好的节点配置，它可以整合到更少的节点。这意味着Karpenter可能一直在摆脱节点。</p>
+<p>您希望Karpenter能够整合您的pods，因此您不希望设置注释，使应用程序不会被逐出节点，因为您担心如果您丢失pods，应用程序会崩溃。如果Karpenter检测到您有太多的节点，它将开始驱逐pod，试图将它们从它确定您不再需要的特定节点上移走。但是如果您设置了do-not-evict-true注释集，它将阻止Karpenter缩小该节点。</p>
+<p>您可以使用开源工具，如<span> <a href="https://www.fairwinds.com/polaris"> <span>北极星</span> </a> </span>，以确保您遵循Kubernetes和Karpenter中的最佳配置实践，从而确保您应用的设置不会干扰Karpenter有效整合节点的能力。</p>
+<h2>2.管理集群拓扑</h2>
+<p>使用Karpenter，您可以表明您只想为应用程序使用特定的节点类型。这可能会改变集群的拓扑结构，因为如果集群中运行多个应用程序，并且一个应用程序需要一种节点类型，而另一个应用程序需要不同的类型，则Karpenter必须同时运行这两种类型。如果你在十个不同的团队中这样做，这可能会成为一个问题。使用您的置备程序，您可以限制希望允许的节点类型的数量，或者使用Polaris禁止选择特定的节点类型。</p>
+<h2><span> 3。与云承诺模型保持一致</span></h2>
+<p>如果您的组织决定从云服务提供商处预订或购买节省计划，您希望确保您在<span> <a href="https://www.techtarget.com/searchcloudcomputing/feature/5-ways-to-reduce-cloud-costs" rel="noopener" target="_blank"> <span>承诺模式</span> </a> </span>上利用的资金得到有效利用。Karpenter可以根据运营团队为您的组织所做的决策，帮助您确保资源得到充分利用。Karpenter是Kubernetes-native，这使得您的用户更容易:</p>
+
+<h2>4.设置资源请求和限制</h2>
+<p>您希望Karpenter高效，并使用正确的节点组合构建您的集群。但是，因为您仍然依赖Kubernetes调度的底层机制来完成这项工作，所以您需要设置资源请求和限制。Polaris将任何没有资源请求和限制的事情标记为您需要解决的问题。当您在整体上对CPU数量和内存量设置限制时，您可以设置集群的最大值，因此您知道它永远不会超过某个成本。</p>
+<p><a href="https://www.fairwinds.com/blog/introducing-goldilocks-a-tool-for-recommending-resource-requests"> <span> Goldilocks </span> </a>是一个开源工具，它使用<span> <a href="https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler" rel="noopener" target="_blank"> <span>垂直Pod Autoscaler的</span> </a> </span>推荐引擎来提供基本级别的资源请求和限制推荐。它会检查pod的使用情况，并针对您的资源请求和限制设置提出建议。如果您不确定设置这些请求和限制是什么(或者如果您根本没有设置它们)，这是一个很好的开始方式。随着时间的推移，您可以定期重新评估它们，并相应地更新您的资源请求和限制。</p>
+<h2>5.尊重你的分离舱破坏预算</h2>
+<p>Karpenter在缩减节点规模和驱逐单元时会考虑单元中断预算。如果你没有所有应用的pod中断预算，你可能会失去大量的pod。这可能是因为您的服务无法处理移除了那么多pod的标准流量。</p>
+<p>你需要意识到这些限制，这是北极星帮助的另一件事。Polaris中的默认检查之一是确保pod中断预算附加到您的部署中。Pod中断预算是所有Kubernetes集群的标准最佳实践，当您以稍微更积极或更智能的自动伸缩形式(如Karpenter)引入节点流失时，您需要确保它到位。</p>
+<h2>6.准备好活性和就绪性探测</h2>
+<p>如果您的单元正在服务流量，并且您经常上下扩展单元，那么您需要对节点变动具有弹性。在准备好为流量提供服务之前，pod必须启动、连接到数据库并执行其他几项任务。如果您想在Karpenter引入的节点变动中保持弹性，那么您需要准备好活跃度和就绪性探测器。Polaris包括对活性和就绪性探针的检查，甚至允许您编写需要特定范围的资源请求和限制的策略。</p>
+<h2>你准备好了吗？</h2>
+<p>卡本特的好坏取决于你给它的信息。您可以向Karpenter提供的信息越多，提供的约束越少，Karpenter对您的组织就越有伸缩性和灵活性。Kubernetes本身包括许多可以调整的旋钮——添加Karpenter会增加更多旋钮。这导致更多潜在的复杂性，因此您需要一个策略或治理解决方案来正确管理所有这些旋钮。Polaris收集了久经考验的Kubernetes最佳实践，通过帮助您设置与Karpenter一致的检查和警报来提高您的Karpenter就绪性，从而通过为K8s集群提供快速简单的计算资源调配来利用云</p>
+
+<p><strong><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span></span></strong></p></span></div>    
+</body>
+</html>

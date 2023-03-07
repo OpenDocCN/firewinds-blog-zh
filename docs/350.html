@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>NSA Hardening Guide: How Can Fairwinds Insights Strengthen Your Authentication &amp; Authorization Practices?</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>NSA强化指南:Fairwinds Insights如何加强您的身份验证和授权实践？</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/nsa-hardening-guide-how-can-fairwinds-insights-strengthen-your-authentication-authorization-practices#2022-12-06">https://www.fairwinds.com/blog/nsa-hardening-guide-how-can-fairwinds-insights-strengthen-your-authentication-authorization-practices#2022-12-06</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p><span>如果你还没有翻阅美国国家安全局最近的</span> <a href="https://media.defense.gov/2021/Aug/03/2002820425/-1/-1/0/CTR_Kubernetes_Hardening_Guidance_1.1_20220315.PDF" rel="noopener" target="_blank"> <span> Kubernetes强化指南</span> </a> <span>来了解更多关于当今Kubernetes和云原生技术的最佳实践，不要担心——我们已经覆盖了你。在关于这些新兴标准的五篇系列文章的第三部分中，我们将讨论认证和授权的所有内容，包括</span> <em> <span>如何</span></em><a href="https://www.fairwinds.com/insights"><span>fair winds Insights</span></a><span>，我们的Kubernetes治理平台，它可以帮助您的组织满足NSA的严格建议。</span></p>
+<p><strong> <span> ICYMI </span> </strong> <span> : NSA加固指南:</span> <a href="https://www.fairwinds.com/blog">利用Fairwinds Insights锁定网络访问</a></p>
+<p><strong> <span> ICYMI: </span> </strong> <span> NSA加固指南:</span> <a href="https://www.fairwinds.com/blog/three-ways-fairwinds-insights-can-root-out-poor-pod-security">三种方式的Fairwinds见解可以根除糟糕的Pod安全性</a></p>
+<h2><span>认证的重要性</span></h2>
+<p><span>作为限制访问群集资源的主要机制，身份验证和授权的最佳实践至关重要。如果Kubernetes集群配置错误(这种情况经常发生),坏人可以(而且确实会)扫描众所周知的Kubernetes端口，访问集群的数据库或在没有身份验证的情况下进行API调用。是的，支持多种用户身份验证机制，但默认情况下不启用。</span></p>
+<p><span>NSA已经就登录程序、特定政策的制定和强身份认证的需求提出了几项重要建议，所有这些都通过Fairwinds Insights的功能得到了具体解决。请关注我们，我们将概述我们的Kubernetes治理软件可以帮助您的组织遵守这些现代实践的不同方式，这些实践现在被认为是Kubernetes所有权的黄金标准。</span></p>
+<h2><span>NSA对认证和授权有什么建议？</span></h2>
+<blockquote>
+<p><strong> <span> NSA:禁用匿名登录</span> </strong> <span>。</span> <span>匿名请求是指不会被其他已配置的身份验证方法拒绝的请求，并且不会绑定到任何个人用户或Pod。启用匿名请求可能会允许网络参与者在未经身份验证的情况下访问群集资源。</span></p>
+</blockquote>
+<p><span> Kubernetes为用户提供了多种向集群进行身份验证的方法，并且有内置的用户，如system:unauthenticated和角色，如</span><em><span>system:public-info-viewer</span></em><span>，它们允许公共访问健康和版本API等内容。</span></p>
+<p><span>在自管理集群上，可以通过</span><em><span>-anonymous-auth</span></em><span>标志禁用匿名登录。该流程可以像GKE </span>  <span>一样</span> <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/hardening-your-cluster" rel="noopener" target="_blank"> <span>更多地参与托管服务。</span></a></p>
+<p><span> Fairwinds Insights可以通过其kube-bench集成，帮助确保在您的集群上设置</span> <span> - anonymous-auth </span> <span>标志。具体来说，check 4.2.1将确保此标志设置为false，如果不是，则引发一个操作项。</span></p>
+<p><strong> <span>想一下子得到所有NSA的推荐？下载我们的白皮书:</span> </strong> <a href="https://www.fairwinds.com/kubernetes-nsa-hardening-insights"> <strong> <span>满足NSA Kubernetes强化指南的步骤</span> </strong> </a></p>
+<blockquote>
+<p><strong> <span> NSA:使用强用户认证</span> </strong> <span>。</span> <span>管理员必须实施认证方法或将认证委托给第三方服务。Kubernetes假设独立于集群的服务管理用户认证。</span></p>
+</blockquote>
+<p><span>获得正确的集群身份认证对于安全性和必须与集群交互的工程师的日常工作效率都至关重要。Kubernetes在这里提供了许多不同的选项。</span> <span>如果您正在使用GKE或EKS等托管Kubernetes提供商，我们建议您使用云提供商的内置身份和访问管理(IAM)。例如，Kubernetes团队提供了</span><a href="https://github.com/kubernetes-sigs/aws-iam-authenticator" rel="noopener" target="_blank"><span>aws-iam-authenticator</span></a><span>，用于通过现有的AWS组和角色管理集群访问。</span></p>
+<p>如果您没有使用托管的Kubernetes提供商，或者如果IAM不是一个选项，我们建议您使用OpenID Connect (OIDC)以及像Google Workspace这样的SSO提供商。</p>
+<blockquote>
+<p>NSA:创建具有独特角色的RBAC政策。  <span>基于角色的访问控制(RBAC)，默认启用，是一种基于组织内个人角色来控制对集群资源访问的方法。RBAC可用于限制用户帐户和服务帐户的访问。</span></p>
+</blockquote>
+<p><span>一旦用户能够使用上述身份验证方法连接到集群，您将需要设置RBAC，以确保他们拥有完成工作所需的权限，同时仍然遵循最小权限原则。</span></p>
+<p>我们强烈建议设置与贵公司具体工作描述相关的角色和集群角色。例如，您可能有一个开发人员角色，可以查看日志和状态；允许在应用程序命名空间中进行更改的SRE角色；和被授予广泛访问权限的管理员角色。</p>
+<p><a href="https://github.com/FairwindsOps/rbac-manager" rel="noopener" target="_blank"> <span> RBAC经理</span> </a> <span>可以帮助用更友好的语法创建RBAC配置文件，而Fairwinds Insights提供了一个仪表板，用于审计RBAC配置，显示具有高级访问权限的角色和集群角色。</span></p>
+<h2><span>更好认证的步骤&amp;授权</span></h2>
+<p><span>如果您想了解有关Fairwinds Insights如何帮助您的企业遵守NSA最新准则的更多信息，请阅读我们最新的白皮书，</span> <a href="https://www.fairwinds.com/kubernetes-nsa-hardening-insights"> <span>满足NSA Kubernetes强化准则的步骤</span> </a> <span>。</span></p>
+<p>我们的NSA白皮书还提供了关于满足所有NSA建议的信息，而不仅仅是那些与身份验证和授权相关的信息。该白皮书详细讨论了其他领域，如pod安全、网络访问、审计日志、威胁检测和其他应用程序安全实践。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

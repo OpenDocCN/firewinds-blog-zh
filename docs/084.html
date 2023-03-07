@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>How We Learned to Stop Worrying and Love Cluster Upgrades</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>我们如何学会不再担心并爱上集群升级</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/how-we-learned-to-stop-worrying-and-love-cluster-upgrades#2022-12-12">https://www.fairwinds.com/blog/how-we-learned-to-stop-worrying-and-love-cluster-upgrades#2022-12-12</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><h3><strong>当前进程</strong></h3>
+<p>有经验的Kubernetes集群操作员知道升级可能很棘手。像<code>kops</code>这样的工具试图让这个过程变得更好，但是这还不是一个已经解决的问题。集群升级可能会很可怕，甚至很危险。在<a href="/" rel=" noopener"> Fairwinds </a>，我们进行了大量的集群升级，客户依靠我们来确保它们的正确性。当我们说我们做了很多时，我们指的是每个客户至少2个集群(通常超过2个)，并且我们每年大约更新4次。这意味着我们需要大量的滚动更新，这给了我们大量的机会来思考和制定策略。我们想出了一些让这个过程变得更好的技巧，我们把它们整理在这里与你分享。</p>
+
+<p>首先，让我们用<a href="https://www.github.com/kubernetes/kops" data-href="https://www.github.com/kubernetes/kops" rel="nofollow noopener" target="_blank"> kops </a>回顾一下当前状态，因为我们的大多数集群都是由it管理的。滚动更新策略记录在<a href="https://github.com/kubernetes/kops/blob/master/docs/cli/kops_rolling-update_cluster.md#synopsis" data-href="https://github.com/kubernetes/kops/blob/master/docs/cli/kops_rolling-update_cluster.md#synopsis" rel="nofollow noopener" target="_blank">这里</a>，工作方式如下:</p>
+<p>对于每个节点:</p>
+<figure><img src="../Images/5df956c047281c8b36478c19b5cba09e.png" data-image="9imhx5j9j3f1" data-original-src="https://cdn-images-1.medium.com/max/1600/1*cS9FaQidXnZo_1ljgicWTg.gif"/></figure>
+<p>1.耗尽节点</p>
+<p>2.终止EC2实例</p>
+<p>3.等待ASG(自动扩展组)中的替换节点加入群集</p>
+<p>4.等待群集得到验证</p>
+<p>这种更新策略有几个问题。随着集群变得越来越大，这些问题变得更加棘手:</p>
+<figure><span id="selection-marker-start" class="redactor-selection-marker"/><span id="selection-marker-end" class="redactor-selection-marker"><img src="../Images/bc803eed6d643619688388f5fe87aaf9.png" alt="Screen-Shot-2018-08-24-at-10.45.12-AM" srcset="https://www.fairwinds.com/hs-fs/hubfs/Screen-Shot-2018-08-24-at-10.45.12-AM.png?width=150&amp;name=Screen-Shot-2018-08-24-at-10.45.12-AM.png 150w, https://www.fairwinds.com/hs-fs/hubfs/Screen-Shot-2018-08-24-at-10.45.12-AM.png?width=300&amp;name=Screen-Shot-2018-08-24-at-10.45.12-AM.png 300w, https://www.fairwinds.com/hs-fs/hubfs/Screen-Shot-2018-08-24-at-10.45.12-AM.png?width=450&amp;name=Screen-Shot-2018-08-24-at-10.45.12-AM.png 450w, https://www.fairwinds.com/hs-fs/hubfs/Screen-Shot-2018-08-24-at-10.45.12-AM.png?width=600&amp;name=Screen-Shot-2018-08-24-at-10.45.12-AM.png 600w, https://www.fairwinds.com/hs-fs/hubfs/Screen-Shot-2018-08-24-at-10.45.12-AM.png?width=750&amp;name=Screen-Shot-2018-08-24-at-10.45.12-AM.png 750w, https://www.fairwinds.com/hs-fs/hubfs/Screen-Shot-2018-08-24-at-10.45.12-AM.png?width=900&amp;name=Screen-Shot-2018-08-24-at-10.45.12-AM.png 900w" sizes="(max-width: 300px) 100vw, 300px" data-original-src="https://www.fairwinds.com/hs-fs/hubfs/Screen-Shot-2018-08-24-at-10.45.12-AM.png?width=300&amp;name=Screen-Shot-2018-08-24-at-10.45.12-AM.png"/></span></figure>
+<p>第一个问题涉及到节点排水和周围的吊舱洗牌。当Kubernetes在准备删除一个节点时，它必须重新调度正在运行的工作负载。如果你仔细观察上面的例子，你会注意到pod经常被移动多次！对于第一个节点，<em>每个</em>重新安排的Pod至少需要再移动<em>1次</em>。随着时间的推移，pod被多次重新调度的机会越来越大，但这不是一个可行的长期调度策略。这有点傻，因为我们知道哪些节点会提前离开。</p>
+<p>其次，等待一个节点被删除，一个新节点启动然后加入群集可能需要10分钟。当集群包含20个或更多节点时，此过程可能需要几个小时。</p>
+<p>如果你的应用程序是有弹性的，并在被要求关闭时礼貌地关闭，这种混乱通常是令人讨厌的。如果你的应用程序不能很好地运行，这可能会产生实际的问题。它放大了升级所需的时间。</p>
+<h3><strong>更好的方法</strong></h3>
+<p>在云中，短时间运行额外的实例相对便宜。在<a href="/" rel=" noopener"> Fairwinds </a>时，我们打算花费更多我们丰富的计算资源来保留我们最稀缺的资源:<em>时间</em>。</p>
+<p>我们从书本开始升级过程:我们对主文档使用滚动更新过程。这将一个接一个地消耗和替换实例。然后，我们把我们的扭曲。</p>
+<p>对于每个“节点”实例组:</p>
+<figure><img src="../Images/89c743244dca65821668bb953814817c.png" data-image="ugc2biv5nu2m" data-original-src="https://cdn-images-1.medium.com/max/1600/1*ASisU6T2TME35QpKI5jNrQ.gif"/></figure>
+<p>1.节点数量翻倍</p>
+<p>2.封锁旧节点</p>
+<p>3.排空旧节点</p>
+<p>4.终止那些节点</p>
+<p>这比滚动更新快得多。它使节点的启动并行化，因此这一切都是同时发生的。这有一个很好的副作用:它给了你大量的空间来安排你将要消耗的所有能量。然后，所有完成接收流量的节点立即被封锁。这意味着你只需要为你的豆荚找一个家。那很酷。</p>
+<h3><strong>细节决定成败</strong></h3>
+<h4>最后一部分是关于理论和挥手的大篇幅。你实际上是怎么做的？</h4>
+<p>一旦母版被更新，这个过程就非常简单了，但是我们已经列出了下面的步骤，这样你就可以避免一些不太明显的问题出现。</p>
+<p>1.<strong>禁用集群自动缩放器(如果已安装)。</strong>这不是可选的。当您的流量预计相对稳定且理想情况下最小时，请进行升级。那是你升级的时候，对吗？:)如果不禁用它，cluster-autoscaler真的想删除所有新节点，因为它们都是空的。我们发现将集群自动缩放器扩展到0个副本就足够了。</p>
+<p>2.<strong>集群规模翻倍。</strong>这有几种方法，但最简单的是编辑自动缩放组(或<code>kops</code>实例组)。新节点将使用新的启动配置进行初始化，新版本的Kubernetes运行<code>kubectl get nodes</code>来查看新版本上的所有节点。</p>
+<p>3.<strong>如果您正在使用ELBs，在这里花点时间验证您的新节点是ELB中的</strong> <code>&lt;strong&gt;Healthy&lt;/strong&gt;</code> <strong>。</strong> <br/>这一点很重要，因为标记为<code>SchedulingDisabled</code>的节点被视为不可用，并将从其连接的ELB中移除。如果我们在将新节点添加到ELB之前封锁所有旧节点，这将导致中断。</p>
+<p>4.<strong>如果您在您的任何</strong> <code>&lt;strong&gt;LoadBalancer&lt;/strong&gt;</code> <strong> -type </strong> <code>&lt;strong&gt;Services&lt;/strong&gt;</code> <strong>上使用</strong> <code>&lt;strong&gt;externalTrafficPolicy: Local&lt;/strong&gt;</code> <strong>，在您继续之前临时设置</strong> <code>&lt;strong&gt;externalTrafficPolicy: Cluster&lt;/strong&gt;</code> <strong>是很重要的。</strong> <br/>如果我们在一个新节点上的服务单元可用之前封锁所有旧节点，我们保证在ELB有0个<code>Healthy</code>节点，并且有一个中断。如果暂时设置<code>externalTrafficPolicy: Cluster</code>对您来说不是一个选项，请确保在继续之前让一个Pod在一个新节点上运行。</p>
+<p>5.<strong>封锁所有旧节点。</strong> <br/>如果您正在升级版本，使用类似<code>kubectl get nodes | grep &lt;old version&gt; | awk '{print $1}' | xargs kubectl cordon</code>的命令快速定位旧节点。这就是我们如何防止豆荚被重新安排超过一次。</p>
+<p>6.<strong>引流旧节点。</strong>我们发现类似下面这样的东西很有用:<code>kubectl get nodes | grep SchedulingDisabled | awk '{print $1}' | xargs kubectl drain --ignore-daemonsets --delete-local-data --force</code></p>
+<p>7.<strong>重新打开集群自动缩放功能！</strong> <br/>旧节点空了，我们不再需要它们了。Cluster-autoscaler可以快速解决这些问题。</p>
+<p>PSA:鉴于你的新版本Kubernetes，这可能是一个很好的时间来验证你安装的所有那些随机的第三方位是否还在工作，你是否还在运行一个合适的版本。</p>
+<h3><strong> kops意识到了这一点</strong></h3>
+<p>kops repo上有一个<a href="https://github.com/kubernetes/kops/pull/4038" data-href="https://github.com/kubernetes/kops/pull/4038" rel="nofollow noopener" target="_blank">公开的PR </a>介绍了这个策略以及其他策略，希望在接下来的几个版本中可以使用。在此之前，我们发现所有这些都是有用的，我们希望你也一样！</p>
+</span></div>    
+</body>
+</html>

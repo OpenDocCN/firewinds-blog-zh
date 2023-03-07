@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>Kubernetes Clinic: Learn How to Check Your Kubernetes Cluster Health</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kubernetes诊所:了解如何检查您的Kubernetes集群健康状况</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/kubernetes-clinic-check-your-kubernetes-cluster-health#2023-02-15">https://www.fairwinds.com/blog/kubernetes-clinic-check-your-kubernetes-cluster-health#2023-02-15</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>新年伊始，我们都想开始做些事情，让自己更健康、更有效率或更快乐。你的Kubernetes集群值得同样的爱！这是确定您的集群是否是您希望进入新的一年的那种集群的好时机。那么，如何检查这一点并做出改变以改善Kubernetes集群的健康状况呢？</p>
+
+<h2><span>开源工具</span></h2>
+<p>有一些很棒的开源工具可以用来检查Kubernetes集群的健康状况。Fairwinds Insights平台聚集了许多非常酷的开源工具<a href="https://www.fairwinds.com/open-source-software"><span/></a>，你可以使用它们在一个地方查看所有这些信息。现在，Insights推出了<a href="https://www.fairwinds.com/insights-pricing"> <span>免费层</span> </a>，可用于多达20个节点、两个集群和一个repo的环境，允许您跨多个集群运行所有这些工具，并在一个集中的控制面板中获得结果。</p>
+<p>为了让您的集群成为Insights生态系统的一部分，以便您可以管理和检查它，您需要<a href="https://www.fairwinds.com/blog/fairwinds-insights-basics-tutorial-how-to-install-the-in-cluster-agent"> <span>安装Insights代理</span> </a>。免费的洞察层功能齐全，因此所有报告都可用。当您<a href="https://www.fairwinds.com/blog/get-started-with-fairwinds-insights-free-tier"> <span>注册免费等级</span> </a>时，您将收到一封确认电子邮件，其中包含设置页面的链接。在这里，您将能够创建一个组织，然后通过提供所需的集群名称来添加您的第一个集群。然后，您将收到安装Insights代理的说明。安装由安装代理的Helm命令和控制要安装的组件的values.yaml文件组成。您可以调整这些值来改变应用程序的行为或设置。</p>
+<h2><span>洞察代理&amp;扫描</span></h2>
+<p>默认情况下，免费层会自动安装:</p>
+<ul>
+<li aria-level="1">
+<p><span> <a href="https://www.fairwinds.com/polaris">北极星</a> </span> <span>，Kubernetes的开源策略引擎</span></p>
+</li>
+<li aria-level="1">
+<p><span> <a href="https://www.openpolicyagent.org/" rel="noopener" target="_blank">开放策略代理</a> </span> <span> (OPA)，通用策略引擎</span></p>
+</li>
+<li aria-level="1">
+<p><span> <a href="https://nova.docs.fairwinds.com/"> Nova </a> </span> <span>，一个命令行界面，用于查找过时或废弃的舵图</span></p>
+</li>
+<li aria-level="1">
+<p><span> <a href="https://pluto.docs.fairwinds.com/" rel="noopener"> Pluto </a>，一个在代码仓库和Helm版本中发现弃用的Kubernetes apiVersions的实用程序</span></p>
+</li>
+</ul>
+<p>这个设置很容易操作，会给你很多信息。Insights提供的values.yaml文件包括用于标识您的帐户的令牌和启用的开源工具(这些称为报告)。将values.yaml文件的内容复制到您自己的本地目录中。运行提供的舵命令；编辑-f标志，使其指向本地目录中的值文件。该命令声明您将使用的Insights版本，并创建一个insights-agent名称空间，在其中安装各种组件。</p>
+<p>一旦设置完成，您将看到Insights代理已经运行了Pluto、Polaris、OPA和Nova报告。您可以回到Insights，您将开始在行动项目中看到数据。</p>
+<p><img src="../Images/b9ab548152eb0c5a71cb3f14347200b3.png" loading="lazy" alt="Insights showing data in Action Items" data-original-src="https://lh3.googleusercontent.com/SPfRSxGlPGoDpfRzx29uYYBpJu8pBJ_S-0TZKHKiVolpz_m77XdH_nfw5Wd77M3ieknQejGdXA-kQcGWwlo7X2A7Y-VSW0tYWlCvNO4HRG6hXoROVvV_RGp4uM_HXpTuoew4ARkE3ZEknwU86xKbq4I"/></p>
+<p>很快，您可以看到该报告为您提供了所发现内容的描述以及您可以采取的一些补救措施。它提供了可用于更改部署清单的数据。完成这些更改后，报告将清除这些行动项目。</p>
+<h2><span>扫描集装箱和集装箱图像的安全漏洞</span></h2>
+<p>从安全角度来看，扫描您的容器和容器图像非常重要</p>
+<p>安全漏洞。使用Insights免费层也很容易做到这一点——你只需要去安装中心添加<a href="https://www.aquasec.com/products/trivy/" rel="noopener" target="_blank"> <span> Trivy </span> </a>，这是一个开源的漏洞扫描器。只需点击<strong>可用的</strong>按钮并进行配置。</p>
+<p><img src="../Images/4c10f225ad1ed068217eab561328769b.png" loading="lazy" alt="Trivy available in the Install Hub" data-original-src="https://lh4.googleusercontent.com/mDdKZ50017eIreZaF4ZY3lMoRKU3Xozx8Ze4DW6VMLvITqR9WQEWGSgm06Hu4wKHQ4j-oLD9pgIjHf3Bce3sBdLMzZqOS2rIeYbzmsr0CCqlb6WcdazcssiFdqBSAxjKWzN1b9aTw2fs1kjX0eRCiFg"/></p>
+<p>单击“添加报告”按钮，您将看到一个新版本的values.yaml文件，您可以将其复制并粘贴到本地文件上。</p>
+<p>Trivy运行的时间要长一点，因为它遍历并扫描它在集群中找到的每一个图像。完成后，查看一下漏洞，您可以很容易地看到受影响最大的图像、按严重性的细分以及受影响最大的图像。您可以按严重性进行排序，并单击以获取有关已发现漏洞的更多信息。</p>
+<p><img src="../Images/db196b8da25a7897027fa5ca0b9aaca2.png" loading="lazy" alt="Top impacted images shown in Vulnerabilities tab in Insights" data-original-src="https://lh4.googleusercontent.com/wkefTZ3B3jEzLzZVzlEVsm7wVFox6QwJxzff3ih_xOVKAhLF_HYDWUuh87Audej76z66LjQP731mCoAmfIXEgd1v2wH5IC2HRjw6jWkMHV--EUM1PFOxeYYAlUQafCz5HNrf-DFG7Keh732eZkairOQ"/></p>
+<h2><span>检查您的Kubernetes集群的健康得分</span></h2>
+<p>转到Fairwinds Insights并选择Cluster选项卡。你首先看到的是一个健康评分；这是通过与未通过行动项目的比率，更倾向于关键行动项目。<img src="../Images/e4d1a7fa2d8d491ee87acd231abecf50.png" loading="lazy" alt="Health score of &quot;A&quot; in Fairwinds Insights" data-original-src="https://lh3.googleusercontent.com/0gg1RbJZ8OKRnT5wC8zFCHl9NdWiiIN8v7k0ecXmbUVXafqlN10DjLxk9mGnFp0ZG4QTaG3A7-Q1ohYH6drRY-sMdgklX8xIDQZKvizCDySoBWgvpY56gvja8Mi6rTel2tlkaLVITf_1M34ffiUTzFo"/></p>
+<p>Action items是一个单一的位置，在这里您可以查看来自Polaris、OPA、Nova、Pluto、Trivy和您安装的任何其他报告的所有信息。如果您查看行动项目表，您可以快速看到一些有趣的摘要信息。</p>
+<h3><span>北极星</span></h3>
+<p>Polaris有大约30个最佳实践的内置策略。一些与安全相关的策略包括:</p>
+
+<p>在这个平台中，我们有关于以root用户身份运行意味着什么的信息。每个行动项目都有参考链接，该平台还解决了补救问题。有相当多的详细信息是关于改变你的容器版本，使之不作为root运行，然后在你的pod定义中设置你的安全上下文。Insights提供了尽可能多的上下文，这样您就不会查看<strong>操作项，</strong>看到某个东西正在以root身份运行，然后想知道您可以对此做些什么。Insights甚至提供了解决该问题所需的一些代码示例。</p>
+<h3><span>吉拉整合</span></h3>
+<p>您还可以<a href="https://www.fairwinds.com/blog/kubernetes-basics-tutorial-how-to-integrate-jira-and-fairwinds-insights"> <span>将Insights连接到吉拉</span> </a>并点击创建票证，然后将其直接发送给负责该票证的团队，请他们进行修复。如果您知道某个措施项正在按设计运行(即使它被标记为措施项)，您可以解决该措施项。如果您对某个措施项无能为力，您可以将其标记为已解决。这不会修复任何问题，但会删除行动项目。你也可以暂停一件事，这样你就不会在下一周再次想起它，如果它是你知道但不想马上处理的事情。</p>
+<h3><span>查看多份报告</span></h3>
+<p>如果您想知道某个操作项来自哪个报告，您可以显示报告列，然后过滤到特定的报告。或者你可以按类别来看。</p>
+<p><img src="../Images/4eaf95695c12c8c685ade89cc2edb77c.png" loading="lazy" alt="Action Items filtered by reports in Fairwinds Insights" data-original-src="https://lh5.googleusercontent.com/crIyiwyizz41r0yqewO0PufsAeV_s4d-ohyRBHr2yCwpe0veFIhLL7JLsISN8Wdv-zHG98sqVEuikU9yuC18B0BcNi9IPMb3u00Ze6JaGqfyPuRLsfdgpibWNyJjM901PL2BZvXEPqi5nJ30EtaVDm0"/></p>
+<p>所有行动项目都属于以下三个类别之一:安全性、可靠性或</p>
+<p>效率。如果您对集群运行状况的某个特定方面感兴趣，可以深入研究这些特定领域。因此，您可以看到所有可靠性措施项、识别它们的报告以及它们的严重程度。这可以帮助你优先考虑你想关注的行动项目。</p>
+<h3><span>自动化规则</span></h3>
+<p>设置和运行自动化规则是Insights中更强大的功能之一。您可以创建和编辑规则，也可以使用默认规则。本质上，您命名规则(没有空格)并编写描述。您可以设置上下文、报告、集群和操作。然后您可以保存或更新规则。例如，如果你有一个非常高的</p>
+<p>名称空间的安全集合，其中该名称空间中的每个漏洞都必须立即得到修复，您可以编写一个操作项，说明如果Insights在资源名称空间中发现安全漏洞，您希望提高该操作项的严重性，然后根据该严重性创建票证。这是一个基于JavaScript的引擎，所以你可以写一个规则来做任何你想做的事情。</p>
+<h2><span>保持Kubernetes集群健康</span></h2>
+<p>Kubernetes很复杂，很难掌握所有可能的健康问题。Fairwinds Insights集成了大量的<a href="https://www.fairwinds.com/open-source-software"> <span>开源工具</span> </a>，可以轻松检查集群的安全性、可靠性和效率。使用<a href="https://www.fairwinds.com/blog/try-fairwinds-insights-kubernetes-governance-free-tier"> <span>新的免费洞察层</span> </a>，您可以快速开始，这样您就可以在未来一年保持Kube集群的健康。</p>
+<h3><span>观看在线研讨会的现场演示，了解有关如何</span> <span> <a href="https://www.fairwinds.com/kube-clinic-cluster-health-reg">检查Kubernetes集群运行状况</a> </span> <span>的更多信息。</span></h3>
+<p><span><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span></span></span></p></span></div>    
+</body>
+</html>

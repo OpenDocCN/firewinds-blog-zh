@@ -1,0 +1,41 @@
+<html>
+<head>
+<title>Most Helpful Kubernetes Open Source Projects We Use</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>我们使用的最有帮助的Kubernetes开源项目</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/most-helpful-kubernetes-open-source-projects#2020-05-20">https://www.fairwinds.com/blog/most-helpful-kubernetes-open-source-projects#2020-05-20</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>Kubernetes本身就是最好的开源贡献之一——这就是为什么我们Fairwinds的团队100%致力于这个项目和社区。</p>
+
+<p>我们的SREs团队致力于帮助企业最大限度地受益于Kubernetes。我们使用许多开源工具，并贡献项目，以确保组织能够运行安全、可靠和可扩展的Kubernetes基础设施。</p>
+<p>我们询问了我们的销售代表他们最喜欢的开源项目。在这里，我们列出来，以帮助您的Kubernetes之旅。</p>
+<h2><strong>nginx-ingress+cert-manager+外部dns的组合</strong></h2>
+<p>ingress-nginx 是Kubernetes的入口控制器，使用nginx作为反向代理和负载平衡器。</p>
+<p><a href="https://github.com/jetstack/cert-manager"> cert-manager </a>是Kubernetes的一个附加组件，用于自动管理和发布来自各种发布源的TLS证书。它将确保证书有效并定期更新，并尝试在到期前的适当时间续订证书。</p>
+<p><a href="https://github.com/kubernetes-sigs/external-dns"> ExternalDNS </a>将公开的Kubernetes服务和入口与DNS提供商同步。它使得Kubernetes资源可以通过公共DNS服务器被发现。像KubeDNS一样，它检索资源列表(服务、入口等)。)来确定所需的DNS记录列表。然而，与KubeDNS不同，它本身不是DNS服务器，而只是相应地配置其他DNS提供商——例如AWS Route 53或Google Cloud DNS。</p>
+<p>nginx-ingress+cert-manager+external-DNS的组合允许系统管理员自动完成一些历史上最困难或最烦人的任务。</p>
+<h2><strong>舵</strong></h2>
+<p><a href="https://helm.sh/"> Helm </a>帮助您管理Kubernetes应用程序——Helm图表帮助您定义、安装和升级最复杂的Kubernetes应用程序。</p>
+<p>我们使用Helm安装内部应用程序和第三方应用程序，但真正喜欢它安装第三方应用程序。</p>
+<h2><strong>清算者+舵手</strong></h2>
+<p>计算者是由费尔温德SRE团队创建的helm命令行助手。该实用程序以多种方式增加了Helm的功能:</p>
+<ul>
+<li>创建声明性语法，以便在一个位置管理多个版本</li>
+<li>允许从git提交/分支/发布安装图表</li>
+</ul>
+<p>计算者为Kubernetes团队节省时间和头痛。</p>
+<h2><strong> kubectl-ns </strong></h2>
+<p><a href="https://github.com/juanvallejo/kubectl-ns"> <strong> kubectl-ns </strong> </a>允许你通过kubectl快速查看或更改当前名称空间。它非常具体，每次使用只节省一点时间。但是因为我们的团队每天使用它很多次，所以这是一个巨大的努力与价值的比率。<a href="https://github.com/ahmetb/kubectx">库贝克斯</a>和<a href="https://github.com/ahmetb/kubectx/blob/master/kubens">库本斯</a>是你可以使用的类似工具。</p>
+<h2><strong> kubetails </strong></h2>
+<p>kubetails是bash脚本，它使您能够将来自多个pod的日志聚合(跟踪)到一个流中。这与运行“kubectl logs -f”是一样的，只是针对多个pod。</p>
+<h2>船尾</h2>
+<p><a href="https://github.com/wercker/stern">船尾</a>允许你在Kubernetes上跟踪多个吊舱和吊舱中的多个集装箱。每个结果都用颜色编码，以便更快地调试。该查询是一个正则表达式，因此可以很容易地过滤pod名称，并且您不需要指定确切的id(例如省略部署id)。如果一个pod被删除，它将从尾部移除，如果添加一个新的pod，它将自动添加尾部。当一个pod包含多个容器时，Stern也可以对所有容器进行尾部处理，而不必对每个容器进行手动处理。只需指定容器标志来限制要显示的容器。默认情况下，所有容器都会被监听。</p>
+<h2><strong> kube-capacity </strong></h2>
+<p>kube-capacity是一个简单的CLI，它提供了Kubernetes集群中资源请求、限制和利用率的概述。它试图将kubectl top和kubectl describe输出的最佳部分结合到一个易于使用的集中于集群资源的CLI中。</p>
+<h2><strong>金发女孩</strong></h2>
+<p>Fairwinds的开源工具Goldilocks是一个Kubernetes控制器，它提供了一个仪表盘，给出了如何设置资源请求的建议。为了提供建议，我们使用<a href="https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler">垂直Pod自动缩放器</a> (VPA)。VPA控制器堆栈包含一个建议引擎，它会考虑到您的pod的当前资源使用情况，以便提供指导。VPA的主要目标是实际上为你设置这些，但我们目前对它如何做到这一点并不满意；更具体地说，我们喜欢运行水平吊舱自动缩放，这并不适合VPA。相反，我们只是使用VPA提供的推荐引擎，就如何设置您的资源请求和限制向您提供良好的建议。你可以在我们的博客上了解更多关于<a href="https://www.fairwinds.com/news/introducing-goldilocks-a-tool-for-recommending-resource-requests">金发女孩的信息。</a></p>
+<p>作为我们对Kubernetes社区承诺的一部分，Fairwinds的SREs团队已经开发了许多<a href="/open-source-software" rel=" noopener">开源工具</a>。</p>
+<p><a href="https://www.fairwinds.com/open-source-software" rel=" noopener"><img src="../Images/7082525820e14a08115382e83ce5de51.png" alt="Learn more about Fairwinds Open source tools" srcset="https://www.fairwinds.com/hs-fs/hubfs/Open%20Source%20CTA.jpg?width=800&amp;name=Open%20Source%20CTA.jpg 800w, https://www.fairwinds.com/hs-fs/hubfs/Open%20Source%20CTA.jpg?width=1600&amp;name=Open%20Source%20CTA.jpg 1600w, https://www.fairwinds.com/hs-fs/hubfs/Open%20Source%20CTA.jpg?width=2400&amp;name=Open%20Source%20CTA.jpg 2400w, https://www.fairwinds.com/hs-fs/hubfs/Open%20Source%20CTA.jpg?width=3200&amp;name=Open%20Source%20CTA.jpg 3200w, https://www.fairwinds.com/hs-fs/hubfs/Open%20Source%20CTA.jpg?width=4000&amp;name=Open%20Source%20CTA.jpg 4000w, https://www.fairwinds.com/hs-fs/hubfs/Open%20Source%20CTA.jpg?width=4800&amp;name=Open%20Source%20CTA.jpg 4800w" sizes="(max-width: 1600px) 100vw, 1600px" data-original-src="https://www.fairwinds.com/hs-fs/hubfs/Open%20Source%20CTA.jpg?width=1600&amp;name=Open%20Source%20CTA.jpg"/>T2】</a></p>
+<p> </p></span></div>    
+</body>
+</html>

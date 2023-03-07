@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>How to Create, View, and Destroy a Pod in Kubernetes</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>如何在Kubernetes中创建、查看和销毁Pod</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/how-to-create-view-and-destroy-a-pod-in-kubernetes#2023-02-28">https://www.fairwinds.com/blog/how-to-create-view-and-destroy-a-pod-in-kubernetes#2023-02-28</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p><em>2023年2月28日更新</em></p>
+<p>在我们的How-to-Kube系列中，我们想从介绍pod基础知识开始。与服务、卷和名称空间一样，pod是一个基本的Kubernetes对象。pod是在作为一个单元的同一物理或虚拟机上调度的一个或多个容器的集合。当您创建pod的声明时，您可以用位于pod内部的任意数量的容器来定义它。</p>
+<p>pod还在内部共享一个网络——每当在pod内的所有容器之间调度一个pod时，就共享一个私有网络。他们还可以共享文件系统卷。与Docker使用- <strong> volumes-from </strong>类似，当在一个pod中运行多个容器时，这与Kubernetes的概念相同。您可以在pod内共享临时或写入时复制样式的存储。</p>
+
+<p>通常，您不会直接创建一个pod——相反，您将创建一个更高级别的对象，如包含pod规范的Deployment或StatefulSet(见下文)。</p>
+<h2><strong> Kubernetes部署</strong></h2>
+<p>部署是对pod的抽象。它允许您在pod上拥有额外的功能和控制，以说明您希望跨节点运行多少个pod实例，或者您是否希望定义滚动更新策略(例如，一次仅滚动一个pod，中间等待30秒)。这使您能够根据自己的需求控制部署，以便在启用新流程和淘汰旧流程时实现零停机。</p>
+<p>部署提供以下功能:</p>
+<ul>
+<li>提供更高级别的pod抽象(定义一组相同的pod)</li>
+<li>可以扩展pod的副本以满足需求</li>
+<li>负责创建、更新和删除窗格</li>
+<li>可以向前或向后滚动</li>
+</ul>
+<p>在这里，您可以看到这个部署称为“webapp”。它希望存在两个副本。</p>
+<p>在这篇文章中，您将学习如何使用nginx图像在Kubernetes中创建一个pod，查看描述pod的YAML，然后删除您创建的pod。我们将使用Minikube工具，使您能够在您的笔记本电脑或计算机上<span> </span> <a href="https://www.fairwinds.com/developer-hub/making-kubernetes-fully-operational" target="_blank" rel="noopener">运行单节点Kubernetes集群</a> <span> </span>。</p>
+<blockquote>
+<p>要获得更多关于Kubernetes入门的帮助，请阅读我们为刚接触Kubernetes和GKE的工程师准备的系列文章。它提供了Kubernetes 、<a href="https://www.fairwinds.com/blog/getting-started-with-kubernetes-architecture-basics-definitions" rel=" noopener">架构基础和定义</a>的<a href="https://www.fairwinds.com/blog/what-problems-does-kubernetes-solve" rel=" noopener">基本概述，以及构建Kubernetes集群和</a><a href="https://www.fairwinds.com/blog/how-to-deploy-multi-tiered-web-application-with-kubernetes" rel=" noopener">构建您的第一个多层webapp </a>的快速入门。</p>
+</blockquote>
+<h2>如何在Kubernetes中创建Pod</h2>
+<p>首先，你需要<span> </span> <a href="/blog/how-to-build-a-kubernetes-cluster-in-gke" target="_blank" rel="noopener">启动一个Kubernetes集群</a>(在GKE)。一旦您进入了Kubernetes沙盒环境，确保您已经连接到了Kubernetes集群，方法是在命令行中执行<span> kubectl get nodes </span>来查看终端中的集群节点。如果成功了，您就可以创建和运行pod了。</p>
+<p><span>要使用nginx映像创建pod，运行命令</span><span>ku bectl run nginx-image = nginx-restart = Never</span><span>。<span>这将创建一个名为<strong> nginx </strong>的pod，与Docker Hub上的<a href="https://hub.docker.com/_/nginx/" rel="noopener"> nginx映像</a>一起运行。</span> </span> <span/>通过设置标志<span> - restart=Never </span>我们告诉Kubernetes创建一个单独的pod，而不是一个部署。</p>
+<p>一旦您按下enter键，pod将被创建。您应该看到<span> pod/nginx创建的</span>出现在终端中。</p>
+<h2>如何查看Pod</h2>
+<p>您现在可以运行命令<span> kubectl get pods </span>来查看您的pod的状态。要查看pod的整个配置，只需在您的终端中运行<span> kubectl describe pod nginx </span>。</p>
+<p>终端现在将显示pod的YAML，从名称nginx、其位置、Minikube节点、开始时间和当前状态开始。您还将看到关于nginx容器的深入信息，包括容器ID和图像所在的位置。</p>
+<p>如果您一直滚动到终端的底部，您将看到pod中发生的事件。在本教程中，您将看到pod已经启动、创建，nginx映像被成功提取并被分配给Minikube中的这个节点。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-73982414-9e2a-405e-8776-4b8369f49814"><span class="hs-cta-node hs-cta-73982414-9e2a-405e-8776-4b8369f49814" id="hs-cta-73982414-9e2a-405e-8776-4b8369f49814"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/73982414-9e2a-405e-8776-4b8369f49814"><img class="hs-cta-img" id="hs-cta-img-73982414-9e2a-405e-8776-4b8369f49814" src="../Images/312bd1689890eb3c36d7b20b763f0e1c.png" alt="Related Resource: Kubernetes Best Practices Whitepaper" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/73982414-9e2a-405e-8776-4b8369f49814.png"/></a></span>T6】</span></p>
+<h2>摧毁吊舱</h2>
+<p>删除pod的操作很简单。要删除您创建的pod，只需运行<span> kubectl delete pod nginx </span>。在按Enter键之前，请务必确认要删除的pod的名称。如果您已经成功完成了删除pod的任务，<span> pod nginx deleted </span>会出现在终端中。</p>
+<p>Pods是理解Kubernetes对象模型的重要单元，因为它们代表了应用程序中的流程。在大多数情况下，pod作为一种间接的方式来管理Kubernetes中的容器。在更复杂的用例中，pod可能包含多个需要共享资源的容器，充当容器管理的中心位置。</p>
+<blockquote>
+<p>要了解更多Kubernetes最佳实践，<a href="/kubernetes-best-practices-comprehensive-white-paper" rel="noopener">获取本指南</a>。它将带您了解您将面临的许多问题，以及如何配置Kubernetes以避免错误。</p>
+</blockquote>
+<h2>如何实施Pod策略</h2>
+<p>Kubernetes的一个大问题是缺乏可见性和跨多个集群和开发团队的一致策略执行。当你开始你的Kubernetes之旅时，你应该考虑<a href="/enforce-kubernetes-policy" rel="noopener"> Kubernetes护栏</a> -你将如何让你的团队安全地使用Kubernetes？尽早这样做将确保您不会在没有为Kube配置建立内部标准的地方引入配置漂移。在您玩游戏时，查看一些Kubernetes安全注意事项:</p>
+<ol data-stringify-type="ordered-list" data-indent="0">
+<li>
+<p><a target="_blank" data-stringify-link="https://www.fairwinds.com/blog/check-kubernetes-pod-securitycontext-for-readonlyrootfilesystem" delay="150" data-sk="tooltip_parent" href="https://www.fairwinds.com/blog/check-kubernetes-pod-securitycontext-for-readonlyrootfilesystem" rel="noopener noreferrer">检查Pod SecurityContext的readOnlyRootFilesystem </a></p>
+</li>
+<li>
+<p><a target="_blank" data-stringify-link="https://www.fairwinds.com/blog/kubernetes-how-to-ensure-imagepullpolicy-set-to-always" delay="150" data-sk="tooltip_parent" href="https://www.fairwinds.com/blog/kubernetes-how-to-ensure-imagepullpolicy-set-to-always" rel="noopener noreferrer">kubernets如何:确保imagePullPolicy设置为Always </a></p>
+</li>
+<li>
+<p><a href="https://www.fairwinds.com/blog/how-to-identify-over-permissioned-containers">如何识别超限集装箱</a></p>
+</li>
+<li>
+<p><a href="https://www.fairwinds.com/blog/how-to-identify-missing-readiness-probes-in-kubernetes">如何识别Kubernetes中缺失的就绪探测器</a></p>
+</li>
+<li>
+<p><a href="/blog/why-fixing-kubernetes-configuration-inconsistencies-is-critical-for-multi-tenant-and-multi-cluster-environments" rel="noopener">为什么修复Kubernetes配置不一致对于多租户和多集群环境至关重要</a></p>
+</li>
+</ol>
+<h2>Kubernetes针对安全性、可靠性和资源请求的最佳实践</h2>
+<p>正如您应该考虑护栏一样，您也应该考虑Kubernetes的最佳实践。通过在学习Kubernetes的同时学习最佳实践，您将能够充分评估该平台并对其进行扩展。</p>
+<p>开源项目Polaris运行各种Kubernetes最佳实践检查，以确保pod和控制器配置正确。使用这个开源项目，您可以评估Kubernetes并避免将来出现问题。</p>
+<p>开始使用Kubernetes时经常出现的另一个问题是如何确定应用程序的规模。开源项目，<a href="https://goldilocks.docs.fairwinds.com/"> Goldilocks </a>，让你调整你的应用程序，让它“恰到好处”它帮助您确定资源请求和限制的起点。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

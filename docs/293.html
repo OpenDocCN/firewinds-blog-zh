@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>Update on Pluto and How This Open Source Project Can Identify Deprecated APIs in Kubernetes 1.22</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>关于Pluto的更新，以及这个开源项目如何识别Kubernetes 1.22中被否决的API</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/update-on-pluto-and-how-this-open-source-project-can-identify-deprecated-apis-in-kubernetes-1.22#2023-01-10">https://www.fairwinds.com/blog/update-on-pluto-and-how-this-open-source-project-can-identify-deprecated-apis-in-kubernetes-1.22#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>在Fairwinds，我们依靠<a href="https://www.fairwinds.com/open-source-software"> <span>我们的开源项目</span> </a>来帮助客户和我们的社区为他们的组织构建合适的Kubernetes架构。我们最受欢迎的开源项目之一，<a href="https://pluto.docs.fairwinds.com/"> <span> Pluto </span> </a>，允许用户在他们的基础设施即代码存储库和Helm版本中轻松找到已弃用的Kubernetes API版本。我们的开源项目Pluto以最初被弃用的矮行星命名，它识别Kubernetes对象中过时的API，因为它们被更稳定的API所取代。</p>
+
+<h2>折旧政策</h2>
+<p>虽然废弃的API版本很容易修复，但诀窍是找到所有您可能使用过在下一次升级中将会过时的版本的地方。让Kubernetes API服务器为您识别它们可能会有问题。如果您要求API服务器为您提供deployments.v1.apps，并且部署最初创建为deployments.v1beta1.extensions，服务器将转换API版本并返回一个包含apps/v1的清单。这意味着，至少可以说，定位被否决的API被使用的位置是一个挑战。关于冥王星最初为什么被创造的更多信息可以在冥王星文档 中找到。</p>
+<p>Pluto通过检查一些可能运行废弃版本的不同地方来解决这个问题。在基础设施即代码存储库中，Pluto可以检查旧API版本的静态清单和图表。在实时Helm版本中，Pluto可以确认在集群中运行的Helm版本不包含废弃版本。Pluto区分简单地被否决的API版本和从Kubernetes API中完全删除的版本。</p>
+<h2>冥王星升级</h2>
+<p>CircleCI以“orbs”的形式引入了可重用配置的概念，这是一个可重用的YAML配置包，它将重复的配置压缩到一行代码中。这些<a href="https://pluto.docs.fairwinds.com/orb/"> <span>球体</span> </a>是可重复使用的代码片段，可以帮助组织:</p>
+<ul>
+<li aria-level="1">加速项目设置</li>
+<li aria-level="1">自动化重复的流程</li>
+<li aria-level="1">简化第三方集成</li>
+<li aria-level="1">节省项目配置时间</li>
+<li aria-level="1">提高组织效率</li>
+<li aria-level="1">使与第三方工具的集成更加容易</li>
+</ul>
+<p>从Pluto v5.2.0开始，Fairwinds发布了一个名为<span> <a href="https://circleci.com/orbs/registry/orb/fairwinds/pluto" rel="noopener" target="_blank"> fairwinds/pluto </a> </span>的球体，以便在CircleCI内部提供更简单的配置。我们要感谢我们的开源社区对这个项目的贡献。<br/> <br/>我们最近也开始用cosign为我们的容器签名，将它们推到一个新的位置:us-docker.pkg.dev/fairwinds-ops/oss/pluto.用户现在可以运行cosign verify<span><a href="http://us-docker.pkg.dev/fairwinds-ops/oss/pluto:v5" rel="noopener" target="_blank"/><span>—key</span><a href="https://artifacts.fairwinds.com/cosign.pub" rel="noopener" target="_blank">https://artifacts.fairwinds.com/cosign.pub</a></span>来检查签名。这是一个供应链安全措施，帮助从业者验证他们正在运行Fairwinds发布的实际Pluto容器。</p>
+<p>最后，鉴于Kubernetes v1.22中的许多弃用和删除，我们已经确保用最新的可用信息更新我们的版本列表。如果您确实在Pluto报告的版本中发现错误或更新，请通过提交<a href="https://github.com/FairwindsOps/pluto/issues/new?assignees=&amp;labels=bug%2Ctriage&amp;template=bug.yaml" rel="noopener" target="_blank"> <span> Github问题</span> </a>让我们知道。</p>
+<h2>我们的开源社区</h2>
+<p>在Fairwinds，我们是Kubernetes和围绕它的开源技术社区的忠实拥护者。多年来，我们的团队已经为客户管理了数百个集群，我们已经了解了很多关于运行Kubernetes所涉及的问题和陷阱。事实上，我们坚信<a href="https://www.forbes.com/sites/forbestechcouncil/2022/03/11/how-open-source-software-is-paving-the-way-for-more-competitive-business-models/?sh=64c8a00e19eb" rel="noopener" target="_blank"> <span>开源软件为更具竞争力的商业模式铺平了道路。</span>T3】</a></p>
+<p>即使我们的开源社区中有成千上万的用户，我们也一直在寻找方法将人们聚集在这些项目周围，讨论开发并给实践者一个影响正在进行的路线图的机会。这就是为什么我们在去年建立了我们的<a href="https://www.fairwinds.com/open-source-software-user-group"> <span> Fairwinds开源用户组</span></a>——给成员一个提问、解决问题、与其他用户交流和分享他们环境中工作的机会。</p>
+<p>我们的下一次开源社区会议将于2022年6月22日<em>美国东部时间上午11点|太平洋时间上午8点举行。</em>如果你有兴趣加入我们，请<a href="https://www.fairwinds.com/open-source-software-user-group"> <span>注册</span> </a>群，我们将向你发出正式邀请。如果您参加我们的下一次开源会议，您将获得一些优秀的Fairwinds奖品！</p>
+<h2>费尔温德见解</h2>
+<p>如果您有兴趣在多个集群中运行Pluto，随着时间的推移跟踪结果，与Slack、Datadog和吉拉集成，或者解锁其他功能，请查看我们在Kubernetes集群中用于审计和执行策略的平台<a href="https://www.fairwinds.com/pluto-user-insights-demo?utm_source=pluto&amp;utm_medium=pluto&amp;utm_campaign=pluto"><span>fair winds Insights</span></a>。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

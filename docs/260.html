@@ -1,0 +1,26 @@
+<html>
+<head>
+<title>Open Source Project: NOVA 3.1.0, Not Just For Helm Users Anymore!</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>开源项目:NOVA 3.1.0，不再仅仅面向Helm用户！</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/open-source-project-nova-not-just-for-helm-users-anymore#2022-06-06">https://www.fairwinds.com/blog/open-source-project-nova-not-just-for-helm-users-anymore#2022-06-06</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>到目前为止，<a href="https://github.com/fairwindsops/nova"> Fairwinds Nova </a>只是一个释放头盔的工具。虽然这在过去几年对我们和其他用户非常有用，但我们认识到并不是每个人都使用Helm (gasp)！因此，我们开始为Kubernetes用户提供额外的功能来检测他们集群中的过期版本。</p>
+
+<h2>容器更新建议</h2>
+<p>从Nova 3.1.0开始，您现在可以使用名为containers的新标志运行这个开源工具。该特性将检查Kubernetes集群中的所有容器映像，并在有新版本可用时通知您。</p>
+<p>此外，新的Nova将向您展示三种不同的更新图像的方法。我们提供绝对最新版本、最新次要版本和最新补丁版本。让我们来看看它的实际应用:</p>
+<p>$ nova查找-容器</p>
+<p>容器名称当前版本旧最新最新次要最新补丁</p>
+<p>==============                                            ===============        ===     ======           =============          =============</p>
+<p>quay.io/jetstack/cert-manager-controller 1 . 5 . 0版真实版1.8.0版1.8.0版1.5.5版</p>
+<p>quay.io/jetstack/cert-manager-cainjector 1 . 5 . 0版真实版1.8.0版1.8.0版1.5.5版</p>
+<p>quay.io/jetstack/cert-manager-webhook 1 . 5 . 0版真实版1.8.0版1.8.0版1.5.5版</p>
+<p>坞站. io/bitnami/外部DNS 0 . 10 . 2-debian-10-r0 true 0 . 11 . 1 0 . 10 . 2-debian-10-r0 . 10 . 2</p>
+<p>这里，我们运行的是cert-manager v1.5.0，我们有多个更新选项。如果我们只想更新最新的补丁版本，我们可以转到1.5.5版。如果我们想要完整的最新版本，也可以使用1.8.0版。</p>
+<h2>已知限制</h2>
+<p>试图寻找容器图像的新版本的最大问题是，并不是所有的容器都在它们的图像标签中使用实际的<a href="https://semver.org/" rel="noopener" target="_blank"> semver </a>版本。容器图像标签在技术上可以包含任何东西，有些模式非常常见。</p>
+<p>例如，如果您有一个基于alpine的映像和一个基于ubuntu的映像，您可以用v0.0.0-alpine来表示它们。当试图比较版本时，这个决定会导致一些真正的问题。有了这个新功能，我们尽最大努力让版本参与进来，我们不能保证什么。所以，一定要小心！</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-f3b05cfd-929e-4ad5-b12f-8182c3e3157b"><span class="hs-cta-node hs-cta-f3b05cfd-929e-4ad5-b12f-8182c3e3157b" id="hs-cta-f3b05cfd-929e-4ad5-b12f-8182c3e3157b"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/f3b05cfd-929e-4ad5-b12f-8182c3e3157b"><img class="hs-cta-img" id="hs-cta-img-f3b05cfd-929e-4ad5-b12f-8182c3e3157b" src="../Images/0e2544b6359c936ae89fd12418473c8a.png" alt="Find Outdated or Deprecated Helm Charts Across Multiple Clusters and Teams" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/f3b05cfd-929e-4ad5-b12f-8182c3e3157b.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

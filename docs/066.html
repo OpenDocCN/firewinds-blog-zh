@@ -1,0 +1,32 @@
+<html>
+<head>
+<title>Fairwinds Insights Basics Tutorial: How to Install the In-Cluster Agent</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Fairwinds Insights基础教程:如何安装集群内代理</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/fairwinds-insights-basics-tutorial-how-to-install-the-in-cluster-agent#2023-02-07">https://www.fairwinds.com/blog/fairwinds-insights-basics-tutorial-how-to-install-the-in-cluster-agent#2023-02-07</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>首先，让我们讨论一下<a href="https://www.fairwinds.com/insights"><span>fair winds Insights</span></a>集群内代理，它到底是什么？在Fairwinds，我们将用于部署它的舵图称为Fairwinds Insights代理。该代理使得使用单个Helm安装来部署多个开源工具变得容易；我们将与软件集成的工具称为报告。如果您想要添加或删除报告，这个简单的安装过程可以轻松地重新部署Fairwinds Insights，这有助于工程师避免进行安装和配置每个工具的定制工作。</p>
+<p>集群内代理在您的Kubernetes集群内运行，并将收集到的数据发送回Fairwinds Insights，在fair winds Insights中，来自每个报告的调查结果被汇总并发布在仪表板视图中，以便于使用、确定优先级和跟踪问题。这为在Kubernetes上部署的组织遇到最多配置问题的三个领域提供了一个统一的多集群视图:安全性、成本效率和可靠性。</p>
+<h2><span>如何安装集群内代理？</span></h2>
+<p>如果您是Fairwinds Insights的新手，请查看关于<a href="https://www.fairwinds.com/blog/get-started-with-fairwinds-insights-free-tier"> <span>如何开始</span> </a>的这篇文章(尝试我们的免费层，用于多达20个节点、两个集群和一个回购的环境)。如果您已经在Fairwinds Insights中创建了一个组织，请登录用户界面(UI)。然后，点击左栏中的集群，然后找到右上角的按钮<strong>添加集群</strong>。输入新的集群名称，然后点击<strong>创建集群</strong>。这创建了一个端点，允许代理将数据发送回Insights平台。</p>
+<p><img src="../Images/e61edc3ff7e782c48735d6bcc9d4c0ef.png" loading="lazy" alt="Fairwinds Insights Cluster page - Add a New Cluster" data-original-src="https://lh4.googleusercontent.com/Mkt8weJ_1Pu4ngQXCev1NDtuv4XYUp-vQwo-bsp0-G2t_mH-FU2kZPy7JEUVru7UqIiLUPkuR6Ev_AEEL3aKaCYX2ms3QrInG4QfYpJeF8-AWqmTI-bApu1nRnP0dy04hjxxkdp5zkz7nz0dlMOWgS4"/></p>
+<p>在Insights平台中创建集群后，您有很多选项可以选择如何配置它。Insights允许许多不同的报告与其共享数据，以帮助您更好地了解您的Kubernetes集群是如何运行的。这些报告涵盖了Kubernetes的许多重要方面，包括:</p>
+
+<p>根据您目前最关注的领域，您可能希望选择一两个这样的报告(或者更多，由您决定)并安装它们。安装后，报告可以开始扫描您的集群并将数据上传到平台。从那里，您还可以创建<a href="https://www.fairwinds.com/blog/kubernetes-basics-tutorial-how-to-integrate-jira-and-fairwinds-insights"> <span>【吉拉】</span></a><a href="https://insights.docs.fairwinds.com/installation/integrations/slack/"><span>松弛</span> </a>警报，为<a href="https://www.fairwinds.com/blog/kubernetes-governance-what-is-opa"> <span>治理</span> </a>设置策略，以及其他操作和集成。</p>
+<p>现在你已经在Fairwinds Insights中创建了集群，让我们看看如何添加<a href="https://www.fairwinds.com/polaris"> <span>【北极星】</span> </a>和<a href="https://nova.docs.fairwinds.com/"> <span>新星</span> </a>。Polaris是一个开源策略引擎，可以验证和修复Kubernetes资源，而Nova可以帮助您找到集群中运行的过时或不推荐使用的舵图。转到顶部导航栏中的Install Hub，单击Polaris下显示<strong> Available </strong>的按钮，如果您想要定制您的报告节奏和时间表，请做出选择并单击<strong> Update Config Options </strong>。或者，如果您想稍后进行更新，只需点击<strong>快速添加</strong>。</p>
+<p><img src="../Images/12b591f6a80d554d98495c2a80a7d9f3.png" loading="lazy" alt="Available reports to install in Fairwinds Insights, including Polaris, Nova, Trivy and Goldilocks" data-original-src="https://lh4.googleusercontent.com/vmAzCcTPQXfR8FrK3vVOHJzQ2D2hSGEJEDaoU43cuImt4lnyV5oaKck3L7jaJx1bX-iun4dkNGN94rY4zW99ATwUtP5WeolaP50Cx3MFKZTYXj1_ICHH9L_FDY4_3FoL2uXMrWeFn1ORH07mteHL4d8"/></p>
+<p>重要的是要明白，完成这一步实际上并不安装北极星或任何其他报告。它为你生成一个舵图，添加北极星和你选择的配置设置。如果你点击UI右上角的按钮<strong>准备安装</strong>，你可以看到舵图的新值自动生成。</p>
+<p><img src="../Images/78b7e95e7b507414cff9291db4c7967e.png" loading="lazy" alt="Helm chart values" data-original-src="https://lh6.googleusercontent.com/z96DVecEh93rJrX0BJY6DQnXVbxW1EtUsVvam4sEZ3X8TxbUtBGUkvrYWtG__K0ZF-M93R2M1Ksp2zo_5K16LU2ONutzC7qBqhaPLfyEvhv1n0SZUCL4KOKMkdpU-Fv8IA93z2YTHe_zWifQT6y4dco"/></p>
+<p>您可以选择灰色文本，或者单击灰色框左侧的小复制/粘贴图标。</p>
+<p>这是values.yaml文件的内容，其中还包括允许您向平台进行身份验证的令牌。您可以在代码中看到，Polaris和Nova是您将要启用的两个报告。<span> <span>现在需要创建values.yaml文件，粘贴舵图，然后保存。接下来打开你的命令行，运行提供的helm install命令。</span> </span>然后你可以复制命令来安装带有那些新值的Insights。</p>
+<h2><span>配置您的集群内代理</span></h2>
+<p>可能需要配置的东西很多。有些配置很简单，就像北极星和新星一样。您可以在Install Hub中进行更改并重新构建values.yaml文件，也可以在命令行中对该文件进行更新。其他报告需要多一点努力才能正确安装。</p>
+<p><a href="https://www.aquasec.com/products/trivy/" rel="noopener" target="_blank"> <span> Trivy </span> </a>扫描容器中的漏洞，这是一个需要更多配置的报告的好例子。如果您有驻留在私有回购中的容器，比如AWS或GCP回购，Trivy将需要访问这些回购的权限。所以您需要在values.yaml文件中给它必要的权限。您可以设置许多不同的标志和设置，所以请花一点时间来处理这些报告，使它们适合您的特定需求。</p>
+<p>一旦你按照你想要的方式设置了你的配置，是时候通过重新运行提供的舵升级命令来更新舵图设置了。为了检查pod的状态，可以在“insights-agent”名称空间中运行“get pods”命令。</p>
+<p>仍然查看命令行，您可以看到一切都是按照您计划的方式安装的。如果仔细观察，您会发现代理为Nova和Polaris设置了许多cron作业。根据本例中的设置，它将每三小时运行一次群集扫描。然后，它将这些信息发送回<a href="https://www.fairwinds.com/insights"> <span> Insights </span> </a>平台，您可以在Insights仪表盘中看到这些数据变成了行动项目。</p>
+<p><img src="../Images/091b5e38ebf091a325cd38194a8747f7.png" loading="lazy" alt="Graphs of Action Items in Fairwinds Insights" data-original-src="https://lh3.googleusercontent.com/qlz1GPEOSEA0Bk74kZpRDqX2KzxpZ6e4Txgi-NybPzrlbx9A1Chknq2SVrzkwAxxw9tYmKlihdgld0UQy6Pu_ZgvMbOxmmspxNLi6gbjvaV3sZUHmppRmuCqrOm8-nb9dfJLzsHedS6cjCIAwEzJPto"/></p>
+<p>现在您已经安装了集群内代理，您将看到您的Insights仪表板定期更新。您可以回来更改安装了哪些报告以及如何配置它们，这样您就可以专注于使您的Kubernetes集群尽可能地安全、经济和可靠。如果遇到困难或有问题，请联系我们。并加入<a href="https://fairwindscommunity.slack.com/" rel="noopener" target="_blank"> <span> Fairwinds社区Slack群</span> </a>向Fairwinds团队和社区成员提问并获得答案。</p>
+<p>观看安装视频:<a href="https://training.fairwinds.com/how-to-install-the-fairwinds-insights-in-cluster-agent"> <span>如何安装Fairwinds Insights集群内代理</span> </a></p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

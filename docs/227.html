@@ -1,0 +1,52 @@
+<html>
+<head>
+<title>The Journey from Heroku to Kubernetes in 5 Steps</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>从Heroku到Kubernetes的五步之旅</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/the-journey-from-heroku-to-kubernetes-in-5-steps#2020-03-03">https://www.fairwinds.com/blog/the-journey-from-heroku-to-kubernetes-in-5-steps#2020-03-03</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>使用Heroku就像和一个HOA人住在一个豪华的住宅区；它安全、可预测、结构化，而且价格不菲。</p>
+
+<p>Heroku拥有直观的仪表盘、清晰的用户防护栏和结构化的开发流程。对于许多公司，尤其是那些刚刚起步的公司，这种类型的基础设施是物有所值的。然而，随着公司规模的扩大及其开发需求变得更加复杂，Heroku变得限制性和昂贵。</p>
+<p>对于符合后一种情况的公司，可能是时候开始迁移到Kubernetes了。但是在他们做出决定之前，他们应该考虑些什么呢？</p>
+<h2>你会想念Heroku的什么？</h2>
+<p>Heroku的一个主要好处是，总的来说，它是<span> </span> <strong>非常简单</strong>。这一点在其:</p>
+<ul>
+<li>易于使用的开关和仪表板</li>
+<li>精致的用户界面</li>
+<li>托管web代理和NGINX配置和路由</li>
+<li>合规保证</li>
+</ul>
+<p>在Kubernetes中，许多操作功能并不是固有地内置于平台中的。因此，Heroku上的大多数公司可能没有专门的DevOps资源。如果这些公司选择开始迁移到Kubernetes，他们将需要深入了解他们当前的Heroku运营结构，注意他们喜欢什么和不喜欢什么，并准备在Kubernetes中实现这些结构。对许多人来说，这意味着雇佣或培训某人成为专门的DevOps资源。</p>
+<h2>你有什么选择？</h2>
+<p>对于大多数开发团队来说，总有一天你需要比Heroku所能提供的更多的灵活性。重温一下住房开发的比喻，你可能真的想给你的房子加一层楼，但HOA说“不”，因为它与社区不匹配。同样，你在Heroku上的应用程序可能服务于如此大的流量，是时候扩展了，但是Heroku不允许这样做，因为操作限制和增加的费用。</p>
+<p>这就是Kubernetes如此令人兴奋的原因；实际上，它有能力成为<span> </span> <strong data-redactor-tag="strong">定制的PaaS构建者</strong>。这里没有HOA告诉你该做什么；都是你。但这并不意味着你是一个人。有很多针对Kubernetes用户的众包社区支持，包括<span> </span> <a href="https://www.fairwinds.com/clusterops">专门的Kubernetes管理服务提供商</a>。</p>
+<h2>Kubernetes提供什么？</h2>
+<p>比什么都重要。Kubernetes提供定制的开发基础设施。这意味着您可以在您的新基础设施中模拟Heroku的最佳部分，同时放弃您发现有限制或不重要的部分。随着您继续使用该平台，您可以不断完善这一过程，以确保您的开发高效、安全地扩展。</p>
+<p>从战术角度来看，Kubernetes还允许您扩展应用程序以响应任意事件(不像Heroku，它只依赖于延迟指标)。您还可以创建自定义部署策略，例如执行蓝绿色部署或保留实验。</p>
+<p>Kubernetes还帮助您回答一些关键问题，例如:</p>
+<ul>
+<li>您的应用程序运行效率如何？</li>
+<li>您是否过度调配或调配不足内存和CPU资源？</li>
+<li>您的应用程序伸缩性如何？</li>
+</ul>
+<p>最终，您会从Kubernetes获得您所投入的东西，所以不要吝啬为您的团队准备和实现弹性基础设施。</p>
+<h2><strong>迁移是如何进行的？</strong></h2>
+<p>如果你准备好了，你会很高兴地发现Kubernetes(大部分)是云不可知论者。Kubernetes与亚马逊、谷歌和微软云服务兼容，这意味着大多数公司可以在转换期间将数据保存在同一个地方。</p>
+<p>在开始迁移到Kubernetes之前，您会希望诊断出在Kubernetes中配置开发基础设施的哪些区域是最重要的。这里有一些问题会给你指明正确的方向:</p>
+<ul>
+<li>我目前如何管理配置？</li>
+<li>我目前如何管理机密？</li>
+<li>我希望如何利用CI/CD管道？</li>
+<li>我想如何处理应用程序发布和生命周期管理？</li>
+</ul>
+<p>这些问题的答案将确定您需要用Kubernetes基础设施解决的最重要的领域。</p>
+<h2>我如何迁移并保持同样出色的体验？</h2>
+<p>成功迁移的关键是准备、准备和更多的准备。如果你习惯于拥有一个非常结构化的、自以为是的基础设施，Kubernetes的完全自由可能是压倒性的。</p>
+<p>对于许多公司来说，雇佣一家Kubernetes管理公司来帮助迁移比自己做所有的事情更容易。这些公司将评估您当前的开发流程和需求，并创建一个计划来反映您的新Kubernetes基础架构中的这些优先事项。</p>
+<p>此外，这些公司可以在构建过程中部署自动化，以帮助将迁移时间从<span> </span> <strong data-redactor-tag="strong"> 6个月</strong> <span> </span>缩短到仅<span> </span> <strong data-redactor-tag="strong"> 6周。</strong> <span> </span>而且，通过大量的初步测试和DNS切换的使用，与迁移相关的实际停机时间可能只有60秒。</p>
+<p>想了解更多关于Kubernetes迁移过程的信息吗？点击下面的按钮 <span>查看我们的<span>网络研讨会:</span></span></p>
+<p><span><span class="hs-cta-wrapper" id="hs-cta-wrapper-30d79b13-82f8-4095-9619-8ef2d9f140aa"><span class="hs-cta-node hs-cta-30d79b13-82f8-4095-9619-8ef2d9f140aa" id="hs-cta-30d79b13-82f8-4095-9619-8ef2d9f140aa"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/30d79b13-82f8-4095-9619-8ef2d9f140aa"><img class="hs-cta-img" id="hs-cta-img-30d79b13-82f8-4095-9619-8ef2d9f140aa" src="../Images/f4c9cdd66004e738fbb21affcfbe9e2d.png" alt="Watch the Webinar" align="middle" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/30d79b13-82f8-4095-9619-8ef2d9f140aa.png"/></a></span></span></span></p>
+<p>准备好转换了吗？<span> <a href="/contact-us?hsCtaTracking=538a8606-5128-4c3d-979a-845731045837%7C47fa64c0-10dd-4f25-a0fb-c080bf948492" rel=" noopener">了解Fairwinds如何帮助回答您关于潜在迁移的问题！</a>T3】</span></p></span></div>    
+</body>
+</html>

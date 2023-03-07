@@ -1,0 +1,48 @@
+<html>
+<head>
+<title>How to Choose: Benefits of Using Goldilocks vs. Fairwinds Insights</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>如何选择:使用Goldilocks与Fairwinds Insights的优势</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/benefits-of-using-goldilocks-vs.-fairwinds-insights#2023-01-10">https://www.fairwinds.com/blog/benefits-of-using-goldilocks-vs.-fairwinds-insights#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>在<a href="https://fairwinds.com/"> Fairwinds </a>，我们在过去几年中为几十个组织管理了数百个集群，这让我们对大多数组织在其Kubernetes环境中遇到的问题有了相当多的了解和见解。我们反复看到相同的问题，其中大部分与获得正确的资源请求和限制有关，所以我们创建了<a href="https://www.fairwinds.com/blog/goldilocks-kubernetes-resource-requests">金发女孩</a>来帮助确定设置资源请求和限制的基线。我们在构建和使用Goldilocks中获得的经验使我们能够为Fairwinds Insights构建功能，从而提供更多的资源优化。</p>
+
+<h2>金发女孩和设置资源配置</h2>
+<p>您可以在pod中的每个容器上设置两种类型的资源配置:请求和限制。资源请求定义了容器需要的最小资源，而限制定义了容器可以使用的最大资源量。设置这些限制很重要，因为它们有助于防止您过度使用资源(同时也为其他部署节省资源)。请求会影响Kubernetes中pods的计划方式；基本上，调度程序读取pod中每个容器的请求，并找到适合该pod的最佳节点。Kubernetes使用这些信息来优化您的资源利用。</p>
+<p>设置正确的Kubernetes资源请求很重要，但是如果您不知道您的环境中发生了什么，这将是一个真正的挑战。我们的开源项目金凤花(Goldilocks)在推荐模式下使用<a href="https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler" rel="noopener" target="_blank">垂直Pod自动缩放器</a> (VPA)来查看每个应用上的资源请求建议。Goldilocks为名称空间中的每个部署创建一个VPA，然后向它们查询信息。Goldilocks提供了一个很好的起点，可以很容易地查看所有建议，并决定如何设置您的资源请求和限制，以便根据您自己独特的用例更好地调整您的应用程序。</p>
+<p><img src="../Images/bedc34ba87fa5dd3471793fd83aab9ee.png" loading="lazy" data-original-src="https://lh4.googleusercontent.com/vKYphpu3cHAsMaHIoMKG34nLfXkndJ-XbkSUxqmRkdGsmDDxB8HUDLiPYKesiZQrDO_uffp2jtdwJKTM5vNPrlscrJHJ9vHAD6z_bCql-neFaNV8_PtlpaH_02ReS4qTRdwsP4wi=s0"/></p>
+<p>Goldilocks仪表板资源建议示例</p>
+<p>但是对于许多组织来说，金发女孩并不能满足他们所有的需求。为了更好地服务于我们的用户，我们为有以下需求的组织构建了<a href="https://www.fairwinds.com/insights"> Fairwinds Insights </a>:</p>
+<ul>
+<li aria-level="1">对资源请求和限制的多集群洞察</li>
+<li aria-level="1">通过单一窗口查看其他最佳实践建议</li>
+<li aria-level="1">访问其他资源指标</li>
+</ul>
+<p>Fairwinds Insights平台还可以轻松估算Kubernetes工作负载的支出和节省。</p>
+<h2>多集群洞察</h2>
+<p><a href="https://www.fairwinds.com/insights"> Fairwinds Insights </a>提供了提高Kubernetes计算资源效率的建议，并且提供了Goldilocks所不具备的多集群功能。对于运行多个集群的企业，Insights提供了可见性，以确定您可以在哪些方面节省资金。如果需要，它还可以帮助您证明您的Kubernetes环境正在经济高效地运行。</p>
+<blockquote>
+<p>Fairwinds Insights可供免费使用。你可以在这里报名。</p>
+</blockquote>
+<p>Insights使您更容易研究应用程序资源和历史使用情况，因此您可以调整设置，帮助您提高Kubernetes环境的效率。您还可以评估单个应用程序，以发现在不影响应用程序性能的情况下降低成本的机会。</p>
+<p>虽然在Goldilocks中跟踪资源请求和限制对于单个集群来说很容易，但是随着您的组织发展到多个团队和多个集群，这将变得更具挑战性。Fairwinds Insights使您能够更好地:</p>
+<ul>
+<li aria-level="1">查看历史CPU和内存使用情况</li>
+<li aria-level="1">获取关于跨集群的资源限制和请求的建议</li>
+<li aria-level="1">提高工作负载的CPU和内存利用率</li>
+<li aria-level="1">按名称空间或标签分配和分组成本估算</li>
+</ul>
+<p>这种跨多个集群的可见性有助于您做出关于资源设置的正确决策，并创建和共享报告，展示您与业务目标的一致性。</p>
+<h2>一个工具(金发女孩)与多个工具(费尔温德见解)</h2>
+<p>Goldilocks在为设置Kubernetes资源请求和限制提供基线方面做得很好。它可以方便地查看来自VPA的所有建议，并根据pod在一段时间内的历史使用情况做出决策。</p>
+<p>Insights提供了许多附加功能。例如，任何开源工具都可以链接到Insights，使数据作为一个整体规范化变得简单，通过将来自多个来源的数据整合到一个视图中来提高对Kubernetes部署的可见性。它将所有来自其他工具的发现放在Goldilocks旁边，所以你可以更好地决定如何设置你的要求和限制。</p>
+<p>Insights是使用多种开源工具构建的，这些工具提供了Goldilocks无法单独提供的功能，包括:</p>
+
+<p>Insights还提供了我们从<a href="https://prometheus.io/docs/prometheus/latest/configuration/configuration/" rel="noopener" target="_blank"> Prometheus </a>获取的额外资源指标。Fairwinds Insights可以在多个集群和团队中应用Goldilocks和其他优秀工具的优势，在整个组织中保持一致。</p>
+<h2>不是哪个，是什么时候</h2>
+<p>金发女孩在这方面做得很好。它帮助您获得设置Kubernetes资源请求和限制的基线，并获得关于您可以做出更改的地方的建议。我们继续对Goldilocks进行更新，我们鼓励加入我们的开源用户组，帮助我们确定项目的方向。</p>
+<p>Fairwinds Insights是一个跨多个集群提供可见性的平台，因为它合并了多个开源项目，所以它为您的Kubernetes环境的整体效率和可靠性提供了更多有用和可操作的信息。我们在Insights平台中的集成使您可以轻松查看您的金发女孩结果以及其他审计工具和资源指标。</p>
+<p>Goldilocks和Insights都可以帮助您评估您的资源请求和限制，而Insights还可以帮助您识别和修复Kubernetes中的安全性、效率和可靠性问题。处于Kubernetes之旅早期的组织可能希望从Goldilocks开始，但是一旦您在多个团队中运行多个集群，Fairwinds Insights可以帮助提供一致性和治理，以最大限度地降低风险，并保持集群高效、可靠和经济高效地运行。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

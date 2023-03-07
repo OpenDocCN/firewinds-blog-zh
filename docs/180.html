@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>How You Can Scale Kubernetes Without Leaving Security and Operational Excellence Behind</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>如何扩展Kubernetes，而不忽略安全性和卓越运营</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/scale-kubernetes-without-leaving-security-and-operational-excellence-behind#2023-02-27">https://www.fairwinds.com/blog/scale-kubernetes-without-leaving-security-and-operational-excellence-behind#2023-02-27</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>Techstrong Research在2022年对其社区进行了民意调查，向DevOps、云原生网络安全以及数字化转型读者和观众询问了他们的Kubernetes环境。我们最近邀请了Techstrong Group首席战略官兼Techstrong Research总经理Mike Rothman来讨论这些结果。有一点非常清楚:Kubernetes的使用正在激增。只有25%的受访者没有在Kubernetes环境中运行任何生产应用程序，但更多人(31%)在生产环境中运行六个或更多应用程序。</p>
+<p><img src="../Images/829e8fba2bd00f4ce97bbdc806d69fb7.png" data-mce-paste="true" loading="lazy" alt="Graph titled &quot;Kubernetes Use is Exploding&quot; showing 31% of respondents are running 6 or more production apps on Kubernetes" data-original-src="https://lh4.googleusercontent.com/pz_D2nHGOur6axd_drD7-u38iioHzMCYeZkr2P5tI2yzUWQivRuEMGsQUqovChF-aNcfAi8wrGs1QVDQQ32E84RQLfixvOowVyS6Q_ECTNFG350xo2HSsC2IITba-js8-Gl3nqQc4PW_3IsoS55KlH8"/></p>
+<p>虽然Kubernetes的采用是不可否认的，但公司规模在我们看到的数据中起着重要作用。例如，小公司可能总共没有六个应用程序(部署在Kubernetes中或不部署)，而较大的组织可能有更多。随着明年K8s采用率的增加，类似这样的报告可能会变得更加精细，因此我们可以按公司规模跟踪采用情况，并显示关于有多少应用或服务正在生产中运行的更详细信息。</p>
+<h2><span>采用Kubernetes很难做对</span></h2>
+<p>在过去八年左右的时间里，我们已经看到K8s的采用稳步增长(最初发布的<a href="https://en.wikipedia.org/wiki/Kubernetes" rel="noopener" target="_blank"><span/></a>是2014年9月9日)，许多组织已经开始缓慢地行动，首先是测试Kubernetes，并学习如何将其投入运营以将其引入他们的环境。与此同时，其他公司已经完全接受了它。在这段时间里，社区成长了，Kubernetes成长了，在<a href="https://www.fairwinds.com/open-source-software"> <span>开源工具</span> </a>方面也有了很多进步。所有这些都有助于Kubernetes和Kube生态系统的成熟，这使得在生产K8s环境中更容易获得更多的团队和应用程序，并帮助开发团队更快地发货。但是，从两三个应用程序迁移到两百个应用程序迁移到云会带来新的挑战。</p>
+<h2><span>实施Kubernetes </span></h2>
+<p>虽然许多团队已经能够在Kube中可靠一致地运行单个容器，但当组织试图在明年将数百个应用和服务迁移到K8s时，管理起来会变得更加困难。最大的挑战之一是实现一致性基线。<a href="https://www.fairwinds.com/enforce-kubernetes-policy"> <span>策略实施</span> </a>已经成为组织采取更规范的方法来实现一致性和最佳实践的一种方式，而不是为每个团队创建一次性环境并手动调整每个设置。</p>
+<p>Kubernetes提供了很大的灵活性和许多选项，默认设置不一定是最安全、最可靠或最经济的。为了加速采用，它有助于消除一些复杂性并自动实施最佳实践，同时还确保它与您的CI/CD集成，以帮助开发人员在需要的地方获得他们需要的信息。</p>
+<p><img src="../Images/5794cea53f47cd77d58adf5a27cf2a28.png" data-mce-paste="true" loading="lazy" alt="Graph titled &quot;Operationalizing Kubernetes is the Biggest Challenge to Scale&quot; - shows challenges in security, cost, application deployment, and troubleshooting" data-original-src="https://lh4.googleusercontent.com/hIVdI5VbQHdjG1kvyWScCuNIPnZkF2O6Vj-FvG7ohiA0Z_a96OCz2whgeG_fCWNlnnJ0MDANmdJptFa_X7RSqhBHvsmOb-9IfFXGKCKG73oLv_5Ml58KGCwV4nxEKHBdZ5ojYGRH3ZkKV6uaCfNR_M8"/></p>
+<p><a href="https://techstrongresearch.com/"><span>Techstrong Research</span></a>的<a href="https://www.fairwinds.com/scaling-kubernetes-with-compromising-reg"> <span> PulseMeter报告</span> </a>显示了团队在寻求运营Kubernetes时遇到的最大挑战。不出所料，24%的人认为最大的挑战与安全问题和担忧有关。在这个复杂的环境中，开发和运营团队担心配置错误和安全漏洞是可以理解的。</p>
+<p>在Kubernetes中，故障排除也是一个严峻的挑战——开发人员通常不是Kubernetes专家，因此他们求助于平台工程师作为Kubernetes帮助台。故障排除通常非常耗时，并且会对其他关键工作造成大量干扰，从而降低所有工作的速度。另外两大挑战相互关联:应用程序部署的延迟和解决云成本。这很有趣，因为安全问题和故障排除都会导致部署延迟。</p>
+<p>另一方面，云成本是我认为组织在未来一年将更加关注的一个问题。我认为有几个原因:</p>
+<ol>
+<li aria-level="1">
+<p><span>今年的经济很难预测，许多组织都在寻找更多控制成本的方法</span></p>
+</li>
+<li aria-level="1">
+<p><span>不足或不存在</span><span><a href="https://www.fairwinds.com/blog/youre-not-monitoring-kubernetes-cost-and-you-should-be"/></span><span>是导致组织超支的原因，根据CNCF的</span> <span> <a href="https://www.cncf.io/wp-content/uploads/2021/06/FINOPS_Kubernetes_Report.pdf" rel="noopener" target="_blank"> FinOps for Kubernetes报告</a> </span></p>
+</li>
+<li aria-level="1">
+<p><span>快速增加的采用率很容易导致失控的云支出</span></p>
+</li>
+</ol>
+<p>根据CNCF的报告，68%的受访者认为2022年Kubernetes的成本会增加。调查显示，大多数人可以通过Kubernetes更积极、更细致的成本监控策略来减少开支。一种<a href="https://www.fairwinds.com/blog/how-to-implement-finops-and-increase-your-kubernetes-cost-avoidance"> <span> FinOps方法</span> </a>，这是一种识别与组织内各个孤岛的云支出相关的单位成本的实践，可以帮助组织了解其支出并实施Kubernetes成本规避策略。</p>
+<h2><span>自动化促进经营规模</span></h2>
+<p>在Kubernetes中，配置是一个严峻的挑战，因为查看单个YAML文件并找到配置问题很容易。当您处于像Kubernetes这样的复杂分布式环境中时，它位于云提供商及其配置之上，需要考虑的不仅仅是一个文件。需要注意的挑战有很多:错误配置、已知漏洞、过期的Docker映像、异常活动、<a href="https://rbac-lookup.docs.fairwinds.com/"> <span>基于角色的访问控制</span> </a>、法规遵从性以及可靠的应用和服务。</p>
+<p>简单地手动完成所有这些在规模上是不可能的。您需要在开发、安全和运营部门之间创建一个共享框架，以实现这种可见性，并推动对不同类型调查结果的所有权。为您的组织创建策略并自动执行策略可以帮助您创建与各个团队的反馈循环，以便他们可以快速了解问题所在，了解如何修复它们，并知道哪些问题存在最大的风险。这将帮助您更快地移动和部署更多的应用程序，同时在Kubernetes环境中保持高水平的可见性。<img src="../Images/0379407c383ba76eb0e7262a9db0dc43.png" data-mce-paste="true" loading="lazy" alt="Graph showing Kubernetes management activities that take too much manual effort or time" data-original-src="https://lh3.googleusercontent.com/37kybdNOBL31zmgLQzrkIskYk4HYiPZuxBmZz_lLdDiuz57GV4p_EoQywTnf0mN54bBFCgzCcCmKITbVXqlM3DqzWv-d6a-CzygXgs_n3IJOM89nLtneZmm9-e0kbFPdJujWZ-jYoLoFU_y--vDBlxs"/></p>
+<p>TechPulse调查的受访者几乎同样关注这五个问题，并担心他们需要多少手动工作或时间:</p>
+<ul>
+<li aria-level="1">
+<p><span>部署软件时的配置复杂性(20%) </span></p>
+</li>
+<li aria-level="1">
+<p><span>追踪成本和超支(19%) </span></p>
+</li>
+<li aria-level="1">
+<p><span>检查和修复漏洞(18%) </span></p>
+</li>
+<li aria-level="1">
+<p><span>保持合规(16%) </span></p>
+</li>
+<li aria-level="1">
+<p><span>收集和报告合规证据(14%) </span></p>
+</li>
+</ul>
+<h2><span>通过安全和卓越运营加速Kubernetes的采用</span></h2>
+<p>虽然仍然有很多关于采用的宣传，但Kubernetes仍然是一项新兴技术。许多组织正在增加采用率，并在来年将越来越多的工作负载投入生产。随着这种采用的增加，认真实施Kubernetes和其他云原生技术的组织需要研究和实施云原生解决方案，这些解决方案提供护栏来帮助开发人员快速部署应用和服务，而不必担心无意中发布易受攻击的代码、不满足监管合规性要求或增加不必要的云支出。</p>
+<p><span>观看DevOps.com网络研讨会:</span> <span> <a href="https://webinars.devops.com/scaling-kubernetes-without-compromising-security-and-operational-excellence" rel="noopener" target="_blank">扩展Kubernetes而不影响安全性和卓越运营</a> </span></p>
+<p><span><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span></span></span></p></span></div>    
+</body>
+</html>

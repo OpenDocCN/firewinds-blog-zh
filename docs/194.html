@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>Accurate Kubernetes Cost Monitoring and Management</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>精确的Kubernetes成本监控和管理</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/kubernetes-cost-monitoring#2023-01-10">https://www.fairwinds.com/blog/kubernetes-cost-monitoring#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><h3>了解云的成本以及云消费的所有子集正成为DevOps领导者越来越多的要求。事实上，FinOps已经成为组织寻求在商定的指标下联合财务和工程团队的关键词。</h3>
+<p>Kubernetes属于“子集”范畴。但是Kubernetes的成本监控很难。这是一个不断变化的环境和工作负载，需要大量配置。不幸的是，由于这个原因，Kubernetes的成本监控做得不好的团队并不多。此外，很难理解应用程序实际消耗了哪些资源，以及是应用程序<span/>还是应用程序<span>的配置方式</span>过度消耗了云资源。</p>
+<h2>为什么要在Kubernetes中衡量成本？</h2>
+<p>对于那些采用了容器和Kubernetes的组织来说，成本监控很快成为平台工程领导和财务团队的黑洞。关于支出的最大问题是:</p>
+<ul>
+<li>
+<p>成本分配:我要花多少钱？该成本应该如何在团队、应用程序和业务单元之间划分？</p>
+</li>
+<li>
+<p><strong>服务所有权</strong>:我的团队是否能够监控其应用的成本并做出改变以降低成本？</p>
+</li>
+<li>
+<p><strong>合理调整资源</strong>:我的应用程序是否过度调配，使用了过多的计算或内存？</p>
+</li>
+</ul>
+<p>Kubernetes的分配、优化和管理是理解和了解相关成本。</p>
+<h3><strong>Kubernetes成本监控的挑战</strong></h3>
+<p>对许多人来说，Kubernetes成本监控的挑战始于其配置方式:</p>
+<ul>
+<li>开发人员是否设置了正确的CPU和内存？</li>
+<li>什么应用程序的成本最高，为什么？</li>
+<li>能否按Kubernetes分解云成本，然后逐步细化？</li>
+</ul>
+<p>作为一家快速发展的初创公司，我们需要一种方法来更好地了解我们微服务的成本，尤其是当客户开始采用Fairwinds Insights的各种功能时。第一步实际上还没有测量成本；相反，我们开发了开源工具<a href="//www.fairwinds.com/goldilocks"> Goldilocks </a>，以确保我们的工作负载配置了正确的CPU和内存分配。这一步对于保证我们不会向最常用的微服务过度或不足地调配资源至关重要。</p>
+
+<p>一旦我们设置了我们的请求和限制，我们发现我们的传统云成本工具没有按照Kubernetes工作负载、名称空间或标签进行细分。这种认识使得我们很难了解哪些微服务或功能在推动集群中的大部分资源利用率，以及这些功能是否对我们有利。</p>
+<p> </p>
+<p>在我们的客户和社区对话中，我们意识到我们并不孤单。我们在Fairwinds Insights中开发了Kubernetes成本分配功能，允许我们为为我们的集群供电的节点配置每小时混合价格。有了这些信息，并使用Prometheus指标跟踪实际的pod和资源利用率，我们就能够生成工作负载的相对成本。这一举措帮助我们跟踪了我们的云支出，同时还确定了哪些功能会影响成本。</p>
+<p><img src="../Images/58a2685b5f84e1d81062adff3a061b58.png" data-original-src="https://www.fairwinds.com/hubfs/AWS%20billing%20screenshot-png.png"/></p>
+<p>平台工程团队，尤其是那些已经接受了<a href="https://www.fairwinds.com/kubernetes-service-ownership-whitepaper"> Kubernetes服务所有权</a>的团队，也被问及单个团队和产品的成本。这些请求最终来自财务主管，他们需要了解运行不同产品的边际成本。服务所有者还可以使用这些信息来做出自己的资源利用决策，并找到节省资源和成本的方法。</p>
+<h2><strong>在一个地方监控和管理您所有的Kubernetes费用</strong></h2>
+<p>当Kubernetes用作多租户/共享计算环境时，准确的Kubernetes成本分配变得越来越复杂。不同的团队可能使用不同的节点类型，并且工作负载不断变化，这使得节点的每小时价格成为一个移动的目标。</p>
+<p>我们很高兴地宣布，Fairwinds Insights现在支持<a href="https://www.fairwinds.com/news/fairwinds-insights-adds-kubernetes-cost-allocation-quality-of-service-control"> AWS计费集成</a>，允许团队使用他们的真实云账单来按工作负载、名称空间或标签计算成本。有了标签，平台工程团队可以通过多个业务维度“切割”精确的工作负载成本，满足服务所有者和财务的需求，而无需质疑底层节点定价假设。</p>
+<p>对使用Fairwinds Insights感兴趣吗？免费提供！点击此处了解更多信息。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

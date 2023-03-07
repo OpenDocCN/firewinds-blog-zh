@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>5 Problems with Kubernetes Cost Estimation Strategies</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kubernetes成本估算策略的5个问题</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/5-problems-with-kubernetes-cost-estimation-strategies#2022-11-29">https://www.fairwinds.com/blog/5-problems-with-kubernetes-cost-estimation-strategies#2022-11-29</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>很难估计您在特定的Kubernetes工作负载上花费(或浪费)了多少。好消息是，有一些合理的策略可以估算给定工作负载的成本。</p>
+
+<p>在本帖中，我们将讨论影响成本估算的五个主要问题，并在<a href="https://www.fairwinds.com/insights"> Fairwinds Insights </a>成本仪表板中触及我们用来克服这些问题的策略。我们将在即将发布的博客中对正确的规模进行更深入的回顾。</p>
+<h2><strong>问题#1:箱柜包装</strong></h2>
+<p>假设我们有一个节点，每月花费20美元。假设它有5GB的内存和5个CPU，我们可以使用。(注意:这不是一个非常现实的节点，但它使图表和数学变得很好🙂)</p>
+
+<p>这是一个工作负载，需要2 GB内存和2个CPU才能运行:</p>
+
+<p> </p>
+<p>我们可以在单个节点中安装相当于两个pod的工作负载:</p>
+
+<p> </p>
+<p>但是，如果我们想为工作负载添加第三个Pod，就没有足够的空间了。因此，我们需要添加一个新节点(并为此付费):</p>
+
+<p> </p>
+<p>请注意，在我们的第一个节点上有一点点空间被浪费了——我们有1GB的内存和1CPU。我们的第二个节点利用率非常低，只有不到一半的资源得到利用。</p>
+<p><strong>这是成本估算的第一个也是首要的问题</strong> : Kubernetes无法将一个pod拆分到多个节点上。因此，如果一个节点容纳不下全部数量的机架，就会浪费一定的容量。</p>
+<p><strong>解决方案:</strong>这里的一个解决方案是“调整”节点的大小。如果我们使用一个具有4GB内存和4CPUs的节点，我们的工作负载将非常合适，并且不会浪费任何容量:</p>
+
+<p> </p>
+<h2><strong>问题#2:资源不对称</strong></h2>
+<p>让我们考虑一种不同的工作负载:一种CPU密集型的工作负载。它需要3个CPU来运行，但只有1GB的内存。</p>
+<p> </p>
+
+<p> </p>
+<p>现在，我们只能将相当于1 Pod的工作负载放入单个节点中(使用我们的4CPU/4GB示例):</p>
+
+<p> </p>
+<p>这里浪费了大量未使用的容量——不仅是1个CPU，还有3 GB的内存。我们只使用了一半的节点，但如果我们想要启动第二个Pod，我们将需要第二个节点，浪费量相同！</p>
+<p><strong>解决方案:</strong>同样，我们希望调整节点的大小——云提供商提供CPU密集型和内存密集型节点来处理这个问题。</p>
+<h2><strong>问题#3:成本归属</strong></h2>
+<p>假设我们的较小节点(4个CPU和4 GB)每月成本为16美元。使用这些数字，我们可以粗略估计出每个CPU和每GB内存的成本。比方说，在这16美元中，8美元用于CPU，8美元用于内存。然后我们可以推断出我们为每CPU支付了2美元，为每GB内存支付了2美元。</p>
+<p>那么，我们每个pod的原始工作负载成本是多少？</p>
+<p> </p>
+
+<p> </p>
+<p>根据我们上面的计算，我们会说<code>$2/CPU * 2CPUs + $2/GB * 2GBs = $8.</code>是有道理的——我们可以在一个16美元的节点上恰好安装两个这样的工作负载。出于我们将在下面讨论的原因，我们称这种<strong>为成本估算的乐观方法</strong>。</p>
+<p>但是我们的第二个工作负载，CPU密集型的工作负载呢？</p>
+<p> </p>
+
+<p> </p>
+<p>让我们做同样的计算:<code>$2/CPU * 3CPUs + $2/GB * 1GB = $8.</code>所以<strong>乐观方法</strong>说这个工作负载花费我们8美元。但是正如我们在上面看到的，我们只能在每个节点上安装一个。所以在现实中，它的成本是16美元/月，而乐观的方法似乎并不那么准确。</p>
+<p>有没有另一种成本估算方法可以给我们一个更合理的答案？有！</p>
+<p>我们可以不把CPU成本和内存成本加在一起，取两者的<em>最大值</em>。这有助于我们考虑内存密集型或CPU密集型工作负载，这些工作负载可能会浪费额外的容量。(注意，我们还需要将结果乘以2，因此我们也要计算丢失的资源。)</p>
+<p>因此，数学变得<code>MAX($2/CPU * 3CPUs, $2/GB * 1GB) * 2 = $12.</code>这是一个更接近16美元目标的好交易。其余的是完全未使用的节点容量(即，尽管该节点承载CPU密集型工作负载，但仍将浪费1个CPU)。</p>
+<p>我们称之为保守的估算方法。就Kubernetes将工作负载打包到节点上的能力而言，它为最坏的情况做了准备。</p>
+<p>对于许多工作负载，保守方法和乐观方法会给出类似的估计，但是对于CPU或内存密集型工作负载，它们会有所不同。基本区别在于，乐观方法假设最优装箱，而保守方法假设会有一些浪费。例如，假设我们也在运行一个内存密集型工作负载，它只需要1个CPU，但需要3 GB内存:</p>
+
+<p> </p>
+<p>Kubernetes非常聪明，它将这些与我们的CPU密集型工作负载打包在一起，为我们节省了未使用的容量:</p>
+
+<p> </p>
+<p><strong>保守的方法</strong>会说这些工作负载的每一个成本为12美元，总成本为24美元。但是Kubernetes已经找到了一种方法将它们打包成一个16美元的节点！我们已经错过了。这就是为什么它被称为<strong>保守派</strong>。</p>
+<p><strong>乐观方法</strong>考虑到了巧妙的装箱，可以说每个工作负载花费8美元，总花费16美元，这是一个完美的估计，因为它们正好适合一个16美元的节点。</p>
+<p><strong>解决方案:</strong>那么应该用哪个呢？答案是视情况而定。如果您已经花时间优化您的实例类型，或者如果您的节点比您的平均工作负载大得多，那么Kubernetes很有可能找到一种以经济高效的方式将工作负载打包在一起的方法，并且您可以安全地选择<strong>乐观</strong>方法。否则，我们推荐<strong>保守</strong>方法。</p>
+<h2><strong>问题4:资源范围</strong></h2>
+<p>另一个问题是Kubernetes工作负载不仅仅使用固定数量的CPU和内存。资源的使用可能会随着时间的推移而变化，并且pod可能会因为这些波动而被终止或在节点之间移动。</p>
+<p>为了帮助解决这个问题，Kubernetes配置为工程师提供了两个管理资源的字段:</p>
+<ul>
+<li><code>requests</code>设置工作负载的最小资源使用量。当一个工作负载在一个节点上被调度时，您可以确保至少有这么多的可用</li>
+<li><code>limits</code>设置工作负载的最大资源使用量。当一个工作负载的Pod尝试使用超过这个数量时，Pod <em>将被杀死</em>，一个新的Pod将启动。</li>
+</ul>
+<p>给定工作负载的实际资源使用量将介于这两个数字之间，并且每秒钟都会有很大的波动(只需查看macbook上的活动监视器，就可以了解这种变化有多大！).</p>
+<p><strong>解决方案:</strong>估算底线工作负载成本的一种方法是查看波动的数字，然后取一段时间的平均值。估算工作负载成本的另一种方法是查看<code>requests</code>和<code>limits</code>以提供一系列可能性，或者取两者的平均值。</p>
+<p>由于Fairwinds Insights主要关注的是<a href="//www.fairwinds.com/insights">配置验证</a><strong/>，我们选择了第二种策略——我们想告诉你，<em>鉴于你目前的配置</em>，你可以预计这一工作负载的成本。</p>
+<h2><strong>问题5:吵闹的邻居</strong></h2>
+<p>Kubernetes只能用它得到的信息做到最好。这就是为什么为每一个工作负载指定<code>requests</code>和<code>limits</code>如此重要。</p>
+<p>例如，如果您的一个工作负载适时地请求1GB的内存，但是同一节点上的另一个工作负载没有设置<code>requests</code>或<code>limits,</code>，那么第二个工作负载很容易就开始吞噬该节点上的所有可用资源。这可能会阻止我们的原始工作负载获得所需的所有内存，从而影响其性能。</p>
+<p>因为很难设定这些设置，一些团队从来没有设定过要求或限制，而另一些团队在初始测试时将它们设定得太高，然后就永远不会正确。为了恰当地估计成本，我们需要设置正确的限制和要求。Fairwinds Insights使用免费开源工具<a href="https://github.com/FairwindsOps/goldilocks/"> Goldilocks </a>来分析实际资源使用情况，并为<code>requests</code>和<code>limits</code>推荐“刚刚好”的设置。</p>
+<h2><strong>结论</strong></h2>
+<p>了解您组织的每个应用程序影响的财务成本非常重要，但是当它们都在Kubernetes中一起运行时，这可能会非常困难。幸运的是，有一些合理的方法可以解决Kubernetes成本估算的每个问题。</p>
+<p>通过组合使用合适的规模(更多内容将在后面介绍)、采用正确的方法(例如保守与乐观)以及使用Fairwinds Insights和Goldilocks等配置验证工具，您可以确保Kubernetes部署高效运行。</p>
+<blockquote>
+<p>Fairwinds Insights可供免费使用。你可以在 这里<a href="https://www.fairwinds.com/coming-soon"> <span>报名。</span></a></p>
+</blockquote>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-166939eb-9ebe-4094-a151-45bce5bd4f2f"><span class="hs-cta-node hs-cta-166939eb-9ebe-4094-a151-45bce5bd4f2f" id="hs-cta-166939eb-9ebe-4094-a151-45bce5bd4f2f"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/166939eb-9ebe-4094-a151-45bce5bd4f2f"><img class="hs-cta-img" id="hs-cta-img-166939eb-9ebe-4094-a151-45bce5bd4f2f" src="../Images/b1ac50ea4fc469770b0daa1ea986820e.png" alt="Fairwinds Insights | Managing Kubernetes Configuration for Security, Efficiency and Reliability " data-original-src="https://no-cache.hubspot.com/cta/default/2184645/166939eb-9ebe-4094-a151-45bce5bd4f2f.png"/></a></span>T6】</span></p>
+<p> </p></span></div>    
+</body>
+</html>

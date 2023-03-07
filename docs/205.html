@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Don’t Let the Cloud Bring You Down: The Importance of Cloud Server Backups</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>不要让云拖垮你:云服务器备份的重要性</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/the-importance-of-cloud-server-backups#2019-12-17">https://www.fairwinds.com/blog/the-importance-of-cloud-server-backups#2019-12-17</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>我们都熟悉最常见的威胁媒介——黑客或其他不良分子获得对您的云基础架构的访问权，以利用系统漏洞。一个较少被提及的威胁媒介是有意或无意地删除内部数据。不管怎样，这种威胁迟早会成为现实。那么，当那个时刻到来时，你该如何准备呢？</p>
+
+<p>为了确保高可用性和灾难恢复功能，从而提高可管理性并实现业务连续性，您首先需要确定您想要保护的内容—静态基础架构、动态基础架构、持久数据和依赖关系—然后创建涵盖关键基础架构和数据的灾难恢复计划。</p>
+<h2 id="static-infrastructure">静态基础设施</h2>
+<p>静态基础设施包括不经常改变的基础设施，包括网络基础设施、防火墙和VPN设备，以及平台状态文件。例如，在<span/><a href="https://kubernetes.io/" target="_blank">Kubernetes</a><span/>世界中，静态基础设施可能包括集群配置和主/从用户数据。</p>
+<p>像<span/><a href="https://www.terraform.io/" target="_blank">terra form</a><span/>或<span/><a href="https://aws.amazon.com/cloudformation/" target="_blank">AWS cloud formation</a><span/>这样的工具可以用于静态基础设施配置管理(CM)。确保定期进行代码审查和工程审查，并保留版本变更历史。考虑将您的静态基础架构配置应用到您的云平台上的多个区域，这将为您提供一个二级灾难恢复站点，而无需太多额外成本。</p>
+<h2 id="dynamic-infrastructure">动态基础设施</h2>
+<p>动态基础结构包括应用程序堆栈的各个部分，这些部分可能会在应用程序的生命周期中发生变化，例如服务器配置、安全组、启动配置、自动伸缩组和负载平衡器。</p>
+<p>Ansible  <span> </span>是一款常用的DevOps工具，用于自动化应用部署和协调基础设施变更。无论您使用什么工具，您都需要跟踪所有动态的基础结构变化。CM、版本控制和工程评审非常重要，如果应用程序堆栈遭到破坏或损害，完全重建应用程序堆栈的能力也非常重要。</p>
+<p>假设一个坏人获得了对您的基础设施的访问权。如果您始终如一地维护和监控您的安全策略、实例配置和资源供应的单一真实来源，您的应用程序堆栈可以在不同的区域快速启动和运行。</p>
+<h2 id="persistent-data">不变数据</h2>
+<p>持久数据是您公司的命脉。它是存储用户信息、应用程序配置和逻辑的地方。大多数云存储资源允许您出于备份目的定期对数据进行快照。为防止丢失，请确保快照被镜像到辅助区域或帐户。一些可以考虑的工具:</p>
+<ul>
+<li><a href="https://aws.amazon.com/rds/" target="_blank">亚马逊关系数据库服务(RDS) </a> <span> </span>允许您的数据库的定期时间点快照。快照可用于恢复实例，并可轻松复制到其他区域和帐户。</li>
+<li><a href="https://aws.amazon.com/ebs/" target="_blank">亚马逊弹性块存储(EBS) </a> <span> </span>卷在每个可用性区域保存数据，并定期拍摄快照。可以修改快照以授予其他<span> </span> <a href="https://aws.amazon.com/" target="_blank"> AWS </a> <span> </span>账户访问权限，并且可以在地区和账户之间复制。</li>
+<li><a href="https://aws.amazon.com/elasticache/" target="_blank">elastic cache</a><span/>是一个用于缓存存储或键值存储的亚马逊web服务。如果您计划使用该工具维护状态，请确保设置自动快照，并像处理数据库一样传送备份。</li>
+<li><a href="https://aws.amazon.com/s3/" target="_blank">S3</a><span>T3】是亚马逊面向互联网的云存储。S3存储桶中的所有数据都应复制到另一个帐户或地区。“一次写入，永不删除”存储桶策略和对象版本控制允许您保留多个版本，以防数据被覆盖或删除。</span></li>
+</ul>
+<p>考虑维护一个仅用于备份的单独云帐户。例如，创建一个严格用于备份的AWS帐户，将其设置为“一次写入，永不删除”以维护永久的备份历史，定期同步持久数据，并限制可以访问该数据的用户数量。然后，如果你的主AWS账户出了什么问题，你仍然有你的备份账户。</p>
+<h2 id="dependencies">属国</h2>
+<p>您的工作负载中存在应用程序和基础架构级别的依赖关系。如果这些依赖关系发生问题，您可能无法在灾难后重建基础设施。一些可以考虑的工具:</p>
+<ul>
+<li><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html" target="_blank">亚马逊机器映像(AMIs) </a> <span> </span>是作为磁盘映像保存的已配置操作系统的快照。您的应用程序堆栈可能依赖于定制的基础映像，因此请确保备份AMI快照，以防您需要重建。如果主区域受损或停机时间延长，将AMI快照发送到辅助区域可以实现灾难恢复。</li>
+<li><a href="https://aws.amazon.com/route53/" target="_blank"> Route 53 </a> <span> </span>是亚马逊DNS web服务。早在10月，一次DDoS攻击导致一家主要的DNS提供商瘫痪，并导致东海岸大部分地区的互联网瘫痪。如果您使用53号路由进行DNS，您需要一个备用计划。这样，如果AWS出现重大故障，您可以将您的区域备份带到另一个DNS提供商，并快速恢复在线。</li>
+</ul>
+<h2 id="closing-thoughts">结束语</h2>
+<p>你如何确保云不会让你失望？通过密切跟踪哪些信息发生了更改，谁在何时更改了它。</p>
+<p>最重要的是，您了解您的基础架构备份需求，然后为您的业务制定正确的定制备份和恢复战略。</p></span></div>    
+</body>
+</html>

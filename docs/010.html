@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Kubernetes Problem Solving</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kubernetes问题解决</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/kubernetes-problem-solving#2022-12-05">https://www.fairwinds.com/blog/kubernetes-problem-solving#2022-12-05</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>毫无疑问，运行Kubernetes时，你会花大量的时间来解决问题。我们的团队在许多不同的Kubernetes部署中解决了很多问题。以下是一些常见问题以及我们如何解决它们。</p>
+<h2>1.卵死亡荚</h2>
+<h2>在Kubernetes集群中，内存的底层资源是有限的，当内存不足时，底层操作系统可以终止容器。根据进程对饥饿内存资源的使用是否超过请求以及优先级，对进程的终止进行排序。</h2>
+<p>为了避免问题，您需要设置内存请求和限制，以适应应用程序在其生命周期中的使用。如果您的内存限制太低，您将熟悉OOMKilled作为一种状态，它显示您的Pod因使用太多内存而被终止！但是如果你把你的限制设得太高，你会因为过度分配而浪费金钱。</p>
+<p>理想情况下，您希望将内存请求和限制设置在“刚好够用”的最佳位置。您将需要检查所有pod以检查内存请求和限制。手动执行此操作会花费大量时间，并且容易出现人为错误。我们通过使用<a href="https://github.com/FairwindsOps/goldilocks"> Goldilocks </a>来解决这个问题，这是一个开源工具，可以帮助团队将资源分配给他们的Kubernetes部署，并正确地校准这些资源。<code><span/></code></p>
+<p>降低成本是Kubernetes的众多好处之一，您应该对预期成本有所了解。如果到了月底，你的账单显示费用飞涨，那么你可能会有问题。</p>
+<span><strong>2. Higher than expected costs</strong></span><br/>
+<p>要解决这个问题，您必须将建议成本与实际成本进行比较。许多组织将其CPU和内存请求和限制设置得太高，但不知道从哪里进行更改。如上所述，我们使用Goldilocks来审查请求和限额。不过，对于成本分析，我们使用<a href="https://www.fairwinds.com/insights"><span>fair winds Insights</span></a>，它吸收金发女孩数据，帮助我们区分哪些工作负载需要调整请求和限制。我们还使用Cluster Autoscaler来确保任何多余的节点在未使用时被删除，从而节省时间和金钱。</p>
+<p><span> <strong> 3。知道什么时候更新</strong>头盔</span></p>
+<h2>修补Kubernetes附加组件通常并不困难。另一方面，跟踪何时更新可能很困难。虽然Kubernetes定期按季度更新，但掌舵图的更新难以监控和预测。我们的Fairwinds团队使用<a href="https://www.fairwinds.com/blog/nova-monitor-helm-for-new-releases"> <span> Nova </span> </a>，这是一个开源的命令行界面，用于交叉检查您集群中运行的最新版本的舵图。Nova会让您知道您运行的图表是否过期或被弃用，因此您可以确保您始终了解更新。如果使用Fairwinds Insights，该工具可以接收Nova数据，并在有新更新时提供警报，而不必定期运行Nova。</h2>
+<p><strong> 4。处理突发流量</strong></p>
+<h2>无论你是突然被病毒感染还是遭到DoS攻击，Kubernetes都提供自动缩放功能，因此你的应用不会失败。虽然这对于病毒式传播来说是件好事，但如果发生DoS攻击，那就非常糟糕了。</h2>
+<p>在您的应用以及服务网格或入口控制器中设置速率限制。这将防止任何单个机器使用太多的带宽。例如，nginx-ingress可以限制每秒或每分钟的请求、有效负载大小以及来自单个IP地址的并发连接数。</p>
+<ul>
+<li>运行负载测试，了解应用程序的伸缩性。您将希望在一个临时集群上设置您的应用程序，并对其进行流量处理。测试分布式DoS攻击有点困难，因为流量可能同时来自许多不同的IP，但是有一些服务可以帮助解决这个问题。</li>
+<li>利用Cloudflare等第三方服务来提供DoS/DDoS保护。</li>
+<li>回到第一点，您需要确保您有正确的限制请求，以确保您的常规流量能够到达您的服务。</li>
+</ul>
+<p>5.缺少标签</p>
+<h2>容器注册通常允许您在推送容器时覆盖标签。这种情况的一个常见例子是最近的标签，它甚至可以自动设置为匹配最后推送的标签。在生产中使用这个标签是一种危险的做法，因为它可能会出现这样的情况:您不知道您的容器中正在运行什么代码，并且最终可能会无意中在生产中运行多个版本的代码。为了帮助跟踪这样的问题，我们使用了<a href="https://github.com/FairwindsOps/polaris/blob/master/docs/check-documentation/images.md"> <span>北极星、</span> </a>另一个开源工具，它支持许多与pods指定的图像相关的检查。使用时，如果标签丢失，北极星将显示<span> <code>images.tagNotSpecified</code> </span>或<span> <code>images.pullPolicyNotAlways.</code> </span></h2>
+<p> </p>
+<p>对于那些没有资源来处理所有这些开源项目的人，我们已经将它们全部合并到<a href="https://www.fairwinds.com/insights"> Fairwinds Insights </a>中，这是一个配置验证工具，它将扫描您的集群，并检查可能会耗费您的资金、使您易受攻击或导致停机的配置。</p>
+<p>对使用Fairwinds Insights感兴趣吗？免费提供！<a href="https://www.fairwinds.com/coming-soon"> <span>在此了解更多</span> </a>。</p>
+<blockquote>
+<p>你可以通过在GKE、AKS或EKS上建立一个集群来检验和尝试它，看看它如何帮助解决Kubernetes的问题。</p>
+</blockquote>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-1ccd0525-c794-4194-8aad-fc9663bb9c5a"><span class="hs-cta-node hs-cta-1ccd0525-c794-4194-8aad-fc9663bb9c5a" id="hs-cta-1ccd0525-c794-4194-8aad-fc9663bb9c5a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/1ccd0525-c794-4194-8aad-fc9663bb9c5a"><img class="hs-cta-img" id="hs-cta-img-1ccd0525-c794-4194-8aad-fc9663bb9c5a" src="../Images/34937a5ae51bc0ceb94a21b3fd2382d0.png" alt="Managing Kubernetes Configuration Read the Whitepaper" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/1ccd0525-c794-4194-8aad-fc9663bb9c5a.png"/></a></span>T6】</span></p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-1ccd0525-c794-4194-8aad-fc9663bb9c5a"><span class="hs-cta-node hs-cta-1ccd0525-c794-4194-8aad-fc9663bb9c5a" id="hs-cta-1ccd0525-c794-4194-8aad-fc9663bb9c5a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/1ccd0525-c794-4194-8aad-fc9663bb9c5a"><img class="hs-cta-img" id="hs-cta-img-1ccd0525-c794-4194-8aad-fc9663bb9c5a" src="../Images/34937a5ae51bc0ceb94a21b3fd2382d0.png" alt="Managing Kubernetes Configuration Read the Whitepaper" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/1ccd0525-c794-4194-8aad-fc9663bb9c5a.png"/></a></span></span></p></span></div>    
+</body>
+</html>

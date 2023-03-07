@@ -1,0 +1,65 @@
+<html>
+<head>
+<title>Open Source Vulnerability Scanning</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>开源漏洞扫描</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/open-source-vulnerability-scanning#2023-01-10">https://www.fairwinds.com/blog/open-source-vulnerability-scanning#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>开源漏洞扫描器用于检测软件应用程序中的开源组件。一些扫描器被称为软件组合分析(SCA)工具，它基本上是一个自动化的过程，可以识别任何代码库中存在的所有开源组件，无论是开源还是商业应用程序。</p>
+
+<p>这篇文章探讨了:</p>
+<ul>
+<li>开源漏洞扫描的工作原理</li>
+<li>开源组件中的漏洞</li>
+<li>使用开源漏洞扫描器的好处</li>
+<li>如果您使用Kubernetes，为什么需要漏洞扫描器</li>
+<li>开源漏洞扫描的推荐工具</li>
+</ul>
+<h2>开源漏洞扫描是如何工作的？</h2>
+<p>软件组合分析是一个开源漏洞扫描解决方案，它执行评估安全性、开源许可证合规性和代码质量的分析。通过检查包管理器、清单文件、源代码、二进制文件、容器图像和其他类型的文件来识别开源组件，这些工具创建应用程序中所有开源组件的列表(有时称为开源材料清单)。然后，开放源代码漏洞扫描解决方案将已识别的开放源代码列表与各种数据库进行比较，例如来自国家标准和技术研究所(NIST)的数据库、<a href="https://nvd.nist.gov/" rel="nofollow noopener" target="_blank">国家漏洞数据库</a> (NVD)。NVD是美国政府基于标准的漏洞管理数据的存储库，它包括安全清单参考、安全相关软件缺陷、错误配置、产品名称和影响度量的数据库。</p>
+<h2>开源组件中的漏洞</h2>
+<p>NVD使用通用漏洞评分系统(CVSS)，这是一个开放式框架，用于交流软件漏洞的特征和严重性。通用漏洞和暴露(CVE)系统为众所周知的信息安全漏洞分配唯一的通用标识符，CVE由CVE编码机构(CNA)分配。CVE号码分配有三种主要类型:</p>
+<ol>
+<li>作为编辑和主要CNA的<a href="https://en.wikipedia.org/wiki/Mitre_Corporation" rel="nofollow noopener" target="_blank"> Mitre公司</a></li>
+<li>一些CNA为他们自己的产品分配CVE号码，例如微软、甲骨文、惠普、红帽等等</li>
+<li>第三方协调人，如<a href="https://en.wikipedia.org/wiki/CERT_Coordination_Center" rel="nofollow noopener" target="_blank">认证协调中心</a>，可以为其他CNA未涵盖的产品分配CVE号码</li>
+</ol>
+<p>CVEs确保对漏洞有一致的描述，信息技术和网络安全专业人员依靠CVE记录来优先处理和解决漏洞。CVE为任何特定的漏洞或暴露提供了一个标准化的标识符，这有助于您使用多个来源来评估有关问题的信息，并且CVSS基于各种因素来分配分数。</p>
+<p><em><img src="../Images/3a0e0b035e9e81a73a0def3d3d691a50.png" loading="lazy" alt="image of Common Vulnerability Scoring System calculator" data-original-src="https://lh6.googleusercontent.com/Wa1yQn57lTHGZw7AAtgrAqVhcyJ_mDpyrmtm5YNrxfY8GtToy3N7Rx75URjcuFaTScu9gFdnSYaIWleg5DY6Y-Y391bM8wfxWU3truBlZ179LIqhxJ9eQtM-hO6RYeupDeiGyn6kKiOUtfYDfpfWhA"/>T2】</em></p>
+<p><em>来源:</em> <a href="https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:L/I:N/A:H" rel="nofollow noopener" target="_blank"> <em>常见漏洞评分系统3.1版计算器</em> </a></p>
+<p>这些分数基于可利用性和影响的基本指标；他们称之为时间度量组，包括漏洞代码成熟度、补救级别和报告置信度；以及环境度量组，它包括修改的基本度量以及机密性、完整性和可用性要求。当然，CVSS分数不是唯一的考虑因素。您还需要考虑该漏洞可能对应用程序<a href="https://whatis.techtarget.com/definition/Confidentiality-integrity-and-availability-CIA" rel="nofollow noopener" target="_blank">机密性、完整性、可用性</a> (CIA)造成的影响，以及攻击者利用该漏洞的难度。</p>
+<p>已知的开源漏洞很受攻击者的欢迎，因为通常存在已知的漏洞，这使得黑帽黑客能够尝试对多个目标进行攻击。他们需要的只是找到一些没有修补漏洞的漏洞，允许不必要的访问进入您的系统。</p>
+<h2>使用开源漏洞扫描器的好处</h2>
+<p>今天，开源软件是大多数应用程序的重要组成部分。今天的开发人员使用开源有很多原因:</p>
+<ul>
+<li>开源鼓励合作</li>
+<li>开源允许您重用公共代码，因此您可以专注于自己的优势</li>
+<li>开源允许其他人采用你的项目并在其上构建</li>
+<li>开源鼓励创新</li>
+</ul>
+<p>包括Fairwinds在内的一些公司使用开源来提供Kubernetes支持，并帮助社区构建正确的Kubernetes架构和部署环境。我们的<a href="/polaris" rel="noopener" target="_blank">北极星</a>提供运行检查，以找到错误配置并帮助解决它们，而<a href="https://github.com/FairwindsOps/rbac-manager" rel="noopener" target="_blank"> RBAC经理</a>帮助角色管理和授权。开源项目和解决方案提供了大量的价值，但也存在一些风险。开源漏洞扫描器通过在您的代码库中找到开源代码，并将其与开源漏洞数据库进行比较，以确定您的代码中是否有任何易受攻击的组件，从而帮助组织降低风险。了解您的开源漏洞有助于您保持应用程序的安全，这是组织面临不断变化的风险时的一个重要考虑因素。</p>
+<h2>如果您使用Kubernetes，为什么需要漏洞扫描器</h2>
+<p>使用漏洞扫描器扫描开源漏洞对于任何组织来说都是必不可少的，对于采用Kubernetes的组织来说当然也是必要的。大多数应用软件依赖于开源包、库和其他第三方组件，运行在Kubernetes上的应用程序也不例外。为了提高Kubernetes应用程序的安全性，您需要考虑漏洞扫描，包括扫描容器图像以发现开源漏洞。</p>
+<p><a href="/insights" rel="noopener" target="_blank">在软件开发生命周期的早期自动扫描</a>并持续扫描您的容器和Kubernetes有助于您发现风险并确定风险优先级，以及在发现漏洞时进行补救。如果没有持续扫描，您的组织就会面临风险，因为新的简历会定期被发现和披露。网络攻击者不断寻找窃取数据、篡改部署和造成伤害的方法。</p>
+<p>Kubernetes是容器编排的事实上的标准，它本身是一个开源项目。Kubernetes是云原生运动的核心，云应用的增加意味着这一趋势可能会继续。Linux容器是任何Kubernetes部署中不可或缺的一部分，因此扫描这些容器中的开源安全漏洞对于维护安全环境至关重要。容器映像有多种来源，比如Docker Hub和其他公共存储库，并且基于不同的Linux发行版，比如Ubuntu、Amazon Linux、Debian和Alpine。选择正确的漏洞扫描解决方案意味着选择一个参考NVD和特定于发行版的安全公告、支持您组织中使用的软件包管理器，并为您的应用程序中使用的任何特定于语言的依赖项和库提供语言支持的解决方案。自动化和集成的漏洞扫描可确保您及时了解所有漏洞，无论您的应用程序是否已部署。</p>
+<h2>漏洞扫描的推荐工具</h2>
+<p>有几种可用的漏洞评估或漏洞扫描工具，包括商业的、免费的和开源的解决方案。无论您选择哪种工具，都要确保您获得了从开发到部署跟踪代码中的开源代码所需的信息。了解更多关于一些可用选项的信息:</p>
+<h3>黑鸭子</h3>
+<p>Synopsys的<a href="https://www.synopsys.com/software-integrity/security-testing/software-composition-analysis.html" rel="nofollow noopener" target="_blank">黑鸭软件组成分析</a>为应用程序和容器创建精确的物料清单(BOM)，通过依赖关系分析、代码打印分析、二进制分析和代码片段分析来检测开源。这种类型的漏洞评估还允许您为开源使用、安全风险和许可证合规性定义策略，并自动执行策略和DevOps集成。</p>
+<h3>蛛形纲动物</h3>
+<p>Arachni是一个免费的web应用安全扫描器框架，用Ruby开发。它的源代码是公开的，可供审查。Arachni支持所有主要的操作系统:微软Windows、Mac OS X和Linux。它通过便携包分发，并为现代web应用技术提供漏洞检测。Arachni对大多数用例都是免费的，包括扫描开源项目。</p>
+<h3>锚</h3>
+<p><a href="https://github.com/anchore/anchore-engine" rel="nofollow noopener" target="_blank"> Anchore Engine </a>是一款开源Docker容器策略合规性和静态分析解决方案。它自动对容器中的代码进行图像检查、分析和评估。Anchor还为每个映像提供策略评估，与容器注册表和CI/CD工具集成，并发现容器中的已知漏洞。</p>
+<h3>OpenVAS</h3>
+<p><a href="https://www.openvas.org/" rel="nofollow noopener" target="_blank"> OpenVAS </a>是一款开放式漏洞评估扫描器，提供未认证和认证测试、高级和低级互联网和工业协议、针对大规模扫描的性能调优，以及实现任何类型漏洞测试的内部编程语言。</p>
+<h3>Trivy</h3>
+<p><a href="https://github.com/aquasecurity/trivy" rel="nofollow noopener" target="_blank"> Trivy </a>是来自<a href="https://www.aquasec.com/" rel="nofollow noopener" target="_blank"> Aqua Security </a>的开源漏洞评估工具，可以检测开源软件中的漏洞。Triivy还提供了对风险的简短解释，这有助于开发人员决定他们想要使用哪些组件。Trivy将漏洞扫描并入集成开发环境(IDE)。开源贡献者继续为Trivy创建集成和附加组件，包括用于提取漏洞度量的Prometheus exporter，以及用于将Trivy安装到Kubernetes集群中的Helm chart。<a href="/insights" rel="noopener" target="_blank"> Fairwinds Insights </a>将Trivy集成到其平台中，以支持整个开发生命周期中的开源扫描。</p>
+<h2>扫描开源漏洞</h2>
+<p>无论您使用何种工具来保护您的软件，进行漏洞评估以扫描开源漏洞都是保护您的应用程序的重要步骤。开源漏洞会给Kubernetes环境带来巨大的风险，在整个开发生命周期中使用漏洞评估工具扫描漏洞可以帮助您尽早发现风险，并快速修复新发现的漏洞。Fairwinds Insights与您的CI/CD渠道紧密集成，帮助您的开发团队更轻松地防止错误配置和修复漏洞。</p>
+<blockquote>
+<p>寻找一个完整的Kubernetes治理平台？Fairwinds Insights是免费的。<a href="https://www.fairwinds.com/coming-soon"> <span>今天就开始</span> </a>。</p>
+</blockquote>
+<p>了解<a href="/insights" rel="noopener" target="_blank"> Fairwinds </a>如何帮助您自信地部署在Kubernetes环境中运行的应用和服务，内置的漏洞评估工具可帮助您快速找到开源漏洞和错误配置问题。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

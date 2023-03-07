@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>SOC 2 Compliance for Kubernetes with Fairwinds Insights</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>Kubernetes与Fairwinds Insights的SOC 2合规性</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/soc-2-compliance-for-kubernetes#2022-12-05">https://www.fairwinds.com/blog/soc-2-compliance-for-kubernetes#2022-12-05</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>如果你处理客户数据，你可能听说过SOC 2。也许你已经要求供应商提供SOC 2报告，或者你已经自己进行了审计。</p>
+<h2>什么是SOC 2，为什么它很重要？</h2>
+<p>SOC 2审计报告关注服务组织的非财务报告控制，因为它们与系统的安全性相关。基于AICPA的信任服务标准，SOC 2旨在为用户提供评估和解决与服务提供商相关的风险所需的信息。它有助于确保客户数据的安全，并确保组织遵守最新的网络安全标准。</p>
+
+<p>采用像containers和Kubernetes这样的云原生技术会带来新的SOC 2合规性挑战。因为容器是短暂的(容器可以被停止和破坏，然后用绝对最少的设置和配置来重建和替换)，所以很难首先识别您是否符合，或者何时容器不再符合。</p>
+<p><a href="/insights" rel="noopener"> Fairwinds Insights </a>是一款用于监控、自动化和执行Kubernetes最佳实践的软件。企业使用Fairwinds Insights的安全性、合规性和治理控制来解决特定于容器和Kubernetes的SOC 2范围。Fairwinds Insights提供多集群可见性和<a href="/kubernetes-policy-enforcement" rel="noopener">策略执行</a>，因此您可以从CI/CD到生产全程管理Kubernetes的SOC 2合规性。这使您能够在开发过程的早期实现控制，而不仅仅是在生产中——因此您总是知道您最新的遵从状态。</p>
+<blockquote>
+<p>Fairwinds Insights可供免费使用。你可以在 这里<a href="https://www.fairwinds.com/coming-soon"> <span>报名。</span></a></p>
+</blockquote>
+<p>以下是Fairwinds Insights如何帮助组织实现SOC 2的一些示例。</p>
+<h2><strong> CC 6.1:针对受保护信息资产的逻辑访问安全软件、基础架构和体系结构，以保护它们免受安全事件的影响。</strong></h2>
+<p>CC 6.1的一个组件专注于标准化您的基础设施配置。</p>
+<p>借助Fairwinds Insights，Kubernetes管理员可以运行多个自动化漏洞扫描工具来检测是否存在明显的安全漏洞，以及集群是否符合行业标准——如<a href="https://www.cisecurity.org/benchmark/kubernetes/" rel="noopener" target="_blank"> <span> CIS Kubernetes基准</span> </a>。</p>
+<p>此外，策略控制可以内置到Fairwinds Insights中，将护栏应用于集群配置。通过设置策略，可以防止从不受信任的来源部署容器。Fairwinds围绕Kubernetes最佳实践带来了100多种开箱即用的检查，例如识别作为特权或根运行的容器。此外，该软件包括一个预建的自定义检查库，用于管理合规性和运营风险，例如要求在部署上贴标签。这意味着将客户数据转移到生产中的容器不会不符合要求。</p>
+<h2><strong> CC 6.6:防止来自系统边界之外的威胁的逻辑访问安全措施。</strong></h2>
+<p>CC 6.6的一部分处理基础设施和应用程序容器的漏洞扫描。Kubernetes是一种开源技术，这意味着许多运行核心Kubernetes工作负载的包和容器可能会引入已知的漏洞。拥有检查这些集装箱库存风险的流程成为实现SOC 2合规性的关键部分。</p>
+<p>Fairwinds Insights提供运行时容器扫描，以及CI/CD流程中的集成。跟踪容器中的已知漏洞是管理SOC 2合规性的重要部分，这两层使组织能够轻松建立漏洞管理计划来满足SOC 2要求。Fairwinds Insights更进了一步，根据严重性对发现进行优先排序，为开发人员和合规团队提供了关于首先关注哪些方面的重要指导。</p>
+<h2><strong> CC 6.8:防止或检测未经授权或恶意软件的引入并采取相应措施以实现实体目标的控制措施。</strong></h2>
+<p>监控恶意软件和对基础设施的更改是CC 6.8的关键部分。在Kubernetes的情况下，这包括诸如监视谁可以访问集群、锁定RBAC和网络策略，以及利用部署策略来防止来自不可信来源的容器运行等活动。</p>
+<p>Fairwinds Insights可以通过运行时容器扫描和持续监控RBAC设置来帮助解决CC 6.8的问题。具体到RBAC，Fairwinds Insights将识别可能过于宽松的配置文件，例如那些能够查看机密或提升权限的配置文件。此外，您可以通过可定制的策略维护可信注册表的“允许列表”,从而防止容器从不可信的来源运行。</p>
+<h2><strong> CC 7.1:检测和监控程序，用于识别(1)导致引入新漏洞的配置更改，以及(2)对新发现漏洞的易感性。</strong></h2>
+<p>Fairwinds Insights可以帮助您实现许多针对CC 7.1的特定控制，包括配置审计和漏洞管理等领域。Fairwinds Insights的核心是提供漏洞管理功能，用于从单个控制平面跟踪配置缺陷和CVE。该软件提供了一个审计线索，记录首次/最后一次发现问题的时间，以及服务所有者是否已经解决或减轻了这些问题。</p>
+<p>开放策略代理(OPA)策略使您能够定义配置标准，从而防止错误配置传播到生产中。Fairwinds提供了一些现成的策略，例如拒绝启用权限提升的部署。虽然Fairwinds默认采用明智的最佳实践，但可以定制策略来满足您的组织需求或允许例外。</p>
+<p>与其他控制标准一样，Fairwinds在运行时环境和CI/CD中集成了容器漏洞扫描。此外，Fairwinds可以运行其他工具来查找集群本身的配置和漏洞相关问题。</p>
+<h2><strong> CC 7.2:监控系统组件和这些组件的运行，以发现表明恶意行为、自然灾害和影响实体实现其目标能力的错误的异常情况；分析异常以确定它们是否代表安全事件。</strong></h2>
+<p>CC 7.2侧重于对系统的持续监控，以确保任何异常活动或行为浮出水面。借助Fairwinds Insights，可以在集群中持续监控配置和漏洞信息，并在发现新发现时向下游系统发送警报。</p>
+<p>可以在软件中跟踪调查结果，并保存审计跟踪记录和解决方案以备将来参考。</p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-d329e036-9905-4715-85b8-31a98b50623c"><span class="hs-cta-node hs-cta-d329e036-9905-4715-85b8-31a98b50623c" id="hs-cta-d329e036-9905-4715-85b8-31a98b50623c"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/d329e036-9905-4715-85b8-31a98b50623c"><img class="hs-cta-img" id="hs-cta-img-d329e036-9905-4715-85b8-31a98b50623c" src="../Images/90e93a941f22f2087c3a229a91ea6c10.png" alt="Fairwinds Insights is Available for Free Sign Up Now" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/d329e036-9905-4715-85b8-31a98b50623c.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>

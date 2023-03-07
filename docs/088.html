@@ -1,0 +1,29 @@
+<html>
+<head>
+<title>kops 101 - The Kubernetes Deployment Game-Changer</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>kops 101-Kubernetes部署游戏改变者</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/kops-the-kubernetes-deployment-game-changer#2019-12-17">https://www.fairwinds.com/blog/kops-the-kubernetes-deployment-game-changer#2019-12-17</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>Kubernetes  <span> </span>是一个用于部署、管理和编排容器化应用程序的开源平台。它最初是由Google开发的，Google利用了超过15年在容器中大规模运行应用程序的经验。Kubernetes随后被开源并于2014年移交给社区，在过去的两年半时间里，它已经成为分布式架构的首选解决方案之一。它还被每个人广泛采用，从从事小型项目的爱好者和开发人员到每周在数千个协调的虚拟机上运行数十亿个容器的最大企业安装。</p>
+
+<p>Kubernetes取得了巨大的成功，这在很大程度上是因为它相对容易使用，并能与复杂的分布式系统进行交互。最终用户通过命令行工具<span> </span> <a href="https://github.com/kubernetes/kubernetes/tree/master/docs/user-guide/kubectl" target="_blank" rel="noopener">与Kubernetes进行交互。kubectl(发音为“kube-control”、“kube-C-T-L”，有时甚至是“kube-cuttle”)抽象了极其复杂的任务的实现，并允许管理员以简单明了的声明性语法工作。例如，您可以使用kubectl告诉集群需要给定服务的30个副本，并让集群计算出如何实现它。这是对以前存在的许多东西的巨大改进，并且<span> </span> </a><a href="https://github.com/kubernetes" target="_blank" rel="noopener"> Kubernetes生态系统</a> <span> </span>继续以令人难以置信的速度扩张。迄今为止，主要项目已经有近21k GitHub明星和超过1k名贡献者。</p>
+<h2 id="this-all-sounds-great-right-lets-all-do-some-kubernetes">这听起来很棒，对吧？让我们都做一些Kubernetes！</h2>
+<p>但是作为一名专业的系统管理员，您如何着手准备和部署一个生产就绪、高度可用的Kubernetes集群呢？</p>
+<p>现在，这个问题的答案是Kubernetes和开源家族的新成员:<span> </span> <a href="https://github.com/kubernetes/kops" target="_blank" rel="noopener"> kops </a>。kops (kubernetes-ops)是从命令行部署kubernetes集群的一站式开源解决方案。kops旨在使在AWS上安装安全、高可用的集群变得容易和自动化。(随着项目的发展，对其他云提供商的支持也在不断改进。)kops目前专注于全周期供应——从联网和安全到在构成集群的实例上安装软件。</p>
+<p>kops与现有Kubernetes社区和软件集成的方式之一是，与kops的主要交互是通过一个相对容易使用的声明性语法命令行实用程序，这很像kubectl。在基本层面上，kops和kubectl的区别在于，kubectl与部署在集群中的应用程序或服务进行交互，而kops一次只能与整个集群进行交互。您可以使用几个快速的声明性命令将节点数量扩展到30个，而不是像以前那样将应用程序部署扩展到30个副本。作为管理员，这意味着您不必负责单独调配所有额外的计算实例，也不必依赖Chef或Ansible等传统DevOps工具来配置它们。如果你在kops的范围内给它一项工作，它会完成它，并帮助你选择行业最佳实践。此外，使用kops创建和管理Kubernetes集群比第一代更通用的DevOps工具要快得多。我们说的是在20分钟内，在私有网络拓扑中，基本上任何规模的高可用性多主集群。只需要几个选择，kops就能解决如何完成的细节问题。</p>
+
+<p>从2016年3月开始，作为一个只有几个核心贡献者的小项目，<span> </span> <a href="https://github.com/kubernetes/kops" target="_blank" rel="noopener"> kops </a> <span> </span>已经发展到1100多个GitHub明星和110多个贡献者。这是一个真正符合开源理念的社区项目，核心团队积极征求代码库新方向的想法，邀请社区帮助解决bug和问题，确保听到所有的声音。社区的热情和活力推动着该计划向前发展。</p>
+<p>我是这样和kops扯上关系的。几个月来，我一直在Kubernetes slack频道(#kops)上撰写和评论问题，我脑海中有一个我们需要在<a href="/" rel=" noopener"> Fairwinds </a>上使用的功能。kops的核心维护者之一，令人敬畏的<span> </span> <a href="https://github.com/kris-nova" target="_blank" rel="noopener">【克里斯·诺瓦】</a>，在一次早餐会后邀请我和她坐下来，我们花了一个小时研究这个特性的开端。在接下来的几个星期里，我们反复修改代码，她帮助我确保所有的基础都被覆盖了，最后才让这个特性被主代码库接受。现在，作为kops核心维护者，我指导项目的新贡献者，就像她指导我一样。我们是一个紧密团结的团队，我们正在努力做一些我们认为重要、有用和非常酷的事情。结果是快速增长和近乎实时的进步。</p>
+<h2 id="what-to-look-for-in-a-devops-partner">在DevOps合作伙伴中寻找什么</h2>
+<p>无论你计划使用<span/><a href="https://kubernetes.io/" target="_blank" rel="noopener"/>、kops还是其他一些工具的组合，选择一个在开源社区有活跃利益的合作伙伴。具体来说，选择一个在您的企业赖以成功的工具方面表现出专业知识的合作伙伴。</p>
+<p><strong>找到一个合作伙伴:</strong></p>
+<ol>
+<li>对软件的内部工作有真正的理解，对社区是可见的，是社区的一部分，是社区的投资者。</li>
+<li>密切关注项目的进展，并以有意义的方式参与推动议程和对话，以便开发和实施支持您的业务需求并为您的业务创造价值的工具、功能和变更。</li>
+<li>帮助您找到扩展现有技术的方法，以节省时间和金钱，并将其回馈给社区以促进未来的发展。</li>
+</ol>
+<p>选择结合了对云基础架构的行业领先理解的DevOps合作伙伴。与其在外面看着，等着某个大公司来修复一个bug或者为你创建一个必备的特性，不如选择与一个处于行动中心的团队合作，帮助你从头开始构建那个特性。</p>
+<p><strong> <em>下一个<a href="http://blog.reactiveops.com/kops-an-inside-look-at-deploying-kubernetes-on-aws-the-fairwinds-way" rel=" noopener">kops 102——如何部署Kubernetes顺风道！</a> </em> </strong></p></span></div>    
+</body>
+</html>

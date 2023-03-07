@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>OPA Alternative: A Stepped Approach to Kubernetes Policy Enforcement</title>
+<link href="../Styles/Style.css" type="text/css" rel="stylesheet"/>
+</head>
+<body>
+<h1>OPA替代方案:Kubernetes政策执行的分步方法</h1>
+<blockquote>原文：<a href="https://www.fairwinds.com/blog/opa-alternative-polaris-stepped-approach-to-kubernetes-policy-enforcement#2023-01-10">https://www.fairwinds.com/blog/opa-alternative-polaris-stepped-approach-to-kubernetes-policy-enforcement#2023-01-10</a></blockquote><div><span id="hs_cos_wrapper_post_body" class="hs_cos_wrapper hs_cos_wrapper_meta_field hs_cos_wrapper_type_rich_text" data-hs-cos-general-type="meta_field" data-hs-cos-type="rich_text"><p>最近，我们围绕开放策略代理(OPA)进行了多次对话，Kubernetes用户对此很感兴趣，并希望使用它，但他们试图找出最佳的初始策略，以及是否有一种不需要编写减压阀的更简单的方法。为了帮助解决这个问题，我们在这里讨论了更多关于OPA和一个替代的开源项目，它可以帮助您执行Kubernetes策略。</p>
+
+<h2><strong> OPA背景</strong></h2>
+<p>开放策略代理(OPA)是一个开源的通用策略引擎，它在整个体系中统一策略实施。它提供了一种高级声明性语言，允许您将策略指定为代码，并使用简单的API从您的软件中卸载策略决策。OPA使您能够在微服务、Kubernetes、CI/CD管道、API网关等方面实施策略。您可以在<a href="https://www.openpolicyagent.org/docs/latest/" target="_blank" rel="noopener"> OPA文档</a>中了解更多信息。</p>
+<p>正如其创始人之一所解释的,“OPA为策略提供了自己的生命周期和工具集，因此策略可以与应用策略的底层系统分开管理...OPA提供本地执行，是为了比硬编码的服务逻辑或特定领域语言更高的可用性、更好的性能、更大的灵活性和更强的表达能力。”</p>
+<h2><strong>OPA的优势</strong></h2>
+<p>OPA允许用户跨基础设施和应用程序设置策略。一些例子包括定义:</p>
+<ul>
+<li>哪些用户可以访问哪些资源。</li>
+<li>允许哪些子网的出口流量。</li>
+<li>工作负载必须部署到哪些集群。</li>
+<li>可以从哪些注册表下载二进制文件。</li>
+<li>容器可以执行哪些操作系统功能。</li>
+<li>一天中的哪些时间可以访问系统。</li>
+</ul>
+<p>OPA还具有上下文感知能力，因此管理员可以根据正在发生的事情(当前中断、新漏洞发布等)做出策略决策。</p>
+<h2><strong>逐步实施政策的方法</strong></h2>
+<p>OPA提供了很多好处，但是它可能是重量级的，因此一些用户可能需要轻松地执行策略。作为Kubernetes策略执行的一个分步方法，我们使用了一个开源项目<a href="https://github.com/FairwindsOps/polaris"> Polaris </a>。今年早些时候发布了1.0版本，该项目正在走向成熟，并被用于多个产品，包括<a href="//www.fairwinds.com/insights"> Insights </a>和<a href="https://github.com/aquasecurity/starboard" target="_blank" rel="noopener"> Starboard </a>。</p>
+<p>Polaris通过运行十几种不同的检查来识别Kubernetes部署错误配置，以帮助用户发现经常导致安全暴露、中断、扩展限制等的Kubernetes配置。</p>
+<p>北极星寻找的一些示例检查包括:</p>
+<ul>
+<li>是否为pod配置了就绪或活动探测器</li>
+<li>当图像标签或者未指定或者<span> <code>latest.</code> </span></li>
+<li>当<span> <code>hostNetwork</code> </span>或<span> <code>hostpath</code> </span>属性被配置时。</li>
+<li>当<span> <code>resources.requests.cpu,</code> <code>resources.requests.memory,</code> <code>resources.limits.cpu</code> </span>或<span> <code>resources.limits.memory</code> </span>属性未配置时。</li>
+<li>当<span> <code>securityContext.privileged</code> </span>为真或者当<span> <code>securityContext.readOnlyRootFilesystem</code> </span>不为真时(在多个其他安全配置检查中)</li>
+</ul>
+<p>Polaris允许您检查常见的错误配置，而无需构建自己的策略。如果您想添加自己的定制策略和检查，您可以使用简单的基于JSON模式的语法来编写自己的策略和检查。当您知道需要执行策略，但不需要OPA提供的所有灵活性时，这是一个很好的起点。</p>
+<p>北极星可以在三种不同的模式下运行:</p>
+<ul>
+<li>作为一个仪表板，这样您就可以审计集群中正在运行的内容。</li>
+<li>作为一个验证性的webhook，您可以自动拒绝不符合组织策略的工作负载。</li>
+<li>作为命令行工具，因此您可以测试本地YAML文件，例如作为CI/CD过程的一部分。</li>
+</ul>
+<p>你可以在GitHub 上查看<a href="https://github.com/FairwindsOps/polaris">快速入门。</a></p>
+<p>在Fairwinds，我们正致力于通过Fairwinds Insights简化OPA的使用。Fairwinds Insights可供免费使用。你可以在 这里<a href="https://www.fairwinds.com/coming-soon"> <span>报名。</span></a></p>
+<p><span class="hs-cta-wrapper" id="hs-cta-wrapper-34aa4987-a1f9-438a-a145-d7d82d5c479a"><span class="hs-cta-node hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a" id="hs-cta-34aa4987-a1f9-438a-a145-d7d82d5c479a"><a href="https://cta-redirect.hubspot.com/cta/redirect/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a"><img class="hs-cta-img" id="hs-cta-img-34aa4987-a1f9-438a-a145-d7d82d5c479a" src="../Images/7c86296320eb01b215d8e2755e9c5b9d.png" alt="Use Fairwinds Insights for Free Security, Cost and Developer Enablement In One" data-original-src="https://no-cache.hubspot.com/cta/default/2184645/34aa4987-a1f9-438a-a145-d7d82d5c479a.png"/></a></span>T6】</span></p></span></div>    
+</body>
+</html>
